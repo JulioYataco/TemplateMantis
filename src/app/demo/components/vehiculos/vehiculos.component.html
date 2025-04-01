@@ -1,0 +1,130 @@
+<p-confirmdialog></p-confirmdialog>
+<p-toast></p-toast>
+<div class="crud-container">
+    <p-toolbar Class="mb-6">
+      <ng-template #start>
+        <p-button label="Nuevo" variant="text" severity="success" icon="pi pi-plus" [raised]="true" (click)="mostrarDialogo()" />
+      </ng-template>
+      <ng-template #end>
+        <p-iconfield class="mr-2">
+          <p-inputicon styleClass="pi pi-search" />
+          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+        </p-iconfield>
+      </ng-template>
+    </p-toolbar>
+    
+    <!-- Tabla -->                            
+    <p-table 
+        #dt 
+        [value]="lista" 
+        [rows]="5" 
+        [paginator]="true" 
+        [globalFilterFields]="['id', 'uigeo', 'nombre_sede', 'direccion']"
+        [tableStyle]="{ 'min-width': '75rem' }" 
+        [rowsPerPageOptions]="[5, 10, 20]" 
+        [rowHover]="true"
+        dataKey="id"
+        [showCurrentPageReport]="true"
+        >
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="id">ID <p-sortIcon field="id" /></th>
+            <th pSortableColumn="codigo">CODIGO <p-sortIcon field="codigo" /></th>
+            <th pSortableColumn="placa">PLACA <p-sortIcon field="placa" /></th>
+            <th pSortableColumn="color">COLOR <p-sortIcon field="color" /></th>
+            <th pSortableColumn="marca">MARCA <p-sortIcon field="marca" /></th>
+            <th pSortableColumn="modelo">MODELO <p-sortIcon field="modelo" /></th>
+            <th pSortableColumn="fabricacion">FABRICACIÓN <p-sortIcon field="fabricacion" /></th>
+            <th pSortableColumn="kilometraje">KILOMETRAJE <p-sortIcon field="kilometraje" /></th>
+            <th pSortableColumn="numero_serie">N° SERIE <p-sortIcon field="numero_serie" /></th>
+            <th pSortableColumn="numero_motor">N° MOTOR <p-sortIcon field="numero_motor" /></th>
+            <th pSortableColumn="observacion">OBSERVACIÓN <p-sortIcon field="observacion" /></th>
+            <th >OPERACIONES</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-entidad>
+            <tr>
+                <td>{{entidad.id}}</td>
+                <td>{{entidad.codigo}}</td>
+                <td>{{entidad.placa}}</td>
+                <td>{{entidad.color}}</td>
+                <td>{{entidad.marca}}</td>
+                <td>{{entidad.modelo}}</td>
+                <td>{{entidad.fabricacion}}</td>
+                <td>{{entidad.kilometraje}}</td>
+                <td>{{entidad.numero_serie}}</td>
+                <td>{{entidad.numero_motor}}</td>
+                <td>{{entidad.observacion}}</td>
+                <td>
+                  <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
+                  <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(entidad.id)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <!--<ng-template #summary>
+            <div class="flex items-center justify-between">En total hay  {{ entidad ? entidad.length : 0 }} entidad.</div>
+        </ng-template> -->
+    </p-table>
+</div>
+
+
+<!-- Modal para agregar o editar producto -->
+<p-dialog [(visible)]="displayModal" [style]="{ width: '450px' }" [modal]="true" header="Formulario">
+    <ng-template #content>
+        <div class="flex flex-col gap-6">
+            <!--<div>
+                <label for="ubigeo" class="block font-bold mb-3">UBIGEO</label>
+                1. usa la lista de lotes obtenidas en el component. 2.Muestra el valor extreno para el usuario en este caso nombre de lote. 3. optionValue="id" guarda el id del lote en la entidad 4. ngModel sigue guardando el ID en la entidad
+                <p-dropdown fluid
+                  [options]="ubigeos" 
+                  optionLabel="ubigeocompleto" 
+                  optionValue="ubigeo" 
+                  [(ngModel)]="entidad.ubigeo" 
+                  placeholder="Seleccione un distrito">
+                </p-dropdown>
+            </div>-->
+            <div>
+                <label for="codigo" class="block font-bold mb-3">Codigo</label>
+                <input id="codigo" type="text" pInputText [(ngModel)]="entidad.codigo" fluid/>
+            </div>
+            <div>
+                <label for="placa" class="block font-bold mb-3">Placa</label>
+                <input id="placa" type="text" pInputText [(ngModel)]="entidad.placa" fluid/>
+            </div>
+            <div>
+                <label for="color" class="block font-bold mb-3">Color</label>
+                <input id="color" type="text" pInputText [(ngModel)]="entidad.color" fluid/>
+            </div>
+            <div>
+                <label for="marca" class="block font-bold mb-3">Marca</label>
+                <input id="marca" type="text" pInputText [(ngModel)]="entidad.marca" fluid/>
+            </div>
+            <div>
+                <label for="modelo" class="block font-bold mb-3">Modelo</label>
+                <input id="modelo" type="text" pInputText [(ngModel)]="entidad.modelo" fluid/>
+            </div>
+            <div>
+                <label for="fabricacion" class="block font-bold mb-3">Fabricación</label>
+                <input id="fabricacion" type="text" pInputText [(ngModel)]="entidad.fabricacion" fluid/>
+            </div>
+            <div>
+                <label for="kilometraje" class="block font-bold mb-3">Kilometraje</label>
+                <input id="kilometraje" type="text" pInputText [(ngModel)]="entidad.kilometraje" fluid/>
+            </div>
+            <div>
+                <label for="numero_serie" class="block font-bold mb-3">N° Serie</label>
+                <input id="numero_serie" type="text" pInputText [(ngModel)]="entidad.numero_serie" fluid/>
+            </div>
+            <div>
+                <label for="numero_motor" class="block font-bold mb-3">N° Motor</label>
+                <input id="numero_motor" type="text" pInputText [(ngModel)]="entidad.numero_motor" fluid/>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #footer>
+      <p-button label="Cancel" icon="pi pi-times" text (click)="cerrarDialogo()" />
+      <p-button label="Guardar" icon="pi pi-check" (click)="guardar()" />
+    </ng-template>
+</p-dialog>
+                            

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BaseGenericoService } from '../base-generico.service';
-import { IFenologia } from 'src/app/core/models/ifenologia';
+import { IVehiculos } from 'src/app/core/models/ivehiculos';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FenologiasService extends BaseGenericoService<IFenologia>{
+export class VehiculosService extends BaseGenericoService<IVehiculos>{
 
   constructor() {
     super();
-    this.init('fenologias');
-   }
+    this.init('vehiculos')
+  }
 }

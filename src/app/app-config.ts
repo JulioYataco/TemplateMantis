@@ -29,7 +29,10 @@ export const appConfig: ApplicationConfig = {
         
         providePrimeNG({
             theme: {
-                preset: Lara
+                preset: Lara,
+                options: {
+                    darkModeSelector: '.my-app-dark'
+                }
             }
         }),
         MessageService,

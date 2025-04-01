@@ -2,11 +2,11 @@
     width: 100%; // Ocupará el 90% de la pantalla
     //max-width: 1200px; // No se expandirá demasiado en pantallas grandes
     margin:20px auto;
-    padding: 25px;
-    background: var(--p-surface-900);
+    padding: 5px;
+    background: #6c7579;
     border-radius: 8px;
-    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 0px 10px rgba(78, 209, 66, 0.1);
+    //box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+    //box-shadow: 0 0px 10px rgba(78, 209, 66, 0.1);
 
     @media (max-width: 768px) {
         width: 95%; // Más ancho en móviles
@@ -32,7 +32,7 @@
     //background: #f8f9fa; // Color de fondo de encabezado
     text-align: center;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    //border-bottom: 1px solid #ddd;
 }
 
 ::ng-deep .p-datatable-tbody > tr > td {
