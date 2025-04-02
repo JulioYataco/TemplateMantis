@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SHARED_FORMULARIOS_IMPORTS } from 'src/app/shared/shared-imports';
 import { SedesService } from 'src/app/core/services/entidades/sedes/sedes.service';
-import { BaseCrudComponent } from '../../shared/base-crud/base-crud.component';
+// import { BaseCrudComponent } from '../../shared/base-crud/base-crud.component';
 import { BaseMetodosCrud } from '../baseMetodosCrud.component';
 import { ISedes } from 'src/app/core/models/isedes';
 import { UbigeosService } from 'src/app/core/services/entidades/ubigeos/ubigeos.service';

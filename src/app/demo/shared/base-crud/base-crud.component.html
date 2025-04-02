@@ -10,6 +10,7 @@
         <p-iconfield class="mr-2">
           <p-inputicon styleClass="pi pi-search"></p-inputicon>
           <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar...">
+          <p-button label="Export" icon="pi pi-upload" severity="secondary" (click)="exportCSV()" />
         </p-iconfield>
       </ng-template>
     </p-toolbar>

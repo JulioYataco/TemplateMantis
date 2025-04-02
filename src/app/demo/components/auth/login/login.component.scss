@@ -4,15 +4,47 @@
 //   font-family: 'Poppins', sans-serif;
 // }
 
+//Con esto entra de derecha a izquierda pero con una velocidad y efecto de moto o al menos eso intenta
+@keyframes slideInSpeed {
+  from {
+    opacity: 0;
+    transform: translateX(-100vw) skewX(-15deg); // Inclinación inicial para el efecto de velocidad
+    filter: blur(10px); // Efecto de desenfoque al inicio
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(10px) skewX(5deg); // Rebote ligero
+    filter: blur(2px);
+  }
+  to {
+    transform: translateX(0) skewX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes smokeEffect {
+  from {
+    opacity: 0.6;
+    transform: translateX(-30px) scale(1);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px) scale(1.5);
+    filter: blur(10px);
+  }
+}
+
+
 .login-container {
   height: 100vh;
-  background: linear-gradient(135deg, #2ecc71, #27ae60);  /* Fondo degradado verde */
+  background: linear-gradient(135deg, #1b39e7, #470ee4);  /* Fondo degradado verde */
   //Con esto centramos el container al medio
   display: flex;
   justify-content: center;
   align-items: center;
   //Ajuste de Fondo
-  background: url('./../../../../../assets/images/beta/fondoInvernadero.png') no-repeat center center fixed;
+  background: url('./../../../../../assets/images/beta/portadamoto.png') no-repeat center center fixed;
   background-size: cover;
   background-position: center;  /* Centra la imagen */
   padding: 1rem;  /* Espaciado para dispositivos móviles */
@@ -24,21 +56,65 @@
   padding: 5rem;
   border-radius: 10px;
   width: 90%;  /* Ocupa el 90% del ancho en móviles */
-  max-width: 600px;
+   min-width: 320px; /* Asegura que no sea más pequeño en móviles */  
+  max-width: 500px;
   //Color del borde de card
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 0.5s ease-in-out;
-
+  //animation: fadeIn 0.5s ease-in-out;  //cON ESTO SALE DE ARROBA EL FORMULARIO
+  //animation: slideInLeft 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55); //CON ESTO SALE DE LA IZQUIERDA AL CENTRO EL FORMULARIO
+  animation: slideInSpeed 0.7s cubic-bezier(0.9, -0.6, 0.2, 1.2);
   //Efecto vidrio
-  background: rgba(255, 255, 255, 0.5);  /* Fondo semi-transparente */
-  backdrop-filter: blur(10px);  /* Efecto de vidrio */
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.8);  /* Fondo semi-transparente */
+  backdrop-filter: blur(12px);  /* Efecto de vidrio */
+  border: 1px solid rgba(255, 255, 255, 0.3);
 
+  position: relative;
+  animation: slideInSpeed 0.7s cubic-bezier(0.9, -0.6, 0.2, 1.2);
+  
+  .smoke {
+    position: absolute;
+    bottom: 5px;
+    width: 40px;
+    height: 20px;
+    background: radial-gradient(circle, rgba(200, 200, 200, 0.7) 10%, rgba(200, 200, 200, 0) 70%);
+    opacity: 0;
+    animation: smokeEffect 0.8s ease-out 0.3s forwards;
+  }
+
+  .smoke-1 {
+    left: -20px;
+    animation-delay: 0.2s;
+  }
+
+  .smoke-2 {
+    left: -40px;
+    animation-delay: 0.4s;
+  }
+
+  .smoke-3 {
+    left: -60px;
+    animation-delay: 0.6s;
+  }
+}
+
+@media (min-width: 320px) {
+  .login-card {
+    width: 100%;  /* Ocupa el 70% del ancho en tablets */
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 425px) {
+  .login-card {
+    width: 80%;  /* Ocupa el 70% del ancho en tablets */
+    padding: 2.5rem;
+  }
 }
 
 @media (min-width: 768px) {
   .login-card {
     width: 70%;  /* Ocupa el 70% del ancho en tablets */
+    padding: 4rem;
   }
 }
 
@@ -60,12 +136,13 @@
 @media (min-width: 768px) {
   .login-header img.logo {
     width: 100px;  /* Tamaño del logo en tablets y pantallas grandes */
+    padding: 2rem;
   }
 }
 
 //Texto principal del login
 .login-header h1 {
-  color: #2ecc71;  /*  #2ecc71 Verde esmeralda */
+  color: white;  /*  #2ecc71 Verde esmeralda */
   margin-bottom: 0.5rem;
   justify-content: center;
   align-items: center;
@@ -87,8 +164,10 @@
 
 label {
   display: block;
+  //font-weight: bold;
   margin-bottom: 0.5rem;
-  color: #333;
+  font-size: 1rem;
+  color: #222;
 }
 
 .p-field input {
@@ -106,21 +185,25 @@ label {
 }
 
 .p-field input:focus {
-  border-color: #2ecc71;  /* Verde esmeralda */
-  box-shadow: 0 0 5px rgba(46, 204, 113, 0.5);
+  border-color: white;  //#2ecc71 /* Verde esmeralda */
+  box-shadow: 0 0 5px rgb(250, 250, 250); //box-shadow: 0 0 5px rgba(46, 204, 113, 0.5)
 }
 
 button {
   width: 100%;
   margin-top: 1rem;
-  background-color: #2ecc71;  /* Verde esmeralda */
+  background-color: #2839d4;  /* Verde esmeralda */
   border: none;
   font-size: 1.2rem;  /* Tamaño de fuente base */
 }
 
 button:hover {
-  background-color: #27ae60;  /* Verde oscuro */
+  background-color: #1511ec !important;
 }
+
+// button:hover {
+//   background-color: #1511ec;  /* Verde oscuro */
+// }
 
 /* Estilo para agrandar los inputs */
 .large-input {
@@ -135,23 +218,46 @@ button:hover {
   font-size: 20px; /* Aumenta el tamaño del ícono */
 }
 
+/* Opcional: Ajustar el tamaño del ícono */
+.large-input + .p-inputicon {
+  font-size: 20px; /* Aumenta el tamaño del ícono */
+}
+
 @media (max-width: 480px) {
   button {
     font-size: 0.9rem;  /* Tamaño de fuente más pequeño en móviles */
   }
 }
 
+
+
 //Para transición de que aparesca el card de login
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+// @keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//     transform: translateY(-20px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
+
+
+//CON ESTO SALE DE LA IZQUIERDA AL CENTRO
+// @keyframes slideInLeft {
+//   from {
+//     opacity: 0;
+//     transform: translateX(-100vw); // Comienza fuera de la pantalla
+//   }
+//   80% {
+//     opacity: 1;
+//     transform: translateX(10px); // Rebote sutil
+//   }
+//   to {
+//     transform: translateX(0);
+//   }
+// }
 
 
 

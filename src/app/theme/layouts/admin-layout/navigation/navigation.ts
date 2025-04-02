@@ -27,16 +27,16 @@ export const NavigationItems: NavigationItem[] = [
     type: 'group',
     icon: 'icon-navigation',
     children: [
-      {
-        id: 'lecturashumedad',
-        title: 'Lecturas de Humedad',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/lecturashumedad',
-        icon: 'dashboard',
-        breadcrumbs: false,
-        rolesPermitidos: ['Jefe Fundo'],
-      }
+      // {
+      //   id: 'lecturashumedad',
+      //   title: 'Lecturas de Humedad',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: '/lecturashumedad',
+      //   icon: 'dashboard',
+      //   breadcrumbs: false,
+      //   rolesPermitidos: ['Jefe Fundo'],
+      // }
     ]
   },
   //Esto es para que todos los cruds aparescan en el navbar
@@ -56,6 +56,15 @@ export const NavigationItems: NavigationItem[] = [
         rolesPermitidos: ['Administrador'],
       },
       {
+        id: 'areas',
+        title: 'Areas',
+        type: 'item',
+        url: '/areas',
+        classes: 'nav-item',
+        icon: 'profile',
+        rolesPermitidos: ['Administrador'],
+      },
+      {
         id: 'roles',
         title: 'Roles',
         type: 'item',
@@ -65,10 +74,37 @@ export const NavigationItems: NavigationItem[] = [
         rolesPermitidos: ['Administrador'],
       },
       {
+        id: 'tipo-vehiculos',
+        title: 'Tipos de Vehiculos',
+        type: 'item',
+        url: '/tipo-vehiculos',
+        classes: 'nav-item',
+        icon: 'profile',
+        rolesPermitidos: ['Administrador'],
+      },
+      {
         id: 'vehiculos',
         title: 'Vehiculos',
         type: 'item',
         url: '/vehiculos',
+        classes: 'nav-item',
+        icon: 'profile',
+        rolesPermitidos: ['Administrador'],
+      },
+      {
+        id: 'asignacion-vehiculos',
+        title: 'Asignación de Vehiculos',
+        type: 'item',
+        url: '/asignacion-vehiculos',
+        classes: 'nav-item',
+        icon: 'profile',
+        rolesPermitidos: ['Administrador'],
+      },
+      {
+        id: 'kilometrajes',
+        title: 'kilometrajes',
+        type: 'item',
+        url: '/kilometrajes',
         classes: 'nav-item',
         icon: 'profile',
         rolesPermitidos: ['Administrador'],

@@ -9,7 +9,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = authService.getToken();
   console.log("antes de ifinterceptor:", token);
   // Excluir la petición de login
-  if (req.url.includes('/api/LoginView/') || req.url.includes('/api/token/refresh')) {
+  if (req.url.includes('/api/Login/') || req.url.includes('/api/token/refresh')) {
     return next(req);
   }
   

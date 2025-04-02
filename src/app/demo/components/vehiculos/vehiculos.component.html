@@ -29,23 +29,25 @@
 
         <ng-template pTemplate="header">
           <tr>
-            <th pSortableColumn="id">ID <p-sortIcon field="id" /></th>
-            <th pSortableColumn="codigo">CODIGO <p-sortIcon field="codigo" /></th>
-            <th pSortableColumn="placa">PLACA <p-sortIcon field="placa" /></th>
-            <th pSortableColumn="color">COLOR <p-sortIcon field="color" /></th>
-            <th pSortableColumn="marca">MARCA <p-sortIcon field="marca" /></th>
-            <th pSortableColumn="modelo">MODELO <p-sortIcon field="modelo" /></th>
-            <th pSortableColumn="fabricacion">FABRICACIÓN <p-sortIcon field="fabricacion" /></th>
-            <th pSortableColumn="kilometraje">KILOMETRAJE <p-sortIcon field="kilometraje" /></th>
-            <th pSortableColumn="numero_serie">N° SERIE <p-sortIcon field="numero_serie" /></th>
-            <th pSortableColumn="numero_motor">N° MOTOR <p-sortIcon field="numero_motor" /></th>
-            <th pSortableColumn="observacion">OBSERVACIÓN <p-sortIcon field="observacion" /></th>
-            <th >OPERACIONES</th>
+            <th pSortableColumn="id">Id <p-sortIcon field="id" /></th>
+            <th pSortableColumn="tipo_vehiculo">Tipo <p-sortIcon field="tipo_vehiculo" /></th>
+            <th pSortableColumn="codigo">Código <p-sortIcon field="codigo" /></th>
+            <th pSortableColumn="placa">Placa <p-sortIcon field="placa" /></th>
+            <th pSortableColumn="color">Color <p-sortIcon field="color" /></th>
+            <th pSortableColumn="marca">Marca <p-sortIcon field="marca" /></th>
+            <th pSortableColumn="modelo">Modelo <p-sortIcon field="modelo" /></th>
+            <th pSortableColumn="fabricacion">Fabricación <p-sortIcon field="fabricacion" /></th>
+            <th pSortableColumn="kilometraje">Kilometraje <p-sortIcon field="kilometraje" /></th>
+            <th pSortableColumn="numero_serie">N° Serie <p-sortIcon field="numero_serie" /></th>
+            <th pSortableColumn="numero_motor">N° Motor <p-sortIcon field="numero_motor" /></th>
+            <th pSortableColumn="observacion">Observación <p-sortIcon field="observacion" /></th>
+            <th >Operaciones</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-entidad>
             <tr>
                 <td>{{entidad.id}}</td>
+                <td>{{entidad.tipo_vehiculo}}</td>
                 <td>{{entidad.codigo}}</td>
                 <td>{{entidad.placa}}</td>
                 <td>{{entidad.color}}</td>
@@ -73,17 +75,16 @@
 <p-dialog [(visible)]="displayModal" [style]="{ width: '450px' }" [modal]="true" header="Formulario">
     <ng-template #content>
         <div class="flex flex-col gap-6">
-            <!--<div>
-                <label for="ubigeo" class="block font-bold mb-3">UBIGEO</label>
-                1. usa la lista de lotes obtenidas en el component. 2.Muestra el valor extreno para el usuario en este caso nombre de lote. 3. optionValue="id" guarda el id del lote en la entidad 4. ngModel sigue guardando el ID en la entidad
-                <p-dropdown fluid
-                  [options]="ubigeos" 
-                  optionLabel="ubigeocompleto" 
-                  optionValue="ubigeo" 
-                  [(ngModel)]="entidad.ubigeo" 
-                  placeholder="Seleccione un distrito">
+            <div>
+                <label for="tipovehiculo" class="block font-bold mb-3">Tipo Vehiculo</label>
+                <p-dropdown fluid [appendTo]="'body'"
+                    [options]="tipovehiculos"
+                    optionLabel="nombre_tipo_vehiculo"
+                    optionValue="id"
+                    [(ngModel)]="entidad.tipo_vehiculo"
+                    placeholder="Seleccione un tipo de vehiculo">
                 </p-dropdown>
-            </div>-->
+            </div>
             <div>
                 <label for="codigo" class="block font-bold mb-3">Codigo</label>
                 <input id="codigo" type="text" pInputText [(ngModel)]="entidad.codigo" fluid/>

@@ -50,6 +50,11 @@ export class BaseCrudComponent<T> implements OnInit{
         });
     }
 
+    exportCSV() {
+        this.dt.exportCSV();
+    }
+    
+
     //Para abrir dialogo y poder registar o editar
     mostrarDialogo(){
         this.displayModal = true;

@@ -1,8 +1,8 @@
-    import { Directive, inject, Input, OnInit, ViewChild } from "@angular/core";
-    import { ConfirmationService, MessageService } from "primeng/api";
+import { Directive, inject, Input, OnInit, ViewChild } from "@angular/core";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { Table } from "primeng/table";
-    //import { MessageService } from "primeng/api";
-    import { BaseGenericoService } from "src/app/core/services/entidades/base-generico.service";
+//import { MessageService } from "primeng/api";
+import { BaseGenericoService } from "src/app/core/services/entidades/base-generico.service";
 
     //export: permite usar la clase en otros archivos
     //Para que angular reconozca la clase
@@ -33,6 +33,10 @@ import { Table } from "primeng/table";
                 this.lista = data;
                 console.log("lista:", data);
             });
+        }
+
+        exportCSV() {
+            this.dt.exportCSV();
         }
 
         //Para abrir dialogo y poder registar o editar
