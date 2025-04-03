@@ -15,6 +15,6 @@ export const rolGuard: CanActivateFn = (route, state) => {
     return true; // Permite el acceso si el rol coincide
   }
   
-  router.navigate(['/dashboard/default']); // Redirige si el usuario no tiene el rol correcto
+  router.navigate(['/sedes']); // Redirige si el usuario no tiene el rol correcto
   return false;
 };

@@ -65,12 +65,24 @@
                 <input id="nombre_area" type="text" pInputText [(ngModel)]="entidad.nombre_area" required autofocus fluid />
             </div>
             <div>
-                <label for="sede" class="block font-bold mb-3">Sede</label>
-                <input id="sede" type="number" pInputText [(ngModel)]="entidad.sede" fluid />
+              <label for="data" class="block font-bold mb-3">Sede</label>
+                <p-dropdown fluid [appendTo]="'body'"
+                  [options]="sedes"
+                  optionLabel="nombre_sede"
+                  optionValue="id"
+                  [(ngModel)]="entidad.sede"
+                  placeholder="Seleccione una sede">
+              </p-dropdown>
             </div>
             <div>
-                <label for="jefatura" class="block font-bold mb-3">Jefatura</label>
-                <input id="jefatura" type="number" pInputText [(ngModel)]="entidad.jefatura" fluid />
+              <label for="data" class="block font-bold mb-3">Jefe</label>
+                <p-dropdown fluid [appendTo]="'body'"
+                  [options]="perfilDetalles"
+                  optionLabel="full_name"
+                  optionValue="usuario_id"
+                  [(ngModel)]="entidad.jefatura"
+                  placeholder="Seleccione un Jefe">
+              </p-dropdown>
             </div>
         </div>
     </ng-template>

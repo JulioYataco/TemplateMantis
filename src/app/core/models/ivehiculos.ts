@@ -7,8 +7,8 @@ export interface IVehiculos {
     marca?: string;
     modelo?: string;
     fabricacion: number;
-    kilometraje: number;
-    numero_serie?: number;
-    numero_motor?: number;
-    observacion: string;
+    kilometraje_inicial: number;
+    numero_serie?: string;
+    numero_motor?: string;
+    observacion?: string;
 }

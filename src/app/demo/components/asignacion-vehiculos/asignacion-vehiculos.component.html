@@ -63,20 +63,32 @@
     <ng-template #content>
         <div class="flex flex-col gap-6">
             <div>
-                <label for="vehiculo" class="block font-bold mb-3">Vehiculo</label>
-                <input id="vehiculo" type="text" pInputText [(ngModel)]="entidad.vehiculo" required autofocus fluid />
+              <label for="data" class="block font-bold mb-3">Vehiculo</label>
+                <p-dropdown fluid [appendTo]="'body'"
+                  [options]="vehiculos"
+                  optionLabel="numero_placa"
+                  optionValue="id"
+                  [(ngModel)]="entidad.vehiculo"
+                  placeholder="Seleccione un vehiculo">
+              </p-dropdown>
             </div>
             <div>
-                <label for="perfil" class="block font-bold mb-3">Colaborador</label>
-                <input id="perfil" type="number" pInputText [(ngModel)]="entidad.perfil" fluid />
+              <label for="data" class="block font-bold mb-3">Conductor</label>
+                <p-dropdown fluid [appendTo]="'body'"
+                  [options]="perfilDetalles"
+                  optionLabel="full_name"
+                  optionValue="usuario_id"
+                  [(ngModel)]="entidad.perfil"
+                  placeholder="Seleccione colaborador">
+              </p-dropdown>
             </div>
             <div>
                 <label for="fecha_asignacion" class="block font-bold mb-3">Fecha asignación</label>
-                <input id="fecha_asignacion" type="number" pInputText [(ngModel)]="entidad.fecha_asignacion" fluid />
+                <p-datepicker id="fecha_asignacion" [(ngModel)]="entidad.fecha_asignacion" dateFormat="dd-mm-yy" placeholder="Fecha asignación" [showIcon]="true" fluid />
             </div>
             <div>
-                <label for="fecha_fin" class="block font-bold mb-3">Fecha Fin</label>
-                <input id="fecha_fin" type="number" pInputText [(ngModel)]="entidad.fecha_fin" fluid />
+                <label for="fecha_fin" class="block font-bold mb-3">Fecha fin</label>
+                <p-datepicker id="fecha_fin" [(ngModel)]="entidad.fecha_fin" dateFormat="dd-mm-yy" placeholder="Fecha fin" [showIcon]="true" fluid />
             </div>
         </div>
     </ng-template>

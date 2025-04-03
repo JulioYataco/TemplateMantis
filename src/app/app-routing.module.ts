@@ -20,13 +20,6 @@ export const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'dashboard/default',
-        loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent),
-        canActivate: [authGuard ], //rolGuard
-        // data: { expectedRole: 'Jefe Fundo' } // Solo Administradores pueden acceder
-
-      },
-      {
         path: 'sedes',
         loadComponent: () => import('./demo/components/sedes/sedes.component').then((c) => c.SedesComponent),
         canActivate: [authGuard, rolGuard],

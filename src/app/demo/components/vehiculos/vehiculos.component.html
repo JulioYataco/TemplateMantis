@@ -31,13 +31,13 @@
           <tr>
             <th pSortableColumn="id">Id <p-sortIcon field="id" /></th>
             <th pSortableColumn="tipo_vehiculo">Tipo <p-sortIcon field="tipo_vehiculo" /></th>
-            <th pSortableColumn="codigo">Código <p-sortIcon field="codigo" /></th>
+            <th pSortableColumn="codigo">N° Moto <p-sortIcon field="codigo" /></th>
             <th pSortableColumn="placa">Placa <p-sortIcon field="placa" /></th>
             <th pSortableColumn="color">Color <p-sortIcon field="color" /></th>
             <th pSortableColumn="marca">Marca <p-sortIcon field="marca" /></th>
             <th pSortableColumn="modelo">Modelo <p-sortIcon field="modelo" /></th>
             <th pSortableColumn="fabricacion">Fabricación <p-sortIcon field="fabricacion" /></th>
-            <th pSortableColumn="kilometraje">Kilometraje <p-sortIcon field="kilometraje" /></th>
+            <th pSortableColumn="kilometraje_inicial">Kilometraje Inicial <p-sortIcon field="kilometraje_inicial" /></th>
             <th pSortableColumn="numero_serie">N° Serie <p-sortIcon field="numero_serie" /></th>
             <th pSortableColumn="numero_motor">N° Motor <p-sortIcon field="numero_motor" /></th>
             <th pSortableColumn="observacion">Observación <p-sortIcon field="observacion" /></th>
@@ -47,14 +47,14 @@
         <ng-template pTemplate="body" let-entidad>
             <tr>
                 <td>{{entidad.id}}</td>
-                <td>{{entidad.tipo_vehiculo}}</td>
+                <td>{{obtenerNombreTipoVehiculo(entidad.tipo_vehiculo)}}</td>
                 <td>{{entidad.codigo}}</td>
                 <td>{{entidad.placa}}</td>
                 <td>{{entidad.color}}</td>
                 <td>{{entidad.marca}}</td>
                 <td>{{entidad.modelo}}</td>
                 <td>{{entidad.fabricacion}}</td>
-                <td>{{entidad.kilometraje}}</td>
+                <td>{{entidad.kilometraje_inicial}}</td>
                 <td>{{entidad.numero_serie}}</td>
                 <td>{{entidad.numero_motor}}</td>
                 <td>{{entidad.observacion}}</td>
@@ -110,8 +110,8 @@
                 <input id="fabricacion" type="text" pInputText [(ngModel)]="entidad.fabricacion" fluid/>
             </div>
             <div>
-                <label for="kilometraje" class="block font-bold mb-3">Kilometraje</label>
-                <input id="kilometraje" type="text" pInputText [(ngModel)]="entidad.kilometraje" fluid/>
+                <label for="kilometraje_inicial" class="block font-bold mb-3">Kilometraje inicial</label>
+                <input id="kilometraje_inicial" type="text" pInputText [(ngModel)]="entidad.kilometraje_inicial" fluid/>
             </div>
             <div>
                 <label for="numero_serie" class="block font-bold mb-3">N° Serie</label>

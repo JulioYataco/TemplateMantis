@@ -29,7 +29,7 @@ export default class LoginComponent {
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
         if (response.access_token) {
-          this.router.navigate(['/lecturashumedad']);
+          this.router.navigate(['/sedes']);
         }
       },
       error: (error) => {
