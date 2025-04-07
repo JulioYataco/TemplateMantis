@@ -47,7 +47,7 @@ export const routes: Routes = [
         path: 'kilometrajes',
         loadComponent: () => import('./demo/components/kilometrajes/kilometrajes.component').then((c) => c.KilometrajesComponent),
         canActivate: [authGuard, rolGuard],
-        data: {rol: 'Administrador'},
+        data: {rol: ['Administrador', 'Conductor']},
       },
       {
         path: 'asignacion-vehiculos',
@@ -58,6 +58,12 @@ export const routes: Routes = [
       {
         path: 'areas',
         loadComponent: () => import('./demo/components/areas/areas.component').then((c) => c.AreasComponent),
+        canActivate: [authGuard, rolGuard],
+        data: {rol: 'Administrador'},
+      },
+      {
+        path: 'reporte-kilometrajes',
+        loadComponent: () => import('./demo/components/reporte-kilometrajes/reporte-kilometrajes.component').then((c) => c.ReporteKilometrajesComponent),
         canActivate: [authGuard, rolGuard],
         data: {rol: 'Administrador'},
       },

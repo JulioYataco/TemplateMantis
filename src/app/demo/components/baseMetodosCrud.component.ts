@@ -22,6 +22,9 @@ import { BaseGenericoService } from "src/app/core/services/entidades/base-generi
 
         constructor(protected modeloService: BaseGenericoService<T>){}
         
+        cargando: boolean = true;  // Control de carga
+        skeletonData = Array(5).fill({}); // Para mostrar 5 filas de esqueleto
+
         //Inicializa traendo el metodo getdata
         ngOnInit(): void {
             this.getData();
@@ -29,10 +32,18 @@ import { BaseGenericoService } from "src/app/core/services/entidades/base-generi
 
         //Listar todos los atributos
         getData(){
-            this.modeloService.getAll().subscribe(data => {
-                this.lista = data;
-                console.log("lista:", data);
-            });
+            this.cargando = true;
+            this.modeloService.getAll().subscribe(
+                (data) => {
+                    this.lista = data;
+                    this.cargando = false;
+                    console.log("lista:", data);
+                },
+                (error) => {
+                    console.error('Error al cargar los datos', error);
+                    this.cargando = false;
+                }
+            );
         }
 
         exportCSV() {
@@ -70,7 +81,7 @@ import { BaseGenericoService } from "src/app/core/services/entidades/base-generi
                             next: () => {
                                 console.log('Registro actualizado');
                                 this.getData();
-                                this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'Registro editado correctamente'});
+                                this.messageService.add({ severity: 'info', summary: 'Editado', detail: 'Registro editado correctamente'});
                                 this.displayModal = false;
                             },
                             error: err => console.error('Error al actualizar:', err)
@@ -87,7 +98,7 @@ import { BaseGenericoService } from "src/app/core/services/entidades/base-generi
                         this.modeloService.create(this.entidad).subscribe({
                             next: () => {
                                 this.getData();
-                                this.messageService.add({ severity: 'success', summary: 'Registrado', detail: 'Registro agregado correctamente'});
+                                this.messageService.add({ severity: 'info', summary: 'Registrado', detail: 'Registro agregado correctamente'});
                                 this.displayModal = false;
                             },
                             error: err => console.error('error al crear:', err)

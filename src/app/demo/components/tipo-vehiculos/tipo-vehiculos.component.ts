@@ -9,7 +9,7 @@ import { Table } from 'primeng/table';
   selector: 'app-tipos-vehiculos',
   imports: [SHARED_FORMULARIOS_IMPORTS],
   templateUrl: './tipo-vehiculos.component.html',
-  styleUrl: './tipo-vehiculos.component.scss'
+  styleUrl: '../BaseCrudComponent.component.scss'
 })
 export class TiposVehiculosComponent extends BaseMetodosCrud<ITipoVehiculos> implements AfterViewInit{
   @ViewChild('dt') override dt!: Table;

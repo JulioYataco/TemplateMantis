@@ -1,17 +1,16 @@
 <p-confirmdialog></p-confirmdialog>
 <p-toast></p-toast>
 
-<div class="crud-container">
-    <p-toolbar class="mb-6">
+<div class="card">
+    <p-toolbar styleClass="mb-4">
       <ng-template #start>
-        <p-button label="Nuevo" variant="text" severity="success" icon="pi pi-plus" [raised]="true" (click)="mostrarDialogo()"></p-button>
+        <p-button label="Nuevo" variant="text" severity="info" icon="pi pi-plus" [raised]="true" (click)="mostrarDialogo()"></p-button>
       </ng-template>
       <ng-template #end>
-        <p-iconfield class="mr-2">
-          <p-inputicon styleClass="pi pi-search"></p-inputicon>
-          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar...">
-          <p-button label="Export" icon="pi pi-upload" severity="secondary" (click)="exportCSV()" />
-        </p-iconfield>
+        <div class="busqueda-export">
+          <input pInputText type="text" class="busqueda-input" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+          <p-button label="Export" icon="pi pi-upload" class="boton-exportar" (click)="exportCSV()" />
+        </div>
       </ng-template>
     </p-toolbar>
     
@@ -33,17 +32,17 @@
             {{ col.header }}
             <p-sortIcon field="{{col.field}}"></p-sortIcon>
           </th>
-          <th>OPERACIONES</th>
+          <th>Operaciones</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-item>
+      <ng-template pTemplate="body" let-entidad>
         <tr>
           <td *ngFor="let col of columns">
-            {{ item[col.field] }}
+            {{ entidad[col.field] }}
           </td>
           <td>
-            <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(item)"></p-button>
-            <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(item.id)"></p-button>
+            <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
+            <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(entidad.id)"></p-button>
           </td>
         </tr>
       </ng-template>
@@ -51,9 +50,9 @@
 </div>
 
 <!-- Modal -->
-<p-dialog [(visible)]="displayModal" [style]="{ width: '450px' }" [modal]="true" header="Formulario">
+<p-dialog [(visible)]="displayModal" [style]="{ width: '90%', maxWidth: '450px' }" [modal]="true" header="Formulario">
   <ng-template #content>
-    <div class="flex flex-col gap-6">
+    <div class="formulario">
       <div *ngFor="let campo of formFields">
         <label [for]="campo.field" class="block font-bold mb-3">{{ campo.label }}</label>
         <input [id]="campo.field" type="text" pInputText [(ngModel)]="entidad[campo.field]" fluid/>
@@ -61,6 +60,7 @@
     </div>
   </ng-template>
   <ng-template #footer>
-    <p-button label="Guardar" icon="pi pi-check" (click)="guardar()"></p-button>
-  </ng-template>
+      <p-button label="Cancel" severity="info" icon="pi pi-times" text (click)="cerrarDialogo()" />
+      <p-button label="Guardar" severity="info" icon="pi pi-check" (click)="guardar()" />
+    </ng-template>
 </p-dialog>

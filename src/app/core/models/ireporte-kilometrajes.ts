@@ -1,0 +1,31 @@
+export interface IReportekilometrajes {
+    id: number;
+    asignacion_vehiculo: number;
+    fecha_crea: Date;
+    kilometraje: number;
+    kilometraje_faltante: number;
+    estado: string;
+    perfil_id: number;
+    username: string,
+    first_name: string,
+    last_name: string,
+    email: string,
+    is_active: boolean,
+    codigo: string;
+    telefono: string;
+    jefatura_nombre: string;
+    area_id: number;
+    nombre_area: string;
+    vehiculo_id: number;
+    placa: string;
+    marca: string;
+    modelo: string;
+    kilometraje_inicial: number;
+    numero_serie: string;
+    numero: number;
+    color: string;
+    fabricacion: number;
+    numero_motor: string;
+    tipo_vehiculo_id: number;
+    nombre_tipo_vehiculo: string;
+}

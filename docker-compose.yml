@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  autobet-frontend:
+    container_name: autobet-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - VIRTUAL_HOST=ab.fitosatbeta.com
+      - LETSENCRYPT_HOST=ab.fitosatbeta.com
+      - LETSENCRYPT_EMAIL=admin@autobetbeta.com
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
+    name: proxy

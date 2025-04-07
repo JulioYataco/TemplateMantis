@@ -17,6 +17,13 @@ import Lara from '@primeng/themes/lara';
 import { MessageService } from "primeng/api";
 import { SHARED_PROVIDERS } from "./shared/shared-imports";
 
+//Configuramos fecha peru
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es'; // Importamos el locale de español
+
+// Registrar el locale
+registerLocaleData(localeEs, 'es');
+
 export const appConfig: ApplicationConfig = {
     providers: [
         provideZoneChangeDetection({eventCoalescing : true}),

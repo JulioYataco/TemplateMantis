@@ -17,9 +17,9 @@ import { BaseCrudComponent } from '../../shared/base-crud/base-crud.component';
 })
 export class RolesComponent {
   columns = [
-    { field: 'id', header: 'ID' },
-    { field: 'nombre_rol', header: 'NOMBRE DE ROL' },
-    { field: 'descripcion', header: 'DESCRIPCIÓN' }
+    { field: 'id', header: 'Id' },
+    { field: 'nombre_rol', header: 'Nombre rol' },
+    { field: 'descripcion', header: 'Descripción' }
   ];
 
   formFields = [

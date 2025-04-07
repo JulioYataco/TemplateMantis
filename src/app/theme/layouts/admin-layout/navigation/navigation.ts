@@ -107,6 +107,15 @@ export const NavigationItems: NavigationItem[] = [
         url: '/kilometrajes',
         classes: 'nav-item',
         icon: 'profile',
+        rolesPermitidos: ['Conductor'],
+      },
+      {
+        id: 'reporte-kilometrajes',
+        title: 'Reporte de kilometraje',
+        type: 'item',
+        url: '/reporte-kilometrajes',
+        classes: 'nav-item',
+        icon: 'profile',
         rolesPermitidos: ['Administrador'],
       },
     ]

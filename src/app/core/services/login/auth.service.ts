@@ -5,7 +5,7 @@ import { CookieService } from 'ngx-cookie-service'; //Se usa para manejar cookie
 import { Observable, tap } from 'rxjs'; //Define operaciones asíncronas, como llamadas HTTP y tap: Permite ejecutar codigo adicional cuando se recibe la respuesta HTTP
 import { environment } from 'src/environments/environment'; //Importamos para obtener la variable de entorno apiURL
 import { jwtDecode } from "jwt-decode";
-import { json } from 'node:stream/consumers';
+//import { json } from 'node:stream/consumers';
 @Injectable({
   providedIn: 'root'
 })

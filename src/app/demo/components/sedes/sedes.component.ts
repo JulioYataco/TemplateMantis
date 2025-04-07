@@ -6,22 +6,20 @@ import { BaseMetodosCrud } from '../baseMetodosCrud.component';
 import { ISedes } from 'src/app/core/models/isedes';
 import { UbigeosService } from 'src/app/core/services/entidades/ubigeos/ubigeos.service';
 import { IUbigeos } from 'src/app/core/models/iubigeos';
-//import { ISedes } from 'src/app/core/models/isedes';
-//import { MessageService } from 'primeng/api';
-//import { Table } from 'primeng/table';
-//import { BaseCrudComponent } from '../../shared/base-crud/base-crud.component';
-//import { BaseMetodosCrud } from '../baseMetodosCrud.component';
-//import { BaseMetodosCrud } from '../baseMetodosCrud.component';
+
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
 @Component({
   selector: 'app-sedes',
   //standalone: true,
-  imports: [SHARED_FORMULARIOS_IMPORTS],
+  imports: [SHARED_FORMULARIOS_IMPORTS, ProgressSpinnerModule],
   templateUrl: './sedes.component.html',
- styleUrl: '../../shared/base-crud/base-crud.component.scss'
+  styleUrl: '../BaseCrudComponent.component.scss'
 })
 export class SedesComponent extends BaseMetodosCrud<ISedes>{
   
-  ubigeos: IUbigeos[] = []
+  ubigeos: IUbigeos[] = [];
+  loadingUbigeo: boolean = false;
 
   constructor(
     protected override modeloService: SedesService,
@@ -37,13 +35,20 @@ export class SedesComponent extends BaseMetodosCrud<ISedes>{
   }
 
   obtenerUbigeos(): void {
-    this.ubigeoService.getAll().subscribe(ubigeos => {
-      this.ubigeos = ubigeos.map(ubigeo => ({
-        ...ubigeo,
-        ubigeocompleto: `${ubigeo.dpto} - ${ubigeo.prov} - ${ubigeo.distrito}`
-      }));
-      //console.log('Ubigeos completo:', this.ubigeos);
+    this.loadingUbigeo = true;
 
+    this.ubigeoService.getAll().subscribe({
+      next: (ubigeos) => {
+        this.ubigeos = ubigeos.map(ubigeo => ({
+          ...ubigeo,
+          ubigeocompleto: `${ubigeo.dpto} - ${ubigeo.prov} - ${ubigeo.distrito}`
+        }));
+        this.loadingUbigeo = false;
+      },
+      error: (err) => {
+        console.error('Error cargando ubigeos', err);
+        this.loadingUbigeo = false;
+      }
     });
   }
 

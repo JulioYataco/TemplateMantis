@@ -11,13 +11,18 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   if(token){
     console.log("guards token activo:", token);
-    return true;
+    return of(true); // Devuelve un Observable<boolean>
   }
 
   return authService.refreshToken().pipe(
     switchMap(newToken => {
-      authService.saveToken(newToken.access);
-      return of(true);
+      if (newToken?.access) {
+        authService.saveToken(newToken.access);
+        return of(true);
+      } else {
+        router.navigate(['/login']);
+        return of(false);
+      }
     }),
     catchError(()=>{
       router.navigate(['/login']);

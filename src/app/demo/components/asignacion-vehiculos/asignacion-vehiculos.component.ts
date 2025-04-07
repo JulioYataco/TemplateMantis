@@ -8,11 +8,12 @@ import { VehiculosService } from 'src/app/core/services/entidades/vehiculos/vehi
 import { PerfilesDetalleService } from 'src/app/core/services/perfiles/perfiles-detalle.service';
 import { IPerfilDetalles } from 'src/app/core/models/iperfil-detalles';
 
+
 @Component({
   selector: 'app-asignacion-vehiculos',
   imports: [SHARED_FORMULARIOS_IMPORTS],
   templateUrl: './asignacion-vehiculos.component.html',
-  styleUrl: './asignacion-vehiculos.component.scss'
+  styleUrl: '../BaseCrudComponent.component.scss'
 })
 export class AsignacionVehiculosComponent extends BaseMetodosCrud<IAsignacionVehiculos>{
   
@@ -37,14 +38,14 @@ export class AsignacionVehiculosComponent extends BaseMetodosCrud<IAsignacionVeh
     this.vehiculoService.getAll().subscribe(data => {
       this.vehiculos = data.map(vehiculo => ({
         ...vehiculo,
-        numero_placa: `N° Moto ${vehiculo.codigo }  -  ${ vehiculo.placa}`
+        numero_placa: `N° Moto ${vehiculo.numero }  -  ${ vehiculo.placa}`
       }));
     });
   }
 
-  obtenerPlacaVehiculo(id_vehiculo: number): string {
-    const data = this.vehiculos.find(r => r.id === id_vehiculo);
-    return data ? `N° ${data.codigo} - ${data.placa}` : 'Desconocido';
+  obtenerPlacaVehiculo(vehiculo_id: number): string {
+    const data = this.vehiculos.find(r => r.id === vehiculo_id)
+    return data ? data.placa : 'Desconocido'
   }
 
   obtenerPerfilesDetalle(): void {

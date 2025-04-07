@@ -4,6 +4,75 @@
 //   font-family: 'Poppins', sans-serif;
 // }
 
+//==============================================================
+// CARGA DE ESPERA
+//==============================================================
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.moto-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.4s ease-in-out;
+  
+  .wheel {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #2839d4;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spinWheel 0.8s linear infinite;
+    margin-bottom: 0.5rem;
+  }
+
+  .smoke-puff {
+    width: 30px;
+    height: 20px;
+    background: radial-gradient(circle, rgba(200, 200, 200, 0.5) 10%, rgba(200, 200, 200, 0) 70%);
+    animation: smokeEffect 1s infinite alternate ease-in-out;
+    filter: blur(2px);
+  }
+
+  p {
+    color: #333;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+  }
+}
+
+@keyframes spinWheel {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* === Ícono personalizado en p-toast (llanta pinchada / velocímetro roto) === */
+:host ::ng-deep .custom-toast-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url('./../../../../../assets/icons/velocimetro-roto.png'); // 🔧 Aquí va tu SVG
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: transparent; // Oculta el ícono original de PrimeNG
+}
+
+
+
+//==============================================================
+// Style login
+//==============================================================
+
 //Con esto entra de derecha a izquierda pero con una velocidad y efecto de moto o al menos eso intenta
 @keyframes slideInSpeed {
   from {
@@ -200,10 +269,6 @@ button {
 button:hover {
   background-color: #1511ec !important;
 }
-
-// button:hover {
-//   background-color: #1511ec;  /* Verde oscuro */
-// }
 
 /* Estilo para agrandar los inputs */
 .large-input {

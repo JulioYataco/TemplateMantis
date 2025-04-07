@@ -12,7 +12,7 @@ import { PerfilesDetalleService } from 'src/app/core/services/perfiles/perfiles-
   selector: 'app-areas',
   imports: [SHARED_FORMULARIOS_IMPORTS],
   templateUrl: './areas.component.html',
-  styleUrl: './areas.component.scss'
+  styleUrl: '../BaseCrudComponent.component.scss'
 })
 export class AreasComponent extends BaseMetodosCrud<IAreas>{
   
@@ -40,6 +40,11 @@ export class AreasComponent extends BaseMetodosCrud<IAreas>{
     });
   }
 
+  obtenerNombreSede(idsede: number): string {
+    const sede = this.sedes.find(l => l.id === idsede);
+    return sede ? sede.nombre_sede : 'Desconocido';
+  }
+
   obtenerPerfilesDetalle(): void {
     this.perfilDetalleService.perfilDetalles().subscribe(data => {
       this.perfilDetalles = data.map(perfil => ({
@@ -49,5 +54,9 @@ export class AreasComponent extends BaseMetodosCrud<IAreas>{
     });
   }
 
+  obtenerNombrepersona(id_persona: number): string {
+    const perfil = this.perfilDetalles.find(l => l.usuario_id === id_persona);
+    return perfil ? perfil.first_name : 'No asignado';
+  }
 
 }

@@ -8,7 +8,7 @@ export const authenticatedGuard: CanActivateFn = (route, state) => {
   const token = authService.getToken();
 
   if (token){
-    return router.navigate(['/sedes']);
+    return router.navigate(['/kilometrajes']);
   }else {
     return true;
   }

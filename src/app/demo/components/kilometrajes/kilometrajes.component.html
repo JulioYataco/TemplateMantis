@@ -1,26 +1,25 @@
 <p-confirmdialog></p-confirmdialog>
 <p-toast></p-toast>
-<div class="crud-container">
-    <p-toolbar Class="mb-6">
+<div class="card">
+    <p-toolbar styleClass="mb-4">
       <ng-template #start>
         <p-button label="Nuevo" variant="text" severity="info" icon="pi pi-plus" [raised]="true" (click)="mostrarDialogo()" />
       </ng-template>
       <ng-template #end>
-        <p-iconfield class="mr-2">
-          <p-inputicon styleClass="pi pi-search" />
-          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
-          <p-button label="Export" icon="pi pi-upload" severity="secondary" (click)="exportCSV()"  />
-        </p-iconfield>
+        <div class="busqueda-export">
+          <input pInputText type="text" class="busqueda-input" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+        </div>
       </ng-template>
     </p-toolbar>
     
     <!-- Tabla -->                            
     <p-table 
         #dt 
-        [value]="lista" 
+        [value]="cargando ? skeletonData : lista"
+        [loading]="cargando" 
         [rows]="5" 
         [paginator]="true" 
-        [globalFilterFields]="['id', 'nombre_tipo_vehiculo', 'kilometro_min']"
+        [globalFilterFields]="['id', 'asignacion_vehiculo', 'kilometraje']"
         [tableStyle]="{ 'min-width': '75rem' }" 
         [rowsPerPageOptions]="[5, 10, 20]" 
         [rowHover]="true"
@@ -30,41 +29,68 @@
 
         <ng-template pTemplate="header">
           <tr>
-            <th pSortableColumn="id">ID <p-sortIcon field="id" /></th>
-            <th pSortableColumn="asignacion_vehiculo">Asignación vehicular <p-sortIcon field="asignacion_vehiculo" /></th>
+            <th pSortableColumn="id">Id <p-sortIcon field="id" /></th>
+            <th pSortableColumn="fecha_crea">Fecha creación <p-sortIcon field="fecha_crea" /></th>
+            <th pSortableColumn="asignacion_vehiculo">Placa de vehiculo <p-sortIcon field="asignacion_vehiculo" /></th>
             <th pSortableColumn="kilometraje">Kilometraje <p-sortIcon field="kilometraje" /></th>
-            <th >OPERACIONES</th>
+            <th pSortableColumn="kilometraje_faltante">Kilometraje faltante<p-sortIcon field="kilometraje_faltante" /></th>
+           
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-entidad>
+          <tr *ngIf="cargando; else mostrarDatos">
+            <td><p-skeleton width="4rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="7rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="9rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
+          </tr>
+          <ng-template #mostrarDatos>
             <tr>
                 <td>{{entidad.id}}</td>
-                <td>{{entidad.asignacion_vehiculo}}</td>
+                <td>{{entidad.fecha_crea | date: 'dd MMMM yyyy': 'es'}}</td>
+                <td>{{obtenernombrevehiculo(entidad.asignacion_vehiculo)}}</td>
                 <td>{{entidad.kilometraje}}</td>
-                <td>
-                  <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
-                  <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(entidad.id)"></p-button>
-                </td>
+                <td>{{entidad.kilometraje_faltante}}</td>
+                
             </tr>
+          </ng-template>
         </ng-template>
-        <!--<ng-template #summary>
-            <div class="flex items-center justify-between">En total hay  {{ entidad ? entidad.length : 0 }} entidad.</div>
-        </ng-template> -->
     </p-table>
 </div>
 
 
 <!-- Modal para agregar o editar producto -->
-<p-dialog [(visible)]="displayModal" [style]="{ width: '450px' }" [modal]="true" header="Formulario">
+<p-dialog [(visible)]="displayModal" [style]="{ width: '90%', maxWidth: '450px' }" [modal]="true" header="Formulario">
     <ng-template #content>
-        <div class="flex flex-col gap-6">
+        <div class="formulario">
+            <!--<div>
+              <label for="data" class="block font-bold mb-3">Conductor</label>
+                <p-dropdown fluid [appendTo]="'body'"
+                  [options]="perfilDetalles"
+                  optionLabel="full_name"
+                  optionValue="usuario_id"
+                  [(ngModel)]="entidad.perfil"
+                  placeholder="Seleccione colaborador">
+              </p-dropdown>
+            </div>-->
             <div>
-                <label for="asignacion_vehiculo" class="block font-bold mb-3">Asignación de vehiculo</label>
-                <input id="asignacion_vehiculo" type="text" pInputText [(ngModel)]="entidad.asignacion_vehiculo" required autofocus fluid />
+              <label for="data" class="block font-bold mb-3">Vehiculo</label>
+                <p-dropdown fluid [appendTo]="'body'"
+                  [options]="asginado"
+                  optionLabel="placa"
+                  optionValue="id"
+                  [(ngModel)]="entidad.asignacion_vehiculo"
+                  placeholder="Seleccione un vehiculo">
+              </p-dropdown>
             </div>
             <div>
                 <label for="kilometraje" class="block font-bold mb-3">Kilometraje</label>
-                <input id="kilometraje" type="number" pInputText [(ngModel)]="entidad.kilometraje" fluid />
+                <input id="kilometraje" type="number" pInputText [(ngModel)]="entidad.kilometraje" (input)="onKilometrajeChange()" fluid />
+            </div>
+            <div>
+                <label for="kilometraje_faltante" class="block font-bold mb-3">Kilometraje faltante</label>
+                <input id="kilometraje_faltante" type="number" pInputText [(ngModel)]="entidad.kilometraje_faltante" (input)="onKilometrajeChange()" disabled fluid />
             </div>
         </div>
     </ng-template>

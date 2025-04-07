@@ -1,42 +1,211 @@
-.crud-container {
-    width: 100%; // Ocupará el 90% de la pantalla
-    //max-width: 1200px; // No se expandirá demasiado en pantallas grandes
-    margin:20px auto;
-    padding: 5px;
-    background: #6c7579;
-    border-radius: 8px;
-    //box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
-    //box-shadow: 0 0px 10px rgba(78, 209, 66, 0.1);
+@import 'primeflex/primeflex.scss';
+/* Contenedor de la tabla para scroll horizontal en móviles */
+.tabla-contenedor {
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+}
 
-    @media (max-width: 768px) {
-        width: 95%; // Más ancho en móviles
-        padding: 10px;
+/* Ajustes de la tabla */
+p-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+/* 🔍 Input de búsqueda con icono */
+.busqueda-input {
+    width: 100%;
+    max-width: 200px;
+    padding-left: 2rem; /* Espacio para la lupa */
+    position: relative;
+}
+
+/* 📌 Icono de la lupa dentro del input */
+.p-input-icon-left {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.p-input-icon-left i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+/* 📊 Ajuste del espaciado de la tabla */
+p-table th, p-table td {
+    white-space: nowrap;
+    padding: 5px 8px; /* Reducimos padding en móviles */
+    text-align: center;
+}
+
+/* Botón de nuevo */
+.boton-nuevo {
+    white-space: nowrap;
+}
+
+/* Contenedor de búsqueda y exportación */
+.busqueda-export {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Input de búsqueda */
+.busqueda-input {
+    width: 100%;
+    max-width: 200px;
+}
+
+/* Cambiar el borde del input al pasar el cursor */
+// .busqueda-input:focus {
+//     border-color: #007bff; /* Azul */
+//     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Resalta el borde en azul claro */
+// }
+
+/* Cambiar el borde del input cuando está en foco */
+// .busqueda-input {
+//     border-color: #007bff; /* Azul */
+// }
+
+// :host ::ng-deep .boton-exportar {
+//     background-color: #007bff !important; /* Azul fuerte */
+//     color: white !important;
+//     border: none !important;
+//     font-weight: bold;
+//     padding: 0.5rem 1rem;
+//     border-radius: 5px;
+//     transition: background-color 0.3s ease-in-out;
+// }
+
+// /* 🖱️ Efecto hover */
+// :host ::ng-deep .boton-exportar:hover {
+//     background-color: #0056b3 !important; /* Azul más oscuro */
+// }
+
+/* 🎨 Mejoras en los botones de acción */
+.acciones {
+    display: flex;
+    gap: 0.3rem;
+    justify-content: center;
+}
+
+/* Botones de acción */
+.btn-accion {
+    padding: 0.3rem;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Colores para botones */
+.editar {
+    color: #ff9800;
+}
+
+.eliminar {
+    color: #f44336;
+}
+
+/* Modal */
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* 📱 Estilos específicos para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+    p-table {
+        font-size: 14px;
+    }
+
+    /* 🔄 Acomoda el input y los botones */
+    .busqueda-export {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    .busqueda-input {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .acciones {
+        flex-wrap: wrap;
+    }
+
+    .btn-accion {
+        font-size: 12px;
+        padding: 0.3rem;
     }
 }
 
-::ng-deep .p-toolbar {
-    margin-bottom: 1.5rem;
-}
 
-::ng-deep .p-button .coloredit {
-    background: #da790b
-}
 
-// ::ng-deep .p-dialog {
-//     height: 50%;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .crud-container {
+//     width: 100%; // Ocupará el 90% de la pantalla
+//     //max-width: 1200px; // No se expandirá demasiado en pantallas grandes
+//     margin:20px auto;
+//     padding: 5px;
+//     background: #6c7579;
+//     border-radius: 8px;
+//     //box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+//     //box-shadow: 0 0px 10px rgba(78, 209, 66, 0.1);
+
+//     @media (max-width: 768px) {
+//         width: 95%; // Más ancho en móviles
+//         padding: 10px;
+//     }
 // }
 
-//Tabla
-//::ng-deep : Permite que el estilo atraviese la encapsulación de Angular
-::ng-deep .p-datatable-thead > tr > th { //.p-datatable-thead: Clase que PrimeNG usa para la cabecera de la tabla
-    //background: #f8f9fa; // Color de fondo de encabezado
-    text-align: center;
-    padding: 10px;
-    //border-bottom: 1px solid #ddd;
-}
+// ::ng-deep .p-toolbar {
+//     margin-bottom: 1.5rem;
+// }
 
-::ng-deep .p-datatable-tbody > tr > td {
-    padding: 10px;
-    text-align: center;
-    //border-bottom: 1px solid #ddd;
-}
+// ::ng-deep .p-button .coloredit {
+//     background: #da790b
+// }
+
+// // ::ng-deep .p-dialog {
+// //     height: 50%;
+// // }
+
+// //Tabla
+// //::ng-deep : Permite que el estilo atraviese la encapsulación de Angular
+// ::ng-deep .p-datatable-thead > tr > th { //.p-datatable-thead: Clase que PrimeNG usa para la cabecera de la tabla
+//     //background: #f8f9fa; // Color de fondo de encabezado
+//     text-align: center;
+//     padding: 10px;
+//     //border-bottom: 1px solid #ddd;
+// }
+
+// ::ng-deep .p-datatable-tbody > tr > td {
+//     padding: 10px;
+//     text-align: center;
+//     //border-bottom: 1px solid #ddd;
+// }

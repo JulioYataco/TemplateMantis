@@ -10,7 +10,7 @@ import { ITipoVehiculos } from 'src/app/core/models/itipo-vehiculos';
   selector: 'app-vehiculos',
   imports: [SHARED_FORMULARIOS_IMPORTS],
   templateUrl: './vehiculos.component.html',
-  styleUrl: '../../shared/base-crud/base-crud.component.scss'
+  styleUrl: '../BaseCrudComponent.component.scss'
 })
 export class VehiculosComponent extends BaseMetodosCrud<IVehiculos> {
   

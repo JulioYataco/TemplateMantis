@@ -18,6 +18,8 @@ export default class LoginComponent {
 
   visible: boolean = false;
 
+  isLoading: boolean = false;
+
   //Constructor para inyectar el service que creamos
   constructor(
     private authService: AuthService, 
@@ -26,17 +28,21 @@ export default class LoginComponent {
   ) {}
 
   login(): void{
+    this.isLoading = true;
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
+        this.isLoading = false;
         if (response.access_token) {
           this.router.navigate(['/sedes']);
         }
       },
       error: (error) => {
+        this.isLoading = false;
         this.messageService.add({
           severity: 'error',
-          summary: 'Error',
+          summary: '¡Falló el arranque!',
           detail: 'Usuario o contraseña incorrecta',
+          icon: 'pi pi-ban custom-toast-icon',
         });
       },
     });

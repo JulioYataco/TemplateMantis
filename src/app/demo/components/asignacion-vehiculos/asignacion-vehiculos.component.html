@@ -1,31 +1,31 @@
 <p-confirmdialog></p-confirmdialog>
 <p-toast></p-toast>
-<div class="crud-container">
-    <p-toolbar Class="mb-6">
+<div class="card">
+    <p-toolbar styleClass="mb-4">
       <ng-template #start>
         <p-button label="Nuevo" variant="text" severity="info" icon="pi pi-plus" [raised]="true" (click)="mostrarDialogo()" />
       </ng-template>
       <ng-template #end>
-        <p-iconfield class="mr-2">
-          <p-inputicon styleClass="pi pi-search" />
-          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
-          <p-button label="Export" icon="pi pi-upload" severity="secondary" (click)="exportCSV()"  />
-        </p-iconfield>
+        <div class="busqueda-export">
+          <input pInputText type="text" class="busqueda-input" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
+        </div>
       </ng-template>
     </p-toolbar>
     
     <!-- Tabla -->                            
     <p-table 
         #dt 
-        [value]="lista" 
+        [value]="cargando ? skeletonData : lista"
+        [loading]="cargando"
         [rows]="5" 
         [paginator]="true" 
-        [globalFilterFields]="['id', 'nombre_tipo_vehiculo', 'kilometro_min']"
+        [globalFilterFields]="['id', 'vehiculo', 'perfil','fecha_asignacion', 'fecha_fin']"
         [tableStyle]="{ 'min-width': '75rem' }" 
         [rowsPerPageOptions]="[5, 10, 20]" 
         [rowHover]="true"
         dataKey="id"
         [showCurrentPageReport]="true"
+        emptyMessage="No hay registros disponibles"
         >
 
         <ng-template pTemplate="header">
@@ -35,33 +35,40 @@
             <th pSortableColumn="perfil">Colaborador <p-sortIcon field="perfil" /></th>
             <th pSortableColumn="fecha_asignacion">Fecha Asignaciòn <p-sortIcon field="fecha_asignacion" /></th>
             <th pSortableColumn="fecha_fin">Fecha Fin <p-sortIcon field="fecha_fin" /></th>
-            <th >OPERACIONES</th>
+            <th >Operaciones</th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-entidad>
+        <ng-template pTemplate="body" let-entidad >
+          <tr *ngIf="cargando; else mostrarDatos">
+            <td><p-skeleton width="4rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="7rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="9rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
+          </tr>
+          <ng-template #mostrarDatos>
             <tr>
                 <td>{{entidad.id}}</td>
-                <td>{{entidad.vehiculo}}</td>
-                <td>{{entidad.perfil}}</td>
-                <td>{{entidad.fecha_asignacion}}</td>
-                <td>{{entidad.fecha_fin}}</td>
+                <td>{{obtenerPlacaVehiculo(entidad.vehiculo)}}</td>
+                <td>{{obtenerNombrePerfil(entidad.perfil)}}</td>
+                <td>{{entidad.fecha_asignacion | date: 'dd MMMM yyyy' : 'es' }}</td>
+                <td>{{entidad.fecha_fin | date: 'dd MMMM yyyy': 'es' }}</td>
                 <td>
                   <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
                   <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(entidad.id)"></p-button>
                 </td>
             </tr>
+          </ng-template>
         </ng-template>
-        <!--<ng-template #summary>
-            <div class="flex items-center justify-between">En total hay  {{ entidad ? entidad.length : 0 }} entidad.</div>
-        </ng-template> -->
     </p-table>
 </div>
 
 
 <!-- Modal para agregar o editar producto -->
-<p-dialog [(visible)]="displayModal" [style]="{ width: '450px' }" [modal]="true" header="Formulario">
+<p-dialog [(visible)]="displayModal" [style]="{  width: '90%', maxWidth: '450px'}" [modal]="true" header="Formulario">
     <ng-template #content>
-        <div class="flex flex-col gap-6">
+        <div class="formulario">
             <div>
               <label for="data" class="block font-bold mb-3">Vehiculo</label>
                 <p-dropdown fluid [appendTo]="'body'"
@@ -84,11 +91,11 @@
             </div>
             <div>
                 <label for="fecha_asignacion" class="block font-bold mb-3">Fecha asignación</label>
-                <p-datepicker id="fecha_asignacion" [(ngModel)]="entidad.fecha_asignacion" dateFormat="dd-mm-yy" placeholder="Fecha asignación" [showIcon]="true" fluid />
+                <p-datepicker id="fecha_asignacion" [(ngModel)]="entidad.fecha_asignacion" dateFormat="dd-MM-yy" placeholder="Fecha asignación" [showIcon]="true" fluid />
             </div>
             <div>
                 <label for="fecha_fin" class="block font-bold mb-3">Fecha fin</label>
-                <p-datepicker id="fecha_fin" [(ngModel)]="entidad.fecha_fin" dateFormat="dd-mm-yy" placeholder="Fecha fin" [showIcon]="true" fluid />
+                <p-datepicker id="fecha_fin" [(ngModel)]="entidad.fecha_fin" dateFormat="dd-MM-yy" placeholder="Fecha fin" [showIcon]="true" fluid />
             </div>
         </div>
     </ng-template>

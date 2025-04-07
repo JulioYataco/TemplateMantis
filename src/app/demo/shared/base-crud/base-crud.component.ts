@@ -61,6 +61,11 @@ export class BaseCrudComponent<T> implements OnInit{
         this.entidad = {} //Limpia el formulario
     }
 
+    cerrarDialogo(){
+        this.displayModal = false;
+        this.entidad = {} //Limpia el formulario
+    }
+
     //Para editar registro
     CargarDatosModal(entidad: T) {
         this.entidad = { ...entidad }; //Copia objeto

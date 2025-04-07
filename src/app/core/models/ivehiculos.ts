@@ -1,7 +1,7 @@
 export interface IVehiculos {
     id: number;
     tipo_vehiculo: number;
-    codigo: number;
+    numero: number;
     placa: string;
     color?: string;
     marca?: string;

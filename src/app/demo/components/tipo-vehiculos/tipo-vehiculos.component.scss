@@ -1,6 +1,130 @@
 @import 'primeflex/primeflex.scss';
-:host ::ng-deep .p-dialog .product-image {
-    width: 150px;
-    margin: 0 auto 2rem auto;
-    display: block;
+/* Contenedor de la tabla para scroll horizontal en móviles */
+.tabla-contenedor {
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Ajustes de la tabla */
+p-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+/* 🔍 Input de búsqueda con icono */
+.busqueda-input {
+    width: 100%;
+    max-width: 200px;
+    padding-left: 2rem; /* Espacio para la lupa */
+    position: relative;
+}
+
+/* 📌 Icono de la lupa dentro del input */
+.p-input-icon-left {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.p-input-icon-left i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+/* 📊 Ajuste del espaciado de la tabla */
+p-table th, p-table td {
+    white-space: nowrap;
+    padding: 5px 8px; /* Reducimos padding en móviles */
+    text-align: center;
+}
+
+/* Botón de nuevo */
+.boton-nuevo {
+    white-space: nowrap;
+}
+
+/* Contenedor de búsqueda y exportación */
+.busqueda-export {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Input de búsqueda */
+.busqueda-input {
+    width: 100%;
+    max-width: 200px;
+}
+
+/* Botones de exportar */
+.boton-exportar {
+    white-space: nowrap;
+}
+
+/* 🎨 Mejoras en los botones de acción */
+.acciones {
+    display: flex;
+    gap: 0.3rem;
+    justify-content: center;
+}
+
+/* Botones de acción */
+.btn-accion {
+    padding: 0.3rem;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Colores para botones */
+.editar {
+    color: #ff9800;
+}
+
+.eliminar {
+    color: #f44336;
+}
+
+/* Modal */
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* 📱 Estilos específicos para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+    p-table {
+        font-size: 14px;
+    }
+
+    /* 🔄 Acomoda el input y los botones */
+    .busqueda-export {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    .busqueda-input {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .acciones {
+        flex-wrap: wrap;
+    }
+
+    .btn-accion {
+        font-size: 12px;
+        padding: 0.3rem;
+    }
 }

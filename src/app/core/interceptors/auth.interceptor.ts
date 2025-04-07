@@ -2,11 +2,13 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/login/auth.service';
 import { catchError, switchMap, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const authService = inject(AuthService);
   const token = authService.getToken();
+  const router = inject(Router);
   console.log("antes de ifinterceptor:", token);
   // Excluir la petición de login
   if (req.url.includes('/api/Login/') || req.url.includes('/api/token/refresh')) {
@@ -27,6 +29,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 401) {
         return authService.refreshToken().pipe(
           switchMap((newToken) => {
+            if (!newToken?.access) {
+              throw new Error("No se recibió un nuevo token");
+            }
             console.log("nuevo token:", newToken);
             // Guardamos el nuevo token
             authService.saveToken(newToken.access);
@@ -37,6 +42,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             return next(newAuthReq);
           }),
           catchError((refreshError) => {
+            console.error("Error en refresh token", refreshError);
+            authService.logout(); 
+            router.navigate(['/login']);
             // Si el refresh también falla, redirigimos al login
             //authService.logout();
             return throwError(() => refreshError);
