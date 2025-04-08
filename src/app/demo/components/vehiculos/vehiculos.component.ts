@@ -15,6 +15,10 @@ import { ITipoVehiculos } from 'src/app/core/models/itipo-vehiculos';
 export class VehiculosComponent extends BaseMetodosCrud<IVehiculos> {
   
   tipovehiculos: ITipoVehiculos[] = []
+  listaTipos = [
+    { observacion: 'Alquilada', nombre: 'Alquilada' },
+    { observacion: 'Beta', nombre: 'Beta' }
+  ];
 
   constructor(
     protected override modeloService: VehiculosService,

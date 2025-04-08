@@ -1,5 +1,42 @@
 <p-confirmdialog></p-confirmdialog>
 <p-toast></p-toast>
+
+<!-- DASHBOARD DE VEHÍCULO -->
+<div class="grid mb-4">
+  <div class="col-12 md:col-4">
+    <p-card header="Resumen Vehículo" class="h-full">
+      <ng-template pTemplate="content">
+        <div class="flex flex-column gap-2">
+          <div><strong>Placa:</strong> {{lista?.[0]?.placa}}</div>
+          <div><strong>Kilometraje actual:</strong> {{lista?.[0]?.kilometraje}} km</div>
+          <div><strong>Kilometraje faltante:</strong> {{lista?.[0]?.kilometraje_faltante}} km</div>
+          <div class="mt-2">
+            <p-tag 
+              [value]="getEstadoKilometraje(lista?.[0]?.kilometraje_faltante)" 
+              [severity]="getColorKilometraje(lista?.[0]?.kilometraje_faltante)"
+              class="text-sm">
+            </p-tag>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <div class="col-12 md:col-8">
+    <p-card header="Progreso hacia mantenimiento" class="h-full">
+      <ng-template pTemplate="content">
+        <p-progressBar 
+          [value]="getProgreso(lista?.[0]?.kilometraje)" 
+          [showValue]="true" 
+          displayValue="{{getProgreso(lista?.[0]?.kilometraje)}}%" 
+          styleClass="w-full">
+        </p-progressBar>
+        <small class="block mt-2 text-color-secondary">Cada 1000 km se requiere mantenimiento obligatorio</small>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
+
 <div class="card">
     <p-toolbar styleClass="mb-4">
       <ng-template #start>
@@ -29,9 +66,9 @@
 
         <ng-template pTemplate="header">
           <tr>
-            <th pSortableColumn="id">Id <p-sortIcon field="id" /></th>
+            <th pSortableColumn="id"># <p-sortIcon field="id" /></th>
             <th pSortableColumn="fecha_crea">Fecha creación <p-sortIcon field="fecha_crea" /></th>
-            <th pSortableColumn="asignacion_vehiculo">Placa de vehiculo <p-sortIcon field="asignacion_vehiculo" /></th>
+            <th pSortableColumn="placa">Placa de vehiculo <p-sortIcon field="placa" /></th>
             <th pSortableColumn="kilometraje">Kilometraje <p-sortIcon field="kilometraje" /></th>
             <th pSortableColumn="kilometraje_faltante">Kilometraje faltante<p-sortIcon field="kilometraje_faltante" /></th>
            
@@ -47,11 +84,23 @@
           </tr>
           <ng-template #mostrarDatos>
             <tr>
-                <td>{{entidad.id}}</td>
+                <td pFrozenColumn>{{entidad.id}}</td>
                 <td>{{entidad.fecha_crea | date: 'dd MMMM yyyy': 'es'}}</td>
-                <td>{{obtenernombrevehiculo(entidad.asignacion_vehiculo)}}</td>
-                <td>{{entidad.kilometraje}}</td>
-                <td>{{entidad.kilometraje_faltante}}</td>
+                <td>{{entidad.placa}}</td>
+                <td pFrozenColumn>{{entidad.kilometraje}}</td>
+                <td>
+                  <span 
+                      class="font-bold px-2 py-1 rounded-lg"
+                      [ngClass]="{
+                        'bg-red-100 text-red-800': entidad.kilometraje_faltante <= 100,
+                        'bg-yellow-100 text-yellow-800': entidad.kilometraje_faltante > 100 && entidad.kilometraje_faltante <= 500,
+                        'bg-green-100 text-green-800': entidad.kilometraje_faltante > 800,
+                        'bg-gray-100 text-gray-800': entidad.kilometraje_faltante > 500 && entidad.kilometraje_faltante <= 800
+                      }"
+                    >
+                    {{entidad.kilometraje_faltante}} km
+                  </span>
+                </td>
                 
             </tr>
           </ng-template>
@@ -64,16 +113,6 @@
 <p-dialog [(visible)]="displayModal" [style]="{ width: '90%', maxWidth: '450px' }" [modal]="true" header="Formulario">
     <ng-template #content>
         <div class="formulario">
-            <!--<div>
-              <label for="data" class="block font-bold mb-3">Conductor</label>
-                <p-dropdown fluid [appendTo]="'body'"
-                  [options]="perfilDetalles"
-                  optionLabel="full_name"
-                  optionValue="usuario_id"
-                  [(ngModel)]="entidad.perfil"
-                  placeholder="Seleccione colaborador">
-              </p-dropdown>
-            </div>-->
             <div>
               <label for="data" class="block font-bold mb-3">Vehiculo</label>
                 <p-dropdown fluid [appendTo]="'body'"

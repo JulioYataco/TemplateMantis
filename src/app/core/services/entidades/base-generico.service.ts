@@ -39,7 +39,7 @@ export class BaseGenericoService<T> { //con T inidicamos que la clase es generic
     if (usuario) {
       //Agregamos el id del usuario al objeto que se envia al backend
       data = { ...data, usuario_crea: usuario.id};
-      console.log('Data de create:',data);
+      //console.log('Data de create:',data);
     }
     return this.httpClient.post<T>(`${this.apiUrl}/`, data);
   }
@@ -61,7 +61,7 @@ export class BaseGenericoService<T> { //con T inidicamos que la clase es generic
         fecha_baja: new Date().toISOString(),
         usuario_baja: usuario.id
       };
-      console.log('datos eliminados:',data);
+      //console.log('datos eliminados:',data);
       return this.httpClient.patch<void>(`${this.apiUrl}/${id}/`, data); //Usamos el PATCH para actualizar solo 'usuario_baja'
     }
     return this.httpClient.delete<void>(`${this.apiUrl}/${id}/`);

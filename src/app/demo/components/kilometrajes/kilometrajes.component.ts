@@ -10,10 +10,11 @@ import { PerfilesDetalleService } from 'src/app/core/services/perfiles/perfiles-
 import { IAsignacionPorPerfil } from 'src/app/core/models/iasignacion-por-perfil';
 import { AuthService } from 'src/app/core/services/login/auth.service';
 import { IReportekilometrajes } from 'src/app/core/models/ireporte-kilometrajes';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @Component({
   selector: 'app-kilometrajes',
-  imports: [SHARED_FORMULARIOS_IMPORTS],
+  imports: [SHARED_FORMULARIOS_IMPORTS, ProgressBarModule],
   templateUrl: './kilometrajes.component.html',
   styleUrl: '../BaseCrudComponent.component.scss'
 })
@@ -54,25 +55,25 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
     this.obtenerDetallesasignado();
   }
 
-  // override getData(){
-  //   this.cargando = true;
-  //   const usuario = localStorage.getItem('usuario');
-  //   if (usuario) {
-  //     const usuarioData = JSON.parse(usuario);
-  //     const perfilId = usuarioData.id;
-  //     this.modeloService.listarPorPerfilId(perfilId).subscribe(
-  //       (data) => {
-  //         this.lista = data;
-  //         this.cargando = false;
-  //         console.log("lista detallada", data)
-  //       },
-  //       (error) => {
-  //         console.error('Error al cargar los datos', error);
-  //         this.cargando = false;
-  //       }
-  //     )
-  //   }
-  // }
+  override getData(){
+    this.cargando = true;
+    const usuario = localStorage.getItem('usuario');
+    if (usuario) {
+      const usuarioData = JSON.parse(usuario);
+      const perfilId = usuarioData.id;
+      this.modeloService.listarPorPerfilId(perfilId).subscribe(
+        (data) => {
+          this.lista = data;
+          this.cargando = false;
+          console.log("lista detallada", data)
+        },
+        (error) => {
+          console.error('Error al cargar los datos', error);
+          this.cargando = false;
+        }
+      )
+    }
+  }
 
   // override ngOnInit(): void {
   //   super.ngOnInit();
@@ -146,6 +147,25 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
     this.kmFaltantes = this.calcularKmFaltantes(this.entidad.kilometraje, this.limiteKm);
     this.entidad.kilometraje_faltante = this.kmFaltantes; // Guardamos en la entidad
   }
+
+  getEstadoKilometraje(faltante: number): string {
+    if (faltante <= 100) return 'Mantenimiento urgente';
+    if (faltante <= 500) return 'Pronto mantenimiento';
+    if (faltante <= 800) return 'En observación';
+    return 'Sin novedad';
+  }
+
+  getColorKilometraje(faltante: number): 'danger' | 'warning' | 'info' | 'success' {
+    if (faltante <= 100) return 'danger';
+    if (faltante <= 500) return 'warning';
+    if (faltante <= 800) return 'info';
+    return 'success';
+  }
+
+  getProgreso(kilometraje: number, limite: number = this.limiteKm): number {
+    return Math.min((kilometraje % limite) / limite * 100, 100);
+  }
+  
   
 }
 

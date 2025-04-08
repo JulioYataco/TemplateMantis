@@ -10,7 +10,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const token = authService.getToken();
 
   if(token){
-    console.log("guards token activo:", token);
+    //console.log("guards token activo:", token);
     return of(true); // Devuelve un Observable<boolean>
   }
 

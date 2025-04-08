@@ -1,4 +1,4 @@
-export interface IReportekilometrajes {
+export interface IReporteKilometrajePerfilId {
     id: number;
     asignacion_vehiculo: number;
     fecha_crea: Date;

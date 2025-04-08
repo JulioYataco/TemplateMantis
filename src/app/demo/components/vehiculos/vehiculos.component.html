@@ -40,24 +40,24 @@
             <th pSortableColumn="kilometraje_inicial">Kilometraje Inicial <p-sortIcon field="kilometraje_inicial" /></th>
             <th pSortableColumn="numero_serie">N° Serie <p-sortIcon field="numero_serie" /></th>
             <th pSortableColumn="numero_motor">N° Motor <p-sortIcon field="numero_motor" /></th>
-            <th pSortableColumn="observacion">Observación <p-sortIcon field="observacion" /></th>
+            <th pSortableColumn="observacion">Adquisición <p-sortIcon field="observacion" /></th>
             <th >Operaciones</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-entidad>
             <tr *ngIf="cargando; else mostrarDatos">
+                <td><p-skeleton width="2rem" height="1.5rem"></p-skeleton></td>
                 <td><p-skeleton width="3rem" height="1.5rem"></p-skeleton></td>
-                <td><p-skeleton width="7rem" height="1.5rem"></p-skeleton></td>
-                <td><p-skeleton width="9rem" height="1.5rem"></p-skeleton></td>
+                <td><p-skeleton width="2rem" height="1.5rem"></p-skeleton></td>
+                <td><p-skeleton width="4rem" height="1.5rem"></p-skeleton></td>
+                <td><p-skeleton width="4rem" height="1.5rem"></p-skeleton></td>
+                <td><p-skeleton width="4rem" height="1.5rem"></p-skeleton></td>
+                <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
+                <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
                 <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
                 <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
-                <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
-                <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
-                <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
-                <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
-                <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
-                <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
-                <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
+                <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
+                <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
                 <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
             </tr>
             <ng-template #mostrarDatos>
@@ -89,7 +89,15 @@
 
 
 <!-- Modal para agregar o editar producto -->
-<p-dialog [(visible)]="displayModal" [style]="{  width: '90%', maxWidth: '450px' }" [modal]="true" header="Formulario">
+<p-dialog 
+    [(visible)]="displayModal" 
+    [style]="{ width: '95%', maxWidth: '600px' }"
+    [modal]="true"
+    header="Formulario"
+    [baseZIndex]="10000"
+    [contentStyle]="{ 'max-height': '80vh', 'overflow': 'auto' }" 
+    >
+
     <ng-template #content>
         <div class="formulario">
             <div>
@@ -137,6 +145,19 @@
             <div>
                 <label for="numero_motor" class="block font-bold mb-3">N° Motor</label>
                 <input id="numero_motor" type="text" pInputText [(ngModel)]="entidad.numero_motor" fluid/>
+            </div>
+            <div>
+                <label for="observacion"  class="block font-bold mb-3">Tipo de adquisición</label>
+                <p-dropdown
+                    [appendTo]="'body'"
+                    inputId="observacion"
+                    [(ngModel)]="entidad.observacion"
+                    [options]="listaTipos"
+                    optionLabel="nombre"
+                    optionValue="observacion"
+                    placeholder="Seleccionar"
+                    class="w-full"
+                />
             </div>
         </div>
     </ng-template>

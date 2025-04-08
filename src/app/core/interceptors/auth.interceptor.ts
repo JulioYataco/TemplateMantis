@@ -9,7 +9,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.getToken();
   const router = inject(Router);
-  console.log("antes de ifinterceptor:", token);
+  //console.log("antes de ifinterceptor:", token);
   // Excluir la petición de login
   if (req.url.includes('/api/Login/') || req.url.includes('/api/token/refresh')) {
     return next(req);
@@ -17,7 +17,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
   let authReq = req;
   if (token) {
-    console.log("token en interceptor:", token);
+    //console.log("token en interceptor:", token);
     authReq = req.clone({
       setHeaders: { Authorization: `Bearer ${token}`},
     });
@@ -25,14 +25,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
   return next(authReq).pipe(
     catchError((error) => {
-      console.log("error en interceptor", error);
+      //console.log("error en interceptor", error);
       if (error.status === 401) {
         return authService.refreshToken().pipe(
           switchMap((newToken) => {
             if (!newToken?.access) {
               throw new Error("No se recibió un nuevo token");
             }
-            console.log("nuevo token:", newToken);
+            //console.log("nuevo token:", newToken);
             // Guardamos el nuevo token
             authService.saveToken(newToken.access);
             // Reintentamos la petición original con el nuevo token
@@ -42,7 +42,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             return next(newAuthReq);
           }),
           catchError((refreshError) => {
-            console.error("Error en refresh token", refreshError);
+            //console.error("Error en refresh token", refreshError);
             authService.logout(); 
             router.navigate(['/login']);
             // Si el refresh también falla, redirigimos al login

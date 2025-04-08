@@ -60,7 +60,7 @@ export class AuthService {
   login(username: string, password: string): Observable<any>{
     return this.httpClient.post<any>(this.LOGIN_URL, {username, password}).pipe(
       tap(response =>{
-        console.log(response);
+        //console.log(response);
         if (response.access_token && response.refresh){
           //Agregamos los token a la cokies
           const expiresminute = new Date(new Date().getTime() + 15 * 60 * 1000);
@@ -96,7 +96,7 @@ export class AuthService {
     const refresh = this.getRefreshToken();
     return this.httpClient.post<any>(this.REFRESH_URL, { refresh: refresh }).pipe(
       tap(response => {
-        console.log("Respuesta de refresh", response);
+        //console.log("Respuesta de refresh", response);
         if (response.access_token){
           this.saveToken(response.access_token);
 
@@ -111,7 +111,7 @@ export class AuthService {
 
           localStorage.setItem('usuario', JSON.stringify(this.usuario)); // Actualizar localStorage
 
-          console.log("Token actualizado en cookies", response);
+          //console.log("Token actualizado en cookies", response);
         }
       })
     );

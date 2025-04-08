@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { IReportekilometrajes } from 'src/app/core/models/ireporte-kilometrajes';
+import { IReporteKilometrajePerfilId } from 'src/app/core/models/ireporte-kilometraje-perfil-id';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,8 @@ export class KilometrajesService extends BaseGenericoService<IKilometrajes>{
     this.init('kilometrajes');
   }
 
-  listarPorPerfilId(perfilId: number): Observable<IReportekilometrajes[]> {
+  listarPorPerfilId(perfilId: number): Observable<IReporteKilometrajePerfilId[]> {
     const params = new HttpParams().set('perfil_id', perfilId.toString());
-    return this.http.get<IReportekilometrajes[]>(this.lecturaurl, { params });
+    return this.http.get<IReporteKilometrajePerfilId[]>(this.lecturaurl, { params });
   }
 }
