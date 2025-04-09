@@ -1,41 +1,67 @@
 <p-confirmdialog></p-confirmdialog>
 <p-toast></p-toast>
 
-<!-- DASHBOARD DE VEHÍCULO -->
-<div class="grid mb-4">
-  <div class="col-12 md:col-4">
-    <p-card header="Resumen Vehículo" class="h-full">
-      <ng-template pTemplate="content">
-        <div class="flex flex-column gap-2">
-          <div><strong>Placa:</strong> {{lista?.[0]?.placa}}</div>
-          <div><strong>Kilometraje actual:</strong> {{lista?.[0]?.kilometraje}} km</div>
-          <div><strong>Kilometraje faltante:</strong> {{lista?.[0]?.kilometraje_faltante}} km</div>
-          <div class="mt-2">
-            <p-tag 
-              [value]="getEstadoKilometraje(lista?.[0]?.kilometraje_faltante)" 
-              [severity]="getColorKilometraje(lista?.[0]?.kilometraje_faltante)"
-              class="text-sm">
-            </p-tag>
-          </div>
-        </div>
-      </ng-template>
-    </p-card>
-  </div>
 
-  <div class="col-12 md:col-8">
-    <p-card header="Progreso hacia mantenimiento" class="h-full">
-      <ng-template pTemplate="content">
+<div class="card-container">
+  <p-card class="card-item">
+    <div class="card-content">
+      <i class="pi pi-car icon"></i>
+      <h3 class="text-center text-sm text-gray-600">Vehículo Asignado</h3>
+      <p  class="text-center card-value">
+         <i class="pi pi-verified mr-2 text-info text-base align-middle"></i>
+        {{lista?.[0]?.placa}}
+      </p>
+    </div>
+  </p-card>
+
+  <p-card class="card-item">
+    <div class="card-content">
+      <i class="pi pi-bolt icon"></i>
+      <h3 class="text-center text-sm text-gray-600">Kilometraje Actual</h3>
+      <p class="text-center card-value">
+        <i class="pi pi-compass mr-2 text-primary text-base align-middle"></i>
+        {{lista?.[0]?.kilometraje}} km
+      </p>
+    </div>
+  </p-card>
+
+  <p-card class="card-item">
+    <div class="card-content">
+      <i class="pi pi-exclamation-triangle icon"></i>
+      <h3 class="text-center text-sm text-gray-600">Kilometraje Restantes</h3>
+      <p class="text-center card-value">
+        <i class="pi pi-flag mr-2 text-danger text-base align-middle"></i>
+        {{ lista?.[0]?.kilometraje_faltante }} km
+      </p>
+      <!--<div class="mt-2">
+        <p-tag 
+          [value]="getEstadoKilometraje(lista?.[0]?.kilometraje_faltante)" 
+          [severity]="getColorKilometraje(lista?.[0]?.kilometraje_faltante)"
+          class="text-sm">
+        </p-tag>
+      </div>-->
+    </div>
+  </p-card>
+
+  <p-card header="Progreso hacia mantenimiento" class="card-item mantenimiento-card">
+    <ng-template pTemplate="content">
+      <div class="text-center">
         <p-progressBar 
           [value]="getProgreso(lista?.[0]?.kilometraje)" 
           [showValue]="true" 
-          displayValue="{{getProgreso(lista?.[0]?.kilometraje)}}%" 
-          styleClass="w-full">
+          styleClass="w-full progress-redondeado"
+          [ngClass]="getProgresoColor(lista?.[0]?.kilometraje)">
         </p-progressBar>
-        <small class="block mt-2 text-color-secondary">Cada 1000 km se requiere mantenimiento obligatorio</small>
-      </ng-template>
-    </p-card>
-  </div>
+        <small class="block mt-2 text-color-secondary">
+          <i class="pi pi-exclamation-triangle mr-2 text-warning text-base align-middle"></i>
+          Cada 1000 km se requiere mantenimiento obligatorio
+        </small>
+      </div>
+    </ng-template>
+  </p-card>
 </div>
+
+
 
 <div class="card">
     <p-toolbar styleClass="mb-4">

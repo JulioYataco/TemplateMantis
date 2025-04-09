@@ -11,12 +11,14 @@ import { IAsignacionPorPerfil } from 'src/app/core/models/iasignacion-por-perfil
 import { AuthService } from 'src/app/core/services/login/auth.service';
 import { IReportekilometrajes } from 'src/app/core/models/ireporte-kilometrajes';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { CardModule } from 'primeng/card';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-kilometrajes',
-  imports: [SHARED_FORMULARIOS_IMPORTS, ProgressBarModule],
+  imports: [SHARED_FORMULARIOS_IMPORTS, ProgressBarModule,CardModule,TagModule ],
   templateUrl: './kilometrajes.component.html',
-  styleUrl: '../BaseCrudComponent.component.scss'
+  styleUrl: './kilometrajes.component.scss'
 })
 export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
   
@@ -155,20 +157,41 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
     return 'Sin novedad';
   }
 
-  getColorKilometraje(faltante: number): 'danger' | 'warning' | 'info' | 'success' {
+  getColorKilometraje(faltante: number): 'danger' | 'warn' | 'info' | 'success' {
     if (faltante <= 100) return 'danger';
-    if (faltante <= 500) return 'warning';
+    if (faltante <= 500) return 'warn';
     if (faltante <= 800) return 'info';
     return 'success';
   }
 
   getProgreso(kilometraje: number, limite: number = this.limiteKm): number {
-    return Math.min((kilometraje % limite) / limite * 100, 100);
+    if (!kilometraje) return 0; // Devuelve 0 si kilometraje es undefined o nulo
+    const progreso = (kilometraje % limite) / limite * 100;
+    return Math.min(Math.round(progreso), 100); // redondea y limita a 100%
+    
   }
-  
+
+  getProgresoColor(kilometraje: number): string {
+    const progreso = this.getProgreso(kilometraje);
+    console.log("progreso",progreso);
+    if (progreso < 33) {
+      return 'green-to-yellow'; // Verde a Amarillo (inicio)
+    } else if (progreso >= 33 && progreso < 66) {
+      return 'yellow-to-red'; // Amarillo a Rojo (intermedio)
+    }
+    return 'green-to-yellow-to-red'; // Verde a Amarillo a Rojo (cerca de 100%)
+  }
+
   
 }
 
+// getProgressClass(kilometraje: number): string {
+//   const progress = this.getProgreso(kilometraje);
+//   if (progress >= 90) {
+//     return 'icon-progress-approaching';  // Aplica animación si está cerca de 100%
+//   }
+//   return ''; // Sin animación si el progreso es bajo
+// }
 
 
   // obtenerVehiculo(): void {

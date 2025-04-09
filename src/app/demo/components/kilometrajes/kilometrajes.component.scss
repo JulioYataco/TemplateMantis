@@ -1,0 +1,377 @@
+@import 'primeflex/primeflex.scss';
+/* Contenedor de la tabla para scroll horizontal en móviles */
+.tabla-contenedor {
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Ajustes de la tabla */
+p-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+/* 🔍 Input de búsqueda con icono */
+.busqueda-input {
+    width: 100%;
+    max-width: 200px;
+    padding-left: 2rem; /* Espacio para la lupa */
+    position: relative;
+}
+
+/* Icono de la lupa dentro del input */
+.p-input-icon-left {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.p-input-icon-left i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+/* Ajuste del espaciado de la tabla */
+p-table th, p-table td {
+    white-space: nowrap;
+    padding: 5px 8px; /* Reducimos padding en móviles */
+    text-align: center;
+}
+
+/* Botón de nuevo */
+.boton-nuevo {
+    white-space: nowrap;
+}
+
+/* Contenedor de búsqueda y exportación */
+.busqueda-export {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+//==============================
+//   PARA Skeleton
+//==============================
+.skeleton-table {
+    margin-top: 20px;
+}
+  
+.skeleton-table p-skeleton {
+    margin-bottom: 10px;
+}
+
+/* Input de búsqueda */
+.busqueda-input {
+    width: 100%;
+    max-width: 200px;
+}
+
+/* Cambiar el borde del input al pasar el cursor */
+.busqueda-input:focus {
+    border-color: #007bff; /* Azul */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Resalta el borde en azul claro */
+}
+
+/* Cambiar el borde del input cuando está en foco */
+.busqueda-input {
+    border-color: #007bff; /* Azul */
+}
+
+
+
+/*  Mejoras en los botones de acción */
+.acciones {
+    display: flex;
+    gap: 0.3rem;
+    justify-content: center;
+}
+
+/* Botones de acción */
+.btn-accion {
+    padding: 0.3rem;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Colores para botones */
+.editar {
+    color: #ff9800;
+}
+
+.eliminar {
+    color: #f44336;
+}
+
+/* Modal */
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Estilos específicos para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+    p-table {
+        font-size: 14px;
+    }
+
+    /*  Acomoda el input y los botones */
+    .busqueda-export {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    .busqueda-input {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .acciones {
+        flex-wrap: wrap;
+    }
+
+    .btn-accion {
+        font-size: 12px;
+        padding: 0.3rem;
+    }
+}
+
+
+
+/* Estilos SCSS recomendados */
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 3rem; // Espacio entre los cards y la tabla de abajo
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0; // Línea tenue de separación
+    align-items: stretch; // Asegura que todos los cards se estiren por igual
+}
+
+//Animacion al car-item
+@keyframes fadeSlideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+  
+.card-item {
+    animation: fadeSlideUp 0.6s ease forwards;
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 0.5rem;
+    flex: 1 1 calc(25% - 1rem); // 4 columnas en desktop
+    display: flex;
+    flex-direction: column;
+    //min-height: 300px;  // Establece una altura mínima para que las tarjetas no se deforme
+    // // Forzar altura igual en todos
+    height: 100%;
+
+    // //cOLOR
+    // transition: background-color 0.5s ease, box-shadow 0.5s ease;
+    // background-color: #fff;
+    // box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    // border-radius: 1rem;
+
+    &:hover {
+        background-color: #f4f6f8;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+}
+  
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    // Estilo visual uniforme
+    padding: 1rem;
+    text-align: center;
+
+    // Aseguramos que el contenido tenga altura mínima igual para todos
+    //min-height: 220px; // Ajusta si quieres más alto
+    height: 100%;
+
+    // Previene que textos largos desborden
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+  
+.card-content h3 {
+    // margin: 0.5rem 0;
+    // font-size: 1rem;
+    // font-weight: 600;
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // max-width: 100%;
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+  
+.card-content p {
+    font-size: 1.1rem;
+    color: #333;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    // font-size: 2rem;
+    // font-weight: bold;
+    // color: #1e1e1e;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // gap: 0.5rem;
+}
+  
+.icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+
+    color: #007ad9;
+}
+
+.card-value {
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    color: #1e1e1e;
+    transition: all 0.3s ease-in-out;
+
+    i {
+        font-size: 1.5rem;
+        color: #64748b;
+        transition: transform 0.4s ease-in-out;
+    }
+
+    &:hover i {
+        transform: scale(1.2) rotate(10deg);
+    }
+
+    //transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.card-value:hover {
+    transform: scale(1.02);
+    color: #007ad9;
+}
+
+// ===============================
+// PARA Tablets (max-width: 768px)
+// ===============================
+@media (max-width: 768px) {
+    .card-item {
+        flex: 1 1 calc(50% - 1rem);  // 2 columnas en tablets
+        //min-height: 300px;  // Establece una altura mínima consistente
+    }
+}
+
+// ===============================
+// PARA Pantallas más pequeñas (max-width: 600px)
+// ===============================
+@media (max-width: 600px) {
+    .card-item {
+        flex: 1 1 100%;  // 1 columna en dispositivos pequeños
+        //min-height: 300px;  // Establece una altura mínima consistente
+    }
+}
+
+@media (max-width: 1024px) {
+    .card-item {
+      flex: 1 1 calc(50% - 1rem);
+    }
+}
+
+  
+//=================================
+//        PROGRESS BAR
+//=================================
+.mantenimiento-card {
+    text-align: center;
+    
+    .p-progressbar {
+        border-radius: 9999px;
+        height: 20px; // Puedes ajustar el alto si deseas
+        background-color: #f1f1f1;
+        transition: width 0.6s ease-in-out; /* animar el progreso con un 'transition' para suavizar el cambio */
+        
+        .p-progressbar-label {
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+    
+    }
+
+    small {
+      display: block;
+      margin-top: 0.75rem;
+      color: #6c757d;
+      font-size: 0.85rem;
+    }
+}
+
+/* Estilos para el ProgressBar */
+.p-progressbar-value {
+    border-radius: 9999px !important;
+    //background-color: #10b981 !important; // Verde tipo tailwind (puedes cambiarlo)
+    font-weight: bold;
+    color: #fff;
+    justify-content: center;
+    //transition: width 0.6s ease-in-out, background-color 0.6s ease-in-out; /* Transición suave */
+    transition: width 0.6s ease-in-out, background 1s ease-in-out; /* Añadimos transición más suave */
+    background: linear-gradient(to right, #22c55e, #eab308, #ef4444); /* Definir gradiente general */
+    //transition: width 0.6s ease-in-out, background-color 0.5s ease;
+    //transition: opacity 0.4s ease-in-out; /* Si deseas un pequeño efecto visual, puedes agregar algo como 'ease' en el texto */
+}
+
+.green-to-yellow {
+    background: linear-gradient(to right, green, yellow);
+}
+  
+.yellow-to-red {
+    background: linear-gradient(to right, yellow, red);
+}
+  
+.green-to-yellow-to-red {
+    background: linear-gradient(to right, green, yellow, red);
+}
+
+
+  /* animar el progreso con un 'transition' para suavizar el cambio */
+.p-progressBar {
+    transition: width 0.6s ease-in-out;
+}
+  
+
+
+
+  
