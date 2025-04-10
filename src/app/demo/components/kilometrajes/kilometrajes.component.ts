@@ -67,7 +67,7 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
         (data) => {
           this.lista = data;
           this.cargando = false;
-          console.log("lista detallada", data)
+          //console.log("lista detallada", data)
         },
         (error) => {
           console.error('Error al cargar los datos', error);
@@ -119,11 +119,11 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
       this.perfilDetalleService.detallesasignacionperfil(perfilId).subscribe(
         (data) => {
           this.asginado = [data];
-          console.log('Detalles de la asignación:', this.asginado);
+          //('Detalles de la asignación:', this.asginado);
 
           // Asignamos el ID de la asignación al modelo entidad
           this.entidad.asignacion_vehiculo = data.id; // Asignamos el valor de asignacion_vehiculo
-          console.log(this.entidad.asignacion_vehiculo);
+          //console.log(this.entidad.asignacion_vehiculo);
         },
         (error) => {
           console.error('Error al obtener los detalles de asignación', error);
@@ -173,7 +173,7 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
 
   getProgresoColor(kilometraje: number): string {
     const progreso = this.getProgreso(kilometraje);
-    console.log("progreso",progreso);
+    //("progreso",progreso);
     if (progreso < 33) {
       return 'green-to-yellow'; // Verde a Amarillo (inicio)
     } else if (progreso >= 33 && progreso < 66) {

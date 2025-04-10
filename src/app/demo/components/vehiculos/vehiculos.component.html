@@ -20,7 +20,7 @@
         [rows]="5" 
         [paginator]="true" 
         [globalFilterFields]="['id', 'tipo_vehiculo', 'numero', 'placa', 'color', 'marca', 'modelo', 'fabricacion', 'kilometraje_inicial', 'numero_serie', 'numero_motor', 'observacion']"
-        [tableStyle]="{ 'min-width': '75rem' }" 
+        [style.width.%]="100"  
         [rowsPerPageOptions]="[5, 10, 20]" 
         [rowHover]="true"
         dataKey="id"
@@ -75,8 +75,8 @@
                     <td>{{entidad.numero_motor}}</td>
                     <td>{{entidad.observacion}}</td>
                     <td>
-                        <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
-                        <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(entidad.id)"></p-button>
+                        <p-button icon="pi pi-pencil" variant="text" severity="warn" class="btn-azul-fuerte mr-2"  [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
+                        <p-button icon="pi pi-trash" variant="text" severity="danger" class="btn-azul-fuerte" [raised]="true" (click)="eliminar(entidad.id)"></p-button>
                     </td>
                 </tr>
             </ng-template>

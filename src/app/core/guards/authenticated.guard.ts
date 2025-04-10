@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/login/auth.service';
+import { of } from 'rxjs';
 
 export const authenticatedGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
@@ -8,8 +9,9 @@ export const authenticatedGuard: CanActivateFn = (route, state) => {
   const token = authService.getToken();
 
   if (token){
-    return router.navigate(['/kilometrajes']);
+    router.navigate(['/kilometrajes']);
+    return of(false); //Bloquea el acceso al login si ya hay token
   }else {
-    return true;
+    return of(true); //Permite el acceso al login
   }
 };

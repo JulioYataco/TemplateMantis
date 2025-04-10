@@ -19,7 +19,7 @@ export class TiposVehiculosComponent extends BaseMetodosCrud<ITipoVehiculos> imp
   }
 
   ngAfterViewInit() {
-    console.log('ViewChild dt:', this.dt);
+    //('ViewChild dt:', this.dt);
     if (!this.dt) {
       console.error("Error: No se encontró la referencia 'dt'");
     }

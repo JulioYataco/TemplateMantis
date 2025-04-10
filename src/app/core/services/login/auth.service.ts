@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http'; //Permite hacer peticiones ht
 import { Injectable } from '@angular/core'; //Convierte la clase en un servicio inyectable
 import { Router } from '@angular/router'; //Permite redireccionar a otras rutas dentro de angular
 import { CookieService } from 'ngx-cookie-service'; //Se usa para manejar cookies en el navegador 
-import { Observable, tap } from 'rxjs'; //Define operaciones asíncronas, como llamadas HTTP y tap: Permite ejecutar codigo adicional cuando se recibe la respuesta HTTP
+import { catchError, Observable, of, switchMap, tap } from 'rxjs'; //Define operaciones asíncronas, como llamadas HTTP y tap: Permite ejecutar codigo adicional cuando se recibe la respuesta HTTP
 import { environment } from 'src/environments/environment'; //Importamos para obtener la variable de entorno apiURL
 import { jwtDecode } from "jwt-decode";
+import { IRefreshResponse } from '../../models/refresh/irefresh-response';
 //import { json } from 'node:stream/consumers';
 @Injectable({
   providedIn: 'root'
@@ -52,7 +53,7 @@ export class AuthService {
 
   //Guardamos el access token
   saveToken(token: string): void {
-    const expiresminutes = new Date(new Date().getTime() + 15 * 60 * 1000);
+    const expiresminutes = new Date(new Date().getTime() + 45 * 60 * 1000);
     this.cookieService.set('access_token', token, expiresminutes);
   }
 
@@ -63,7 +64,7 @@ export class AuthService {
         //console.log(response);
         if (response.access_token && response.refresh){
           //Agregamos los token a la cokies
-          const expiresminute = new Date(new Date().getTime() + 15 * 60 * 1000);
+          const expiresminute = new Date(new Date().getTime() + 45 * 60 * 1000);
           this.cookieService.set("access_token", response.access_token, expiresminute);
           this.cookieService.set("refresh_token", response.refresh, 7);
           
@@ -92,28 +93,38 @@ export class AuthService {
   }
 
   //Metodo para refrescar token
-  refreshToken(): Observable<any> {
+  refreshToken(): Observable<IRefreshResponse> {
     const refresh = this.getRefreshToken();
-    return this.httpClient.post<any>(this.REFRESH_URL, { refresh: refresh }).pipe(
-      tap(response => {
-        //console.log("Respuesta de refresh", response);
-        if (response.access_token){
-          this.saveToken(response.access_token);
+    if (!refresh) {
+      throw new Error('No refresh token disponible');
+    }
+    return this.httpClient.post<IRefreshResponse>(this.REFRESH_URL, { refresh: refresh }).pipe(
+      switchMap(response => {
+        console.log("Respuesta de refresh", response);
+        if (response.access) {
+          this.saveToken(response.access);
+          //Si en la respuesta recibimos los datos del usuario, actualizamos el estado
+          if (response.id && response.username && response.rol){
 
-          //Guardar los datos del usuario
-          this.usuario = {
-            id: response.id,
-            username: response.username,
-            first_name: response.first_name,
-            last_name: response.last_name,
-            rol: response.rol
-          };
+            //Guardar los datos del usuario
+            this.usuario = {
+              id: response.id,
+              username: response.username,
+              first_name: response.first_name,
+              last_name: response.last_name,
+              rol: response.rol
+            };
 
-          localStorage.setItem('usuario', JSON.stringify(this.usuario)); // Actualizar localStorage
-
+            localStorage.setItem('usuario', JSON.stringify(this.usuario)); // Actualizar localStorage
+            
+          }
           //console.log("Token actualizado en cookies", response);
+          return of(response);
+        } else {
+          return of(null);
         }
-      })
+      }),
+      catchError(() => of(null))
     );
   }
 

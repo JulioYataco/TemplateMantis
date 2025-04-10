@@ -17,7 +17,7 @@ export class BaseGenericoService<T> { //con T inidicamos que la clase es generic
 
   init(rutaEntidad: string){
     this.apiUrl = `${environment.apiUrl}/${rutaEntidad}`;
-    console.log('API URL inicializada:', this.apiUrl);
+    //console.log('API URL inicializada:', this.apiUrl);
   }
 
   private headers = new HttpHeaders({ //la clase httpHeaders permite definir encabezados

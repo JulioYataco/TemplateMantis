@@ -75,8 +75,8 @@
           [loading]="cargando" 
           [rows]="10" 
           [paginator]="true" 
-          [globalFilterFields]="['id','fecha_crea', 'numero', 'kilometraje','kilometraje_faltante','nombre_tipo_vehiculo','first_name','nombre_area','jefatura','placa', 'color', 'modelo', 'fabricacion', 'numero_serie', 'numero_motor', 'observacion']"
-          [tableStyle]="{ 'min-width': '75rem' }" 
+          [globalFilterFields]="['id','fecha_crea', 'numero', 'kilometraje','kilometraje_faltante','nombre_tipo_vehiculo','first_name','nombre_area','jefatura_nombre','placa', 'color', 'modelo', 'fabricacion', 'numero_serie', 'numero_motor', 'observacion']"
+          [style.width.%]="100"  
           [rowsPerPageOptions]="[5, 10, 20]" 
           [rowHover]="true"
           dataKey="id"
@@ -85,6 +85,7 @@
           emptyMessage="No hay registros disponibles"
           >
 
+          <!--Cabecera de la tabla -->
           <ng-template pTemplate="header">
             <tr>
               <th pSortableColumn="id">Id <p-sortIcon field="id" /></th>

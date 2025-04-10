@@ -4,7 +4,7 @@ import { IKilometrajes } from 'src/app/core/models/ikilometrajes';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { IReportekilometrajes } from 'src/app/core/models/ireporte-kilometrajes';
+//import { IReportekilometrajes } from 'src/app/core/models/ireporte-kilometrajes';
 import { IReporteKilometrajePerfilId } from 'src/app/core/models/ireporte-kilometraje-perfil-id';
 
 @Injectable({

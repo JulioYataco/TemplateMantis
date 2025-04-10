@@ -20,7 +20,7 @@
         [rows]="5" 
         [paginator]="true" 
         [globalFilterFields]="['id', 'nombre_area', 'sede', 'jefatura', 'full_name', 'first_name']"
-        [tableStyle]="{ 'min-width': '75rem' }" 
+        [style.width.%]="100"  
         [rowsPerPageOptions]="[5, 10, 20]" 
         [rowHover]="true"
         dataKey="id"
@@ -32,7 +32,6 @@
             <th pSortableColumn="id">ID <p-sortIcon field="id" /></th>
             <th pSortableColumn="nombre_area">Nombre area <p-sortIcon field="nombre_area" /></th>
             <th pSortableColumn="sede">Sede <p-sortIcon field="sede" /></th>
-            <th pSortableColumn="jefatura">Jefatura <p-sortIcon field="jefatura" /></th>
             <th >Operaciones</th>
           </tr>
         </ng-template>
@@ -49,7 +48,6 @@
                 <td>{{entidad.id}}</td>
                 <td>{{entidad.nombre_area}}</td>
                 <td>{{obtenerNombreSede(entidad.sede)}}</td>
-                <td>{{obtenerNombrepersona(entidad.jefatura)}}</td>
                 <td>
                   <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
                   <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(entidad.id)"></p-button>
@@ -80,16 +78,6 @@
                   optionValue="id"
                   [(ngModel)]="entidad.sede"
                   placeholder="Seleccione una sede">
-              </p-dropdown>
-            </div>
-            <div>
-              <label for="data" class="block font-bold mb-3">Jefe</label>
-                <p-dropdown fluid [appendTo]="'body'"
-                  [options]="perfilDetalles"
-                  optionLabel="full_name"
-                  optionValue="usuario_id"
-                  [(ngModel)]="entidad.jefatura"
-                  placeholder="Seleccione un Jefe">
               </p-dropdown>
             </div>
         </div>

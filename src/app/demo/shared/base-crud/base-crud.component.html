@@ -9,7 +9,6 @@
       <ng-template #end>
         <div class="busqueda-export">
           <input pInputText type="text" class="busqueda-input" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
-          <p-button label="Export" icon="pi pi-upload" class="boton-exportar" (click)="exportCSV()" />
         </div>
       </ng-template>
     </p-toolbar>
@@ -20,7 +19,7 @@
       [value]="lista" 
       [rows]="5" 
       [paginator]="true" 
-      [tableStyle]="{'min-width': '75rem'}" 
+      [style.width.%]="100"  
       [rowsPerPageOptions]="[5,10,20]" 
       [rowHover]="true" 
       dataKey="id" 

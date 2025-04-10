@@ -53,7 +53,7 @@ export class ReporteKilometrajesComponent extends BaseMetodosCrud<IReportekilome
     this.cargando = true;
     this.modeloService.getAll().subscribe(
       (data) => {
-        console.log()
+        //console.log();
         this.lista = data; //Guardamos los datos sin filtrar
         this.listaFiltrada = [...data];  // Inicializamos la lista filtrada con todos los datos
         //this.aplicarFiltros(); // <- aquí aplicamos filtros locales
@@ -71,10 +71,10 @@ export class ReporteKilometrajesComponent extends BaseMetodosCrud<IReportekilome
     .subscribe( 
       (data) => {
 
-        console.log("Observaciones", this.observacionSeleccionada);
-        console.log("Fecha Inicio", this.fecha_inicio);
-        console.log("Fecha Fin", this.fecha_fin);
-        console.log("filtro del backend", data);
+        //("Observaciones", this.observacionSeleccionada);
+        //console.log("Fecha Inicio", this.fecha_inicio);
+        //console.log("Fecha Fin", this.fecha_fin);
+        //console.log("filtro del backend", data);
         this.listaFiltrada = data; //Asignamos los datos obtenidos sin filtro
         this.error = '';
       },
@@ -84,9 +84,9 @@ export class ReporteKilometrajesComponent extends BaseMetodosCrud<IReportekilome
         console.error(error);
       }
     );
-    console.log("Observaciones", this.observacionSeleccionada);
-    console.log("Fecha Inicio", this.fecha_inicio);
-    console.log("Fecha Fin", this.fecha_fin);
+    // ("Observaciones", this.observacionSeleccionada);
+    // console.log("Fecha Inicio", this.fecha_inicio);
+    // console.log("Fecha Fin", this.fecha_fin);
   }
 
   // aplicarFiltros(): void {

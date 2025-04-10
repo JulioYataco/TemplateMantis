@@ -1,4 +1,4 @@
-@import 'primeflex/primeflex.scss';
+//@import 'primeflex/primeflex.scss';
 /* Contenedor de la tabla para scroll horizontal en móviles */
 .tabla-contenedor {
     overflow-x: auto;
@@ -13,7 +13,7 @@ p-table {
     font-size: 16px;
 }
 
-/* 🔍 Input de búsqueda con icono */
+/* Input de búsqueda con icono */
 .busqueda-input {
     width: 100%;
     max-width: 200px;
@@ -21,7 +21,7 @@ p-table {
     position: relative;
 }
 
-/* 📌 Icono de la lupa dentro del input */
+/* Icono de la lupa dentro del input */
 .p-input-icon-left {
     position: relative;
     display: flex;
@@ -36,7 +36,7 @@ p-table {
     color: #888;
 }
 
-/* 📊 Ajuste del espaciado de la tabla */
+/*  Ajuste del espaciado de la tabla */
 p-table th, p-table td {
     white-space: nowrap;
     padding: 5px 8px; /* Reducimos padding en móviles */
@@ -62,33 +62,7 @@ p-table th, p-table td {
     max-width: 200px;
 }
 
-/* Cambiar el borde del input al pasar el cursor */
-// .busqueda-input:focus {
-//     border-color: #007bff; /* Azul */
-//     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Resalta el borde en azul claro */
-// }
-
-/* Cambiar el borde del input cuando está en foco */
-// .busqueda-input {
-//     border-color: #007bff; /* Azul */
-// }
-
-// :host ::ng-deep .boton-exportar {
-//     background-color: #007bff !important; /* Azul fuerte */
-//     color: white !important;
-//     border: none !important;
-//     font-weight: bold;
-//     padding: 0.5rem 1rem;
-//     border-radius: 5px;
-//     transition: background-color 0.3s ease-in-out;
-// }
-
-// /* 🖱️ Efecto hover */
-// :host ::ng-deep .boton-exportar:hover {
-//     background-color: #0056b3 !important; /* Azul más oscuro */
-// }
-
-/* 🎨 Mejoras en los botones de acción */
+/*  Mejoras en los botones de acción */
 .acciones {
     display: flex;
     gap: 0.3rem;
@@ -120,13 +94,13 @@ p-table th, p-table td {
     gap: 1rem;
 }
 
-/* 📱 Estilos específicos para pantallas pequeñas */
+/* Estilos específicos para pantallas pequeñas */
 @media screen and (max-width: 768px) {
     p-table {
         font-size: 14px;
     }
 
-    /* 🔄 Acomoda el input y los botones */
+    /* Acomoda el input y los botones */
     .busqueda-export {
         display: flex;
         flex-direction: column;
@@ -150,62 +124,12 @@ p-table th, p-table td {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// .crud-container {
-//     width: 100%; // Ocupará el 90% de la pantalla
-//     //max-width: 1200px; // No se expandirá demasiado en pantallas grandes
-//     margin:20px auto;
-//     padding: 5px;
-//     background: #6c7579;
-//     border-radius: 8px;
-//     //box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
-//     //box-shadow: 0 0px 10px rgba(78, 209, 66, 0.1);
-
-//     @media (max-width: 768px) {
-//         width: 95%; // Más ancho en móviles
-//         padding: 10px;
-//     }
-// }
-
-// ::ng-deep .p-toolbar {
-//     margin-bottom: 1.5rem;
-// }
-
-// ::ng-deep .p-button .coloredit {
-//     background: #da790b
-// }
-
-// // ::ng-deep .p-dialog {
-// //     height: 50%;
-// // }
-
-// //Tabla
-// //::ng-deep : Permite que el estilo atraviese la encapsulación de Angular
-// ::ng-deep .p-datatable-thead > tr > th { //.p-datatable-thead: Clase que PrimeNG usa para la cabecera de la tabla
-//     //background: #f8f9fa; // Color de fondo de encabezado
-//     text-align: center;
-//     padding: 10px;
-//     //border-bottom: 1px solid #ddd;
-// }
-
-// ::ng-deep .p-datatable-tbody > tr > td {
-//     padding: 10px;
-//     text-align: center;
-//     //border-bottom: 1px solid #ddd;
-// }
+::ng-deep .btn-azul-fuerte {
+    background-color: #0056b3 !important; // Azul fuerte
+    color: #fff !important;              // Texto blanco
+    border: none !important;
+}
+  
+::ng-deep .btn-azul-fuerte:hover {
+    background-color: #004494 !important; // Un azul más oscuro al hacer hover
+}

@@ -46,7 +46,7 @@ export class BaseCrudComponent<T> implements OnInit{
     getData(){
         this.modeloService.getAll().subscribe(data => {
             this.lista = data;
-            console.log("lista:", data);
+            // console.log("lista:", data);
         });
     }
 
@@ -69,13 +69,13 @@ export class BaseCrudComponent<T> implements OnInit{
     //Para editar registro
     CargarDatosModal(entidad: T) {
         this.entidad = { ...entidad }; //Copia objeto
-        console.log("datos a editas:", entidad);
+        // console.log("datos a editas:", entidad);
         this.displayModal = true; //abre el modal
     }
 
     //Crear o editar
     guardar() {
-        console.log('Se llamó al método guardar', this.entidad);
+        // console.log('Se llamó al método guardar', this.entidad);
         // Si tiene id, entonces es edición
         if ((this.entidad as any).id) {
             this.confirmationService.confirm({
@@ -85,7 +85,7 @@ export class BaseCrudComponent<T> implements OnInit{
                 accept: () => {
                     this.modeloService.update((this.entidad as any).id, this.entidad).subscribe({
                         next: () => {
-                            console.log('Registro actualizado');
+                            // console.log('Registro actualizado');
                             this.getData();
                             this.messageService.add({ severity: 'success', summary: 'Editado', detail: 'Registro editado correctamente'});
                             this.displayModal = false;
