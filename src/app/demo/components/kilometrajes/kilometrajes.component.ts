@@ -33,7 +33,6 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
 
   override lista: IReportekilometrajes[] = []
 
-
   override entidad: IKilometrajes = {
     id: 0,
     asignacion_vehiculo: 0, // Inicializamos con 0, que se actualizará luego
@@ -67,7 +66,7 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
         (data) => {
           this.lista = data;
           this.cargando = false;
-          //console.log("lista detallada", data)
+          console.log("lista detallada", data)
         },
         (error) => {
           console.error('Error al cargar los datos', error);
@@ -76,38 +75,6 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
       )
     }
   }
-
-  // override ngOnInit(): void {
-  //   super.ngOnInit();
-  //   //this.obtenerDetallesasignado();
-  // }
-
-
-
-  // override getData(): void {
-  //   const usuario = localStorage.getItem('usuario');
-  //   if (usuario) {
-  //     const usuarioData = JSON.parse(usuario);
-  //     const perfilId = usuarioData.id;
-  
-  //     this.perfilDetalleService.detallesasignacionperfil(perfilId).subscribe(
-  //       (data) => {
-  //         this.asginado = [data];
-  //         this.entidad.asignacion_vehiculo = data.id;
-  
-  //         this.modeloService.listarPorPerfilId(data.id).subscribe(
-  //           (listaFiltrada) => {
-  //             this.lista = listaFiltrada;
-  //           },
-  //           (err) => console.error("Error al cargar kilometrajes filtrados", err)
-  //         );
-  //       },
-  //       (error) => {
-  //         console.error('Error al obtener los detalles de asignación', error);
-  //       }
-  //     );
-  //   }
-  // }
 
   obtenerDetallesasignado(): void {
     const usuario = localStorage.getItem('usuario');
@@ -145,8 +112,8 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
   }
 
   //Esto permite calcular en tiempo real
-  onKilometrajeChange(): void {
-    this.kmFaltantes = this.calcularKmFaltantes(this.entidad.kilometraje, this.limiteKm);
+  onKilometrajeChange(kilometro_min: number): void {
+    this.kmFaltantes = this.calcularKmFaltantes(this.entidad.kilometraje, kilometro_min);
     this.entidad.kilometraje_faltante = this.kmFaltantes; // Guardamos en la entidad
   }
 
@@ -164,15 +131,15 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
     return 'success';
   }
 
-  getProgreso(kilometraje: number, limite: number = this.limiteKm): number {
+  getProgreso(kilometraje: number, limite: number): number {
     if (!kilometraje) return 0; // Devuelve 0 si kilometraje es undefined o nulo
     const progreso = (kilometraje % limite) / limite * 100;
     return Math.min(Math.round(progreso), 100); // redondea y limita a 100%
     
   }
 
-  getProgresoColor(kilometraje: number): string {
-    const progreso = this.getProgreso(kilometraje);
+  getProgresoColor(kilometraje: number, limite: number): string {
+    const progreso = this.getProgreso(kilometraje, limite);
     //("progreso",progreso);
     if (progreso < 33) {
       return 'green-to-yellow'; // Verde a Amarillo (inicio)
@@ -181,34 +148,5 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
     }
     return 'green-to-yellow-to-red'; // Verde a Amarillo a Rojo (cerca de 100%)
   }
-
   
 }
-
-// getProgressClass(kilometraje: number): string {
-//   const progress = this.getProgreso(kilometraje);
-//   if (progress >= 90) {
-//     return 'icon-progress-approaching';  // Aplica animación si está cerca de 100%
-//   }
-//   return ''; // Sin animación si el progreso es bajo
-// }
-
-
-  // obtenerVehiculo(): void {
-  //   this.vehiculoService.getAll().subscribe(data => {
-  //     this.vehiculos = data.map(vehiculo => ({
-  //       ...vehiculo,
-  //       numero_placa: `N° Moto ${vehiculo.numero }  -  ${ vehiculo.placa}`,
-  //       color: vehiculo.color,  // Asegúrate de que 'color' sea una propiedad válida en tu respuesta
-  //     }));
-  //   });
-  // }
-
-  // obtenerPerfilesDetalle(): void {
-  //   this.perfilDetalleService.perfilDetalles().subscribe(data => {
-  //     this.perfilDetalles = data.map(perfil => ({
-  //       ...perfil,
-  //       full_name: `${perfil.first_name} ${perfil.last_name}`
-  //     }));
-  //   });
-  // }

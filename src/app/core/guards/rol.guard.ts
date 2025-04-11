@@ -22,6 +22,6 @@ export const rolGuard: CanActivateFn = (route, state) => {
     return of(true);  // Devuelve un Observable<boolean> // Permite el acceso si el rol coincide
   }
   
-  router.navigate(['/unauthorized']); // Redirige si el usuario no tiene el rol correcto
+  router.navigate(['/kilometrajes']); // Redirige si el usuario no tiene el rol correcto
   return of(false);
 };
