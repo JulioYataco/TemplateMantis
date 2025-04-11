@@ -20,6 +20,10 @@ export const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'unauthorized',
+        loadComponent: () => import('./demo/error/unauthorized/unauthorized.component').then((c) => c.UnauthorizedComponent)
+      },
+      {
         path: 'sedes',
         loadComponent: () => import('./demo/components/sedes/sedes.component').then((c) => c.SedesComponent),
         canActivate: [authGuard, rolGuard],

@@ -44,16 +44,19 @@ export class AuthService {
 
   getUserRole(): string | null {
     const token = this.getToken();
-    if(token){
-      const decodedToken: any = jwtDecode(token);
-      return decodedToken.rol;
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload?.rol || null;
+    } catch {
+      return null;
     }
-    return null;
   }
 
   //Guardamos el access token
   saveToken(token: string): void {
-    const expiresminutes = new Date(new Date().getTime() + 45 * 60 * 1000);
+    const expiresminutes = new Date(new Date().getTime() + 30 * 60 * 1000);
     this.cookieService.set('access_token', token, expiresminutes);
   }
 
@@ -64,7 +67,7 @@ export class AuthService {
         //console.log(response);
         if (response.access_token && response.refresh){
           //Agregamos los token a la cokies
-          const expiresminute = new Date(new Date().getTime() + 45 * 60 * 1000);
+          const expiresminute = new Date(new Date().getTime() + 30 * 60 * 1000);
           this.cookieService.set("access_token", response.access_token, expiresminute);
           this.cookieService.set("refresh_token", response.refresh, 7);
           
@@ -95,6 +98,7 @@ export class AuthService {
   //Metodo para refrescar token
   refreshToken(): Observable<IRefreshResponse> {
     const refresh = this.getRefreshToken();
+    console.log("refresh:", refresh);
     if (!refresh) {
       throw new Error('No refresh token disponible');
     }
@@ -104,20 +108,17 @@ export class AuthService {
         if (response.access) {
           this.saveToken(response.access);
           //Si en la respuesta recibimos los datos del usuario, actualizamos el estado
-          if (response.id && response.username && response.rol){
+          //Guardar los datos del usuario
+          this.usuario = {
+            id: response.id,
+            username: response.username,
+            first_name: response.first_name,
+            last_name: response.last_name,
+            rol: response.rol
+          };
 
-            //Guardar los datos del usuario
-            this.usuario = {
-              id: response.id,
-              username: response.username,
-              first_name: response.first_name,
-              last_name: response.last_name,
-              rol: response.rol
-            };
-
-            localStorage.setItem('usuario', JSON.stringify(this.usuario)); // Actualizar localStorage
-            
-          }
+          localStorage.setItem('usuario', JSON.stringify(this.usuario)); // Actualizar localStorage
+          
           //console.log("Token actualizado en cookies", response);
           return of(response);
         } else {

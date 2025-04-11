@@ -15,14 +15,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
 
   // Excluir la petición de login y token refresh
-  const excluirUrls = ['/api/Login/', 'api/token/refresh/'];
+  const excluirUrls = ['/api/Login/', '/api/token/refresh/'];
   if (excluirUrls.some(url => req.url.includes(url))) {
     return next(req); //No tocamos ni el login ni el refresh
   }
   
   let authReq = req;
   if (token) {
-    //console.log("token en interceptor:", token);
+    console.log("token interceptor:", token);
     authReq = req.clone({
       setHeaders: { Authorization: `Bearer ${token}`},
     });
@@ -30,7 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
   return next(authReq).pipe(
     catchError((error) => {
-      //console.log("error en interceptor", error);
+      console.log("error en interceptor", error);
       if (error.status === 401) {
         //Si ya estamos en proceso de refersh, esperamos al resultado
         if (!refreshInProgress) {
@@ -40,10 +40,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           return authService.refreshToken().pipe(
             switchMap((newToken) => {
               refreshInProgress = false;
+
               if (!newToken?.access) {
                 throw new Error("No se recibió un nuevo token");
               }
-              //console.log("nuevo token:", newToken);
+
+              console.log("nuevo token:", newToken);
               // Guardamos el nuevo token
               authService.saveToken(newToken.access);
               refreshTokenSubject.next(newToken.access); //Avisamos a los demás
@@ -52,9 +54,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
               const newAuthReq = req.clone({
                 setHeaders: { Authorization: `Bearer ${newToken.access}` },
               });
+
               return next(newAuthReq);
             }),
-              catchError((refreshError) => {
+            catchError((refreshError) => {
                 //Si da error en el refrescar token, cerramos la sesion
               //console.error("Error en refresh token", refreshError);
               refreshInProgress = false;
@@ -75,6 +78,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
               const newAuthReq = req.clone ({
                 setHeaders: { Authorization: `Bearer ${newToken}`},
               });
+
               return next(newAuthReq);
             })
           );
