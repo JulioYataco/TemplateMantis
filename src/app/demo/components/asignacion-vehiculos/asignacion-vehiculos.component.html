@@ -91,11 +91,11 @@
             </div>
             <div>
                 <label for="fecha_asignacion" class="block font-bold mb-3">Fecha asignación</label>
-                <p-datepicker id="fecha_asignacion" [(ngModel)]="entidad.fecha_asignacion" dateFormat="dd-MM-yy" placeholder="Fecha asignación" [showIcon]="true" fluid />
+                <p-datepicker id="fecha_asignacion" [(ngModel)]="entidad.fecha_asignacion" dateFormat="dd-MM-yy" placeholder="Fecha asignación" [showIcon]="true" [appendTo]="'body'" fluid />
             </div>
             <div>
                 <label for="fecha_fin" class="block font-bold mb-3">Fecha fin</label>
-                <p-datepicker id="fecha_fin" [(ngModel)]="entidad.fecha_fin" dateFormat="dd-MM-yy" placeholder="Fecha fin" [showIcon]="true" fluid />
+                <p-datepicker id="fecha_fin" [(ngModel)]="entidad.fecha_fin" dateFormat="dd-MM-yy" placeholder="Fecha fin" [showIcon]="true" [appendTo]="'body'" fluid />
             </div>
         </div>
     </ng-template>
