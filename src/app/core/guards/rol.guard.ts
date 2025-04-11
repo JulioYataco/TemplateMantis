@@ -20,8 +20,14 @@ export const rolGuard: CanActivateFn = (route, state) => {
 
   if (userRole && requiredRole.includes(userRole)) {
     return of(true);  // Devuelve un Observable<boolean> // Permite el acceso si el rol coincide
+  } else {
+    const redirect = authService.getRedirectRouteByRole();
+    if (state.url !== redirect) {
+      router.navigate([redirect]);
+    }
+    return of(false);
   }
   
-  router.navigate(['/kilometrajes']); // Redirige si el usuario no tiene el rol correcto
-  return of(false);
+  // router.navigate(['/unauthorized']); // Redirige si el usuario no tiene el rol correcto
+  // return of(false);
 };

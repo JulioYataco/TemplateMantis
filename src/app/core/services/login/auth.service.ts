@@ -70,7 +70,9 @@ export class AuthService {
           const expiresminute = new Date(new Date().getTime() + 30 * 60 * 1000);
           this.cookieService.set("access_token", response.access_token, expiresminute);
           this.cookieService.set("refresh_token", response.refresh, 7);
-          
+
+          const redirectRoute = this.getRedirectRouteByRole();
+          this.router.navigate([redirectRoute]);
           //Guardar los datos del usuario
           this.usuario = {
             id: response.id,
@@ -152,6 +154,18 @@ export class AuthService {
       this.eliminarCookies();
       localStorage.removeItem('usuario'); // Eliminar datos del usuario de localStorage
 
+    }
+  }
+
+  getRedirectRouteByRole(): string {
+    const role = this.getUserRole();
+    switch (role) {
+      case 'Administrador':
+        return '/reporte-kilometrajes';
+      case 'Conductor':
+        return '/kilometrajes';
+      default:
+        return '/unauthorized';
     }
   }
 }

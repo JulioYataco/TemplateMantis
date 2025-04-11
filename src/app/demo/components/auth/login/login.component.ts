@@ -33,7 +33,13 @@ export default class LoginComponent {
       next: (response) => {
         this.isLoading = false;
         if (response.access_token) {
-          this.router.navigate(['/sedes']);
+
+          // Guarda el token y el rol si aún no lo hacés
+          // this.authService.setToken(response.access_token);
+          // this.authService.setUserRole(response.role); // Asegúrate de que te lo mande el backend
+          // Redirige según el rol
+          const ruta = this.authService.getRedirectRouteByRole();
+          this.router.navigate([ruta]);
         }
       },
       error: (error) => {
