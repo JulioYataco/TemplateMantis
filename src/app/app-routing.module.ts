@@ -12,6 +12,11 @@ import { rolGuard } from './core/guards/rol.guard';
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: AdminComponent,
     children: [
       {
