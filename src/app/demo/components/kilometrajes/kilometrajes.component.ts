@@ -13,6 +13,7 @@ import { IReportekilometrajes } from 'src/app/core/models/ireporte-kilometrajes'
 import { ProgressBarModule } from 'primeng/progressbar';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
+import { IAsignacionVehiculos } from 'src/app/core/models/iasignacion-vehiculos';
 
 @Component({
   selector: 'app-kilometrajes',
@@ -22,16 +23,18 @@ import { TagModule } from 'primeng/tag';
 })
 export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
   
+  asignacion_vehiculos: IAsignacionVehiculos[] = [];
   vehiculos: IVehiculos[] = [];
   perfilDetalles: IPerfilDetalles[] = [];
   asignacionPerfilDetalles: IAsignacionPorPerfil[] = [];
 
   asginado: IAsignacionPorPerfil[] = [];
+  vehiculoAsignado: IAsignacionPorPerfil | null = null;
 
   kmFaltantes: number = 0;
   limiteKm: number = 1000; // Puedes cambiar este valor según la lógica de tu sistema
 
-  override lista: IReportekilometrajes[] = []
+  override lista: IReportekilometrajes[] = [];
 
   override entidad: IKilometrajes = {
     id: 0,
@@ -59,14 +62,16 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
   override getData(){
     this.cargando = true;
     const usuario = localStorage.getItem('usuario');
+    //console.log("usuario", usuario);
     if (usuario) {
       const usuarioData = JSON.parse(usuario);
+      //console.log("usuarioData", usuarioData);
       const perfilId = usuarioData.id;
       this.modeloService.listarPorPerfilId(perfilId).subscribe(
         (data) => {
           this.lista = data;
           this.cargando = false;
-          console.log("lista detallada", data)
+          //console.log("lista detallada", data)
         },
         (error) => {
           console.error('Error al cargar los datos', error);
@@ -85,8 +90,9 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
       //Llamamos al servidor con el perfilId
       this.perfilDetalleService.detallesasignacionperfil(perfilId).subscribe(
         (data) => {
-          this.asginado = [data];
-          //('Detalles de la asignación:', this.asginado);
+          console.log("data", data);
+          this.vehiculoAsignado = data;
+          console.log('Detalles de la asignación:', this.vehiculoAsignado);
 
           // Asignamos el ID de la asignación al modelo entidad
           this.entidad.asignacion_vehiculo = data.id; // Asignamos el valor de asignacion_vehiculo

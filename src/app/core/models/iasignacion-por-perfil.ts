@@ -2,20 +2,24 @@ export interface IAsignacionPorPerfil {
     id: number;
     estado: string;
     perfil: string;
-    username: string,
-    first_name: string,
-    last_name: string,
-    email: string,
-    is_active: boolean,
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    is_active: boolean;
     codigo: string;
     telefono: string;
-    area_id: number;
     vehiculo_id: number;
     placa: string;
     marca: string;
     modelo: string;
     kilometraje_inicial: number;
     numero_serie: string;
+    numero_motor: string;
     numero: number;
-    color: string,
+    area_id: number;
+    nombre_area: string;
+    nombre_tipo_vehiculo: string;
+    tipo_vehiculo_id: number;
+    color: string;
 }
