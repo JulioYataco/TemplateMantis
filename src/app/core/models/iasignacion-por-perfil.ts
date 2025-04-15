@@ -22,4 +22,6 @@ export interface IAsignacionPorPerfil {
     nombre_tipo_vehiculo: string;
     tipo_vehiculo_id: number;
     color: string;
+    kilometro_min: number;
+    kilometro_max: number;
 }

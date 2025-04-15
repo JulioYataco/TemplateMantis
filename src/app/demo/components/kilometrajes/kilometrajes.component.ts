@@ -31,6 +31,8 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
   asginado: IAsignacionPorPerfil[] = [];
   vehiculoAsignado: IAsignacionPorPerfil | null = null;
 
+  kilometrajeRestante: number | string = 'cargando...';
+
   kmFaltantes: number = 0;
   limiteKm: number = 1000; // Puedes cambiar este valor según la lógica de tu sistema
 
@@ -57,6 +59,7 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
     super.ngOnInit();
     this.getData();
     this.obtenerDetallesasignado();
+    //this.setkilometrajeRestante();
   }
 
   override getData(){
@@ -90,9 +93,10 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
       //Llamamos al servidor con el perfilId
       this.perfilDetalleService.detallesasignacionperfil(perfilId).subscribe(
         (data) => {
-          console.log("data", data);
+          //console.log("data", data);
           this.vehiculoAsignado = data;
-          console.log('Detalles de la asignación:', this.vehiculoAsignado);
+          this.asginado = [data];
+          //console.log('Detalles de la asignación:', this.asginado);
 
           // Asignamos el ID de la asignación al modelo entidad
           this.entidad.asignacion_vehiculo = data.id; // Asignamos el valor de asignacion_vehiculo
@@ -121,14 +125,23 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
   onKilometrajeChange(kilometro_min: number): void {
     this.kmFaltantes = this.calcularKmFaltantes(this.entidad.kilometraje, kilometro_min);
     this.entidad.kilometraje_faltante = this.kmFaltantes; // Guardamos en la entidad
+    //return this.entidad.kilometraje_faltante;
   }
 
-  getEstadoKilometraje(faltante: number): string {
-    if (faltante <= 100) return 'Mantenimiento urgente';
-    if (faltante <= 500) return 'Pronto mantenimiento';
-    if (faltante <= 800) return 'En observación';
-    return 'Sin novedad';
-  }
+  // setkilometrajeRestante(): void {
+  //   //console.log("sd", this.vehiculoAsignado);
+  //   //Si existen datos en la lista, asignamos el ultimo registro
+  //   if (this.lista?.length > 0) {
+  //     //console.log(this.lista?.length);
+  //     this.kilometrajeRestante = this.lista[0].kilometraje_faltante;
+  //     console.log("fwa",  this.lista[0].kilometraje_faltante);
+  //   } else if (this.vehiculoAsignado?.kilometraje_inicial != null) {
+  //     this.kilometrajeRestante = this.calcularKmFaltantes(this.vehiculoAsignado.kilometraje_inicial, this.vehiculoAsignado.kilometro_min);
+  //     //console.log("km restante", this.kilometrajeRestante);
+  //   }else {
+  //     this.kilometrajeRestante = 'No disponible';
+  //   }
+  // }
 
   getColorKilometraje(faltante: number): 'danger' | 'warn' | 'info' | 'success' {
     if (faltante <= 100) return 'danger';

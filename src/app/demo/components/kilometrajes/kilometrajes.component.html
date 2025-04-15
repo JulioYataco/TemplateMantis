@@ -20,7 +20,7 @@
       <h3 class="text-center text-sm text-gray-600">Kilometraje Actual</h3>
       <p class="text-center card-value">
         <i class="pi pi-compass mr-2 text-primary text-base align-middle"></i>
-        {{lista?.[0]?.kilometraje}} km
+        {{lista?.length > 0 ? lista?.[0]?.kilometraje + ' km': vehiculoAsignado?.kilometraje_inicial}}
       </p>
     </div>
   </p-card>
@@ -31,7 +31,7 @@
       <h3 class="text-center text-sm text-gray-600">Kilometraje Restantes</h3>
       <p class="text-center card-value">
         <i class="pi pi-flag mr-2 text-danger text-base align-middle"></i>
-        {{ lista?.[0]?.kilometraje_faltante }} km
+        {{ lista?.length > 0 ? lista?.[0]?.kilometraje_faltante + ' km': 0}}
       </p>
       <!--<div class="mt-2">
         <p-tag 
@@ -47,14 +47,14 @@
     <ng-template pTemplate="content">
       <div class="text-center">
         <p-progressBar 
-          [value]="getProgreso(lista?.[0]?.kilometraje, lista?.[0]?.kilometro_min)" 
+          [value]="getProgreso(lista?.[0]?.kilometraje, vehiculoAsignado?.kilometro_min)" 
           [showValue]="true" 
           styleClass="w-full progress-redondeado"
-          [ngClass]="getProgresoColor(lista?.[0]?.kilometraje, lista?.[0]?.kilometro_min)">
+          [ngClass]="getProgresoColor(lista?.[0]?.kilometraje, vehiculoAsignado?.kilometro_min)">
         </p-progressBar>
         <small class="block mt-2 text-color-secondary">
           <i class="pi pi-exclamation-triangle mr-2 text-warning text-base align-middle"></i>
-          Cada {{lista?.[0]?.kilometro_min}} km se requiere mantenimiento obligatorio
+          Cada {{vehiculoAsignado?.kilometro_min}} km se requiere mantenimiento obligatorio
         </small>
       </div>
     </ng-template>
@@ -131,6 +131,13 @@
             </tr>
           </ng-template>
         </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5" class="text-center text-gray-600">
+              No hay registros aún. ¡Vamos, regístralo por primera vez!
+            </td>
+          </tr>
+        </ng-template>
     </p-table>
 </div>
 
@@ -151,11 +158,11 @@
             </div>
             <div>
                 <label for="kilometraje" class="block font-bold mb-3">Kilometraje</label>
-                <input id="kilometraje" type="number" pInputText [(ngModel)]="entidad.kilometraje" (input)="onKilometrajeChange(lista?.[0]?.kilometro_min)" fluid />
+                <input id="kilometraje" type="number" pInputText [(ngModel)]="entidad.kilometraje" (input)="onKilometrajeChange(vehiculoAsignado?.kilometro_min)" fluid />
             </div>
             <div>
                 <label for="kilometraje_faltante" class="block font-bold mb-3">Kilometraje faltante</label>
-                <input id="kilometraje_faltante" type="number" pInputText [(ngModel)]="entidad.kilometraje_faltante" (input)="onKilometrajeChange(lista?.[0]?.kilometro_min)" disabled fluid />
+                <input id="kilometraje_faltante" type="number" pInputText [(ngModel)]="entidad.kilometraje_faltante" (input)="onKilometrajeChange(vehiculoAsignado?.kilometro_min)" disabled fluid />
             </div>
         </div>
     </ng-template>
