@@ -24,13 +24,5 @@ export class TiposVehiculosComponent extends BaseMetodosCrud<ITipoVehiculos> imp
       console.error("Error: No se encontró la referencia 'dt'");
     }
   }
-
-  exxportCSV() {
-    if (this.dt && this.dt.exportCSV) {
-      this.dt.exportCSV();
-    } else {
-      console.error('dt no está disponible o exportCSV no está definido');
-    }
-  }
   
 }

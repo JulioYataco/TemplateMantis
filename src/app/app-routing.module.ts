@@ -76,6 +76,12 @@ export const routes: Routes = [
         canActivate: [authGuard, rolGuard],
         data: {rol: 'Administrador'},
       },
+      {
+        path: 'cita-mantenimientos',
+        loadComponent: () => import('./demo/components/cita-mantenimientos/cita-mantenimientos.component').then((c) => c.CitaMantenimientosComponent),
+        canActivate: [authGuard, rolGuard],
+        data: {rol: 'Conductor'},
+      },
     ]
   },
   {
