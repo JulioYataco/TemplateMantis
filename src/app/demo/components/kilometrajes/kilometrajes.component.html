@@ -62,7 +62,6 @@
 </div>
 
 
-
 <div class="card">
     <p-toolbar styleClass="mb-4">
       <ng-template #start>
@@ -111,7 +110,7 @@
           <ng-template #mostrarDatos>
             <tr>
                 <td pFrozenColumn>{{entidad.id}}</td>
-                <td>{{entidad.fecha_crea | date: 'dd MMMM yyyy': 'es'}}</td>
+                <td>{{entidad.fecha_crea | date: 'dd MMMM yyyy':'':'es'}}</td>
                 <td>{{entidad.placa}}</td>
                 <td pFrozenColumn>{{entidad.kilometraje}}</td>
                 <td>
@@ -158,7 +157,7 @@
             </div>
             <div>
                 <label for="kilometraje" class="block font-bold mb-3">Kilometraje</label>
-                <input id="kilometraje" type="number" pInputText [(ngModel)]="entidad.kilometraje" (input)="onKilometrajeChange(vehiculoAsignado?.kilometro_min)" fluid />
+                <input id="kilometraje" type="number" pInputText placeholder="Ingrese su kilometraje actual" [(ngModel)]="entidad.kilometraje" (input)="onKilometrajeChange(vehiculoAsignado?.kilometro_min)" fluid />
             </div>
             <div>
                 <label for="kilometraje_faltante" class="block font-bold mb-3">Kilometraje faltante</label>

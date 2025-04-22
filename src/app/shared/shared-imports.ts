@@ -19,6 +19,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { DatePickerModule } from 'primeng/datepicker';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TextareaModule } from 'primeng/textarea';
 
 // import { MessageService } from 'primeng/api';
 // import { CardComponent } from '../theme/shared/components/card/card.component';
@@ -41,7 +42,8 @@ export const SHARED_FORMULARIOS_IMPORTS = [
     ConfirmDialogModule, //Para confirmación de operaciones cruds
     ToastModule, //Con esto mostramos mensaje de exito, error o advertencia
     DatePickerModule,
-    SkeletonModule //Para cargar una tabla vacia mientras cargan los datos
+    SkeletonModule, //Para cargar una tabla vacia mientras cargan los datos
+    TextareaModule,
 ];
 //Esto hace 2 cosas importantes
 //Aseguremonos de que esto lo agregemos al main.ts. Porque sino angular no podrá resolver ConfirmDialogModul ni ConfirmationService. De no hacer eso no te cargará ninguna tabla

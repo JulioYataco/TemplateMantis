@@ -82,6 +82,12 @@ export const routes: Routes = [
         canActivate: [authGuard, rolGuard],
         data: {rol: 'Conductor'},
       },
+      {
+        path: 'incidencias',
+        loadComponent: () => import('./demo/components/incidencias/incidencias.component').then((c) => c.IncidenciasComponent),
+        canActivate: [authGuard, rolGuard],
+        data: {rol: 'Conductor'},
+      },
     ]
   },
   {

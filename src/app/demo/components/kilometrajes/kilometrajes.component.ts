@@ -23,6 +23,7 @@ import { IAsignacionVehiculos } from 'src/app/core/models/iasignacion-vehiculos'
 })
 export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
   
+  //Asignar la lista de asignacion vehiculos
   asignacion_vehiculos: IAsignacionVehiculos[] = [];
   vehiculos: IVehiculos[] = [];
   perfilDetalles: IPerfilDetalles[] = [];

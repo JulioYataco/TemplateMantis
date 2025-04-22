@@ -52,8 +52,8 @@
                 <td>{{entidad.id}}</td>
                 <td>{{obtenerPlacaVehiculo(entidad.vehiculo)}}</td>
                 <td>{{obtenerNombrePerfil(entidad.perfil)}}</td>
-                <td>{{entidad.fecha_asignacion | date: 'dd MMMM yyyy' : 'es' }}</td>
-                <td>{{entidad.fecha_fin | date: 'dd MMMM yyyy': 'es' }}</td>
+                <td>{{entidad.fecha_asignacion | date: 'dd MMMM yyyy':'':'es' }}</td>
+                <td>{{entidad.fecha_fin | date: 'dd MMMM yyyy':'':'es' }}</td>
                 <td>
                   <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
                   <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(entidad.id)"></p-button>

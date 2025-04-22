@@ -120,7 +120,7 @@ export class ReporteKilometrajesComponent extends BaseMetodosCrud<IReportekilome
 
     // Crear la hoja de trabajo (worksheet)
     const data = this.dt.value.map(entidad => [
-      entidad.id, datePipe.transform(entidad.fecha_crea, 'dd MMMM yyyy, HH:mm'), 
+      datePipe.transform(entidad.fecha_crea, 'dd MMM yy, HH:mm'), 
       entidad.numero, entidad.kilometraje, entidad.kilometraje_faltante,
       entidad.nombre_tipo_vehiculo, entidad.first_name, entidad.nombre_area, entidad.jefatura_nombre,
       entidad.placa, entidad.color, entidad.modelo, entidad.fabricacion, entidad.numero_serie,
@@ -129,8 +129,8 @@ export class ReporteKilometrajesComponent extends BaseMetodosCrud<IReportekilome
 
     // Definir los encabezados
     const headers = [
-      '#', 'Fecha', 'N° Moto', 'Kilometraje', 'Km Faltante', 'Movilidad', 'Conductor',
-      'Área', 'Jefatura', 'Placa', 'Color', 'Modelo', 'Fabricación', 'N° Serie',
+      'Fecha', 'N° Moto', 'Kilometraje', 'Km Faltante', 'Movilidad', 'Conductor',
+      'Área', 'Jefe', 'Placa', 'Color', 'Modelo', 'Fabricación', 'N° Serie',
       'N° Motor', 'Adquisición'
     ];
 
@@ -148,16 +148,16 @@ export class ReporteKilometrajesComponent extends BaseMetodosCrud<IReportekilome
   exportPDF() {
     const doc = new jsPDF('landscape'); //  Formato horizontal para mejor visualización
     const columns = [
-      '#', 'Fecha', 'N° Moto', 'Kilometraje', 'Km Faltante', 'Movilidad', 'Conductor',
-      'Área', 'Jefatura', 'Placa', 'Color', 'Modelo', 'Fabricación', 'N° Serie',
-      'N° Motor', 'Adquisición'
+      'Fecha', 'N° Moto', 'Km', 'Km Faltante', 'Movilidad', 'Conductor',
+      'Área', 'Jefe', 'Placa', 'Color', 'Modelo', 'Fabric.', 'N° Serie',
+      'N° Motor', 'Adqui.'
     ];
 
     // Crear una instancia de DatePipe para formatear las fechas
     const datePipe = new DatePipe('es');
 
     const rows = this.dt.value.map(entidad => [
-      entidad.id, datePipe.transform(entidad.fecha_crea, 'dd MMMM yyyy, HH:mm'), // Formato de fecha
+      datePipe.transform(entidad.fecha_crea, 'dd MMM yy, HH:mm'), // Formato de fecha
       entidad.numero, entidad.kilometraje, entidad.kilometraje_faltante,
       entidad.nombre_tipo_vehiculo, entidad.first_name, entidad.nombre_area, entidad.jefatura_nombre,
       entidad.placa, entidad.color, entidad.modelo, entidad.fabricacion, entidad.numero_serie,
