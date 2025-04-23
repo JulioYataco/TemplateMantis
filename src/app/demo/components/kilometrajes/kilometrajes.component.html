@@ -156,12 +156,12 @@
               </p-dropdown>
             </div>
             <div>
-                <label for="kilometraje" class="block font-bold mb-3">Kilometraje</label>
-                <input id="kilometraje" type="number" pInputText placeholder="Ingrese su kilometraje actual" [(ngModel)]="entidad.kilometraje" (input)="onKilometrajeChange(vehiculoAsignado?.kilometro_min)" fluid />
+              <label for="kilometraje" class="block font-bold mb-3">Kilometraje</label>
+              <input id="kilometraje" type="number" pInputText placeholder="Ingrese su kilometraje actual" [(ngModel)]="entidad.kilometraje" (input)="onKilometrajeChange(vehiculoAsignado?.kilometro_min)" fluid />
             </div>
             <div>
-                <label for="kilometraje_faltante" class="block font-bold mb-3">Kilometraje faltante</label>
-                <input id="kilometraje_faltante" type="number" pInputText [(ngModel)]="entidad.kilometraje_faltante" (input)="onKilometrajeChange(vehiculoAsignado?.kilometro_min)" disabled fluid />
+              <label for="kilometraje_faltante" class="block font-bold mb-3">Kilometraje faltante</label>
+              <input id="kilometraje_faltante" type="number" pInputText [(ngModel)]="entidad.kilometraje_faltante" (input)="onKilometrajeChange(vehiculoAsignado?.kilometro_min)" disabled fluid />
             </div>
         </div>
     </ng-template>

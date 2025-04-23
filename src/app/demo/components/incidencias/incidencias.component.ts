@@ -4,7 +4,7 @@ import { IIncidencias } from 'src/app/core/models/iincidencias';
 import { IncidenciasService } from 'src/app/core/services/entidades/incidencias/incidencias.service';
 import { SHARED_FORMULARIOS_IMPORTS } from 'src/app/shared/shared-imports';
 
-@Component({
+@Component({  
   selector: 'app-incidencias',
   imports: [SHARED_FORMULARIOS_IMPORTS],
   templateUrl: './incidencias.component.html',

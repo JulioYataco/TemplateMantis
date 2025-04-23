@@ -128,6 +128,15 @@ export const NavigationItems: NavigationItem[] = [
         rolesPermitidos: ['Conductor'],
       },
       {
+        id: 'cita-mantenimientos-admin',
+        title: 'Cita Mantenimientos General',
+        type: 'item',
+        url: '/cita-mantenimientos-admin',
+        classes: 'nav-item',
+        icon: 'profile',
+        rolesPermitidos: ['Administrador', 'Mecanico'],
+      },
+      {
         id: 'reporte-kilometrajes',
         title: 'Reporte de kilometraje',
         type: 'item',
