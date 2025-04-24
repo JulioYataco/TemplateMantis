@@ -45,6 +45,7 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
     fecha_crea: null,
     kilometraje: 0,
     kilometraje_faltante: 0,
+    observacion: null
   };
 
   constructor(

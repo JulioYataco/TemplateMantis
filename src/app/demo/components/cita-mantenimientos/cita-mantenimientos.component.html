@@ -9,27 +9,42 @@
     </div>
     <div class="calendar-wrapper">
       <p-calendar
+        [disabledDates]="fechasOcupadas"
         (onSelect)="abrirDialog($event)"
         [inline]="true"
         dateFormat="yyyy-MM-dd"
         [showOtherMonths]="true"
         [monthNavigator]="true"
         [yearNavigator]="true"
-        yearRange="2023:2030"
-        [styleClass]="'custom-calendar'">
+        yearRange="2023:2030">
       </p-calendar>
     </div>
+    <!--<ng-template #customDateTemplate let-date>
+      <span
+        [ngStyle]="getstyleCalendarDayOcupation(date)"
+        [title]="getToolTipPorDia(date)"
+        class="p-text-bold"
+      >
+        {{ date.day }}
+      </span> 
+    </ng-template>
+    <ng-template #customDateTemplate let-date>
+      <div [ngClass]="getDateClass(date)">
+        {{ date.getDate() }}
+        <i *ngIf="isDateLimitReached(date)" class="pi pi-ban icono-alerta"></i>
+      </div>
+    </ng-template>-->
   </div>
 
   <!-- Tabla (50%) -->
   <div class="table-section">
-    <!--<div class="table-header">
+    <div class="table-header">
       <h3>Registros de citas</h3>
-      <span class="p-input-icon-left">
+      <!--<span class="p-input-icon-left">
         <i class="pi pi-search"></i>
         <input pInputText type="text" placeholder="Buscar..." />
-      </span>
-    </div>-->
+      </span>-->
+    </div>
     <div class="table-wrapper">
     <!-- Tabla   -->                     
       <p-table 
@@ -38,24 +53,27 @@
           [loading]="cargando"
           [rows]="5" 
           [paginator]="true" 
+          [scrollable]="true"
           [globalFilterFields]="['id', 'asignacion_vehiculo','fecha', 'hora', 'completado', 'observacion']"
           [style.width.%]="100" 
-          styleClass="blue-km-table"
+          styleClass="blue-km-table p-datatable-striped"
           [rowsPerPageOptions]="[5, 10, 20]" 
           [rowHover]="true"
+          [resizableColumns]="true"
+          [alwaysShowPaginator]="true"
           dataKey="id"
-          scrollHeight="400px"
+          scrollHeight="flex"
           [showCurrentPageReport]="true"
           emptyMessage="No hay registros disponibles"
           >
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="id" class="compact-header">ID <p-sortIcon field="id" /></th>
-              <th pSortableColumn="asignacion_vehiculo" class="compact-header">vehiculo <p-sortIcon field="asignacion_vehiculo" /></th>
+              <th pSortableColumn="id" class="compact-header">Id <p-sortIcon field="id" /></th>
+              <th pSortableColumn="placa" class="compact-header">Vehiculo <p-sortIcon field="placa" /></th>
               <th pSortableColumn="fecha" class="compact-header">Fecha <p-sortIcon field="perfil" /></th>
-              <th pSortableColumn="completado" class="compact-header">Completado <p-sortIcon field="completado" /></th>
-              <th pSortableColumn="observacion" class="compact-header">observacion <p-sortIcon field="observacion" /></th>
+              <th pSortableColumn="situacion_actual" class="compact-header">Estado <p-sortIcon field="situacion_actual" /></th>
+              <th pSortableColumn="observacion" class="compact-header">Observación <p-sortIcon field="observacion" /></th>
               <!--<th >Operaciones</th>-->
             </tr>
           </ng-template>
@@ -72,17 +90,15 @@
               <tr>
                   <td>{{entidad.id}}</td>
                   <td class="vehicle-info">
-                    <i class="pi pi-car" style="color: $primary-blue"></i>
-                    <span>{{entidad.asignacion_vehiculo}}</span>
+                    <span>{{entidad.placa}}</span>
                   </td>
                   <td class="date-cell">
                     <span class="date">{{entidad.fecha | date: 'dd MMM yyyy'}}</span>
                   </td>
-                  <td>
+                  <td style="text-align: center;">
                     <p-tag 
-                      [severity]="entidad.completado ? 'success' : 'warn'" 
-                      [value]="entidad.completado ? 'True' : 'False'"
-                      [icon]="entidad.completado ? 'pi pi-check' : 'pi pi-clock'">
+                      [value]="entidad.situacion_actual" 
+                      [severity]="getColorEstado(entidad.situacion_actual)"> 
                     </p-tag>
                   </td>
                   <td>{{entidad.observacion}}</td>
@@ -123,7 +139,7 @@
   </ng-template>
   <ng-template #footer>
     <p-button label="Cancel" severity="info" icon="pi pi-times" text (click)="cerrarDialogo()" />
-    <p-button label="Guardar" severity="info" icon="pi pi-check" (click)="guardar()" />
+    <p-button label="Reservar Cita" severity="info" icon="pi pi-check" (click)="guardar()" />
   </ng-template>
 </p-dialog>
 

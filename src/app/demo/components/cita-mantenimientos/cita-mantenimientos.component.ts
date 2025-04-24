@@ -4,16 +4,16 @@ import { BaseMetodosCrud } from '../baseMetodosCrud.component';
 import { ICitaMantenimientos } from 'src/app/core/models/icita-mantenimientos';
 import { CitaMantenimientosService } from 'src/app/core/services/entidades/cita-mantenimientos/cita-mantenimientos.service';
 import { SHARED_FORMULARIOS_IMPORTS } from 'src/app/shared/shared-imports';
-import { DividerModule } from 'primeng/divider';
+// import { DividerModule } from 'primeng/divider';
 import { PerfilesDetalleService } from 'src/app/core/services/perfiles/perfiles-detalle.service';
 import { IAsignacionPorPerfil } from 'src/app/core/models/iasignacion-por-perfil';
-import { formatDate } from '@angular/common';
+// import { formatDate } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-cita-mantenimientos',
-  imports: [SHARED_FORMULARIOS_IMPORTS, CalendarModule, DividerModule, TagModule],
+  imports: [SHARED_FORMULARIOS_IMPORTS, CalendarModule, TagModule],
   templateUrl: './cita-mantenimientos.component.html',
   styleUrl: './cita-mantenimientos.component.scss'
 })
@@ -27,13 +27,15 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
   //Aqui asignaremos al id de vehiculo
   asginado: IAsignacionPorPerfil[] = [];
   vehiculoAsignado: IAsignacionPorPerfil | null = null;
+  asignacionPerfilDetalles: IAsignacionPorPerfil[] = [];
+  
 
   override entidad: ICitaMantenimientos = {
     id: 0,
     asignacion_vehiculo: 0,
     fecha: null,
     hora: null,
-    completado: false,
+    situacion_actual: 'pendiente',
     observacion: null
   };
 
@@ -49,6 +51,29 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
   override ngOnInit(): void {
     super.ngOnInit();
     this.obtenerDetallesasignado();
+    this.cargarFechasLlenas();
+  }
+
+  override getData(){
+    this.cargando = true;
+    const usuario = localStorage.getItem('usuario');
+    //console.log("usuario", usuario);
+    if (usuario) {
+      const usuarioData = JSON.parse(usuario);
+      //console.log("usuarioData", usuarioData);
+      const perfilId = usuarioData.id;
+      this.modeloService.listarPorPerfilId(perfilId).subscribe(
+        (data) => {
+          this.lista = data;
+          this.cargando = false;
+          //console.log("lista detallada", data)
+        },
+        (error) => {
+          console.error('Error al cargar los datos', error);
+          this.cargando = false;
+        }
+      )
+    }
   }
 
   obtenerDetallesasignado(): void {
@@ -76,11 +101,53 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
     }
   }
 
-  // cargarFechasLlenas() {
-  //   this.modeloService.getFechasLlenas().subscribe(fechas => {
-  //     this.fechasLlenas = fechas.map((f: string) => new Date(f));
-  //   });
-  // }
+  obtenernombrevehiculo(asignacion_id: number): string {
+    const data = this.asignacionPerfilDetalles.find(r => r.id === asignacion_id)
+    return data ? data.placa : 'Desconocido'
+    
+  }
+
+  cargarFechasLlenas() {
+    this.modeloService.getFechasBloqueadas().subscribe(res => {
+      this.fechasOcupadas = res.fechas.map(f => {
+        const [year, month, day] = f.split('-').map(Number);
+        return new Date(year, month -1, day)
+      });
+    });
+  }
+
+  getstyleCalendarDayOcupation(date: any): any {
+    const fecha_cal = new Date(date.year, date.month, date.day);
+    if (this.isDateLimitReached(fecha_cal)){
+      return {
+        backgroundColor: '#ffcccc',
+        color: '#b30000',
+        borderRadius: '50%',
+        cursor: 'not-allowed',
+      };
+    }
+    return {};
+  }
+
+  getToolTipPorDia(date: any): string {
+    const dia_fecha = new Date(date.year, date.month, date.day);
+    if (this.isDateLimitReached(dia_fecha)){
+      return 'Citas programadas abarrotadas';
+    }
+    return '';
+  }
+
+  getDateClass(date: Date): string {
+    return this.isDateLimitReached(date) ? 'día reservado' : ''; 
+  }
+
+  isDateLimitReached(date: Date): boolean {
+    return this.fechasOcupadas.some(d =>
+      d.getFullYear() === date.getFullYear() &&
+      d.getMonth() === date.getMonth() &&
+      d.getDate() === date.getDate()
+    );
+  }
 
   abrirDialog(fecha: Date) {
     this.fechaSeleccionada = fecha;
@@ -99,6 +166,11 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
 
   override guardar(): void {
     const esEdicion = (this.entidad as any).id;
+
+    // Si es una nueva cita, asignamos un valor predeterminado a situacion_actual
+    if (!this.entidad.situacion_actual) {
+      this.entidad.situacion_actual = 'pendiente'; // Valor predeterminado
+    }
 
     this.confirmationService.confirm({
       message: esEdicion ? '¿Estas seguro de actualizar este registro?' : '¿Estas seguro de agregar este nuevo registro?',
@@ -164,13 +236,16 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
   }
   
 
-  // reservarCita() {
-  //   if (!this.fechaSeleccionada) return;
-
-  //   this.citasService.reservarCita(this.fechaSeleccionada).subscribe(() => {
-  //     this.messageService.add({ severity: 'success', summary: 'Reserva exitosa', detail: 'Tu cita fue registrada correctamente.' });
-  //     this.dialogVisible = false;
-  //     this.cargarFechasLlenas();
-  //   });
-  // }
+  getColorEstado(situacion: string): 'success' | 'danger' | 'warn' | 'info' {
+    switch (situacion) {
+      case 'asistio':
+        return 'success';
+      case 'cancelado':
+        return 'danger';
+      case 'pendiente':
+        return 'warn';
+      default:
+        return 'info';
+    }
+  }
 }

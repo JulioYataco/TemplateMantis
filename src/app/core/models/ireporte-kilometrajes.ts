@@ -31,4 +31,5 @@ export interface IReportekilometrajes {
     kilometro_min: number;
     kilometro_max: number;
     observacion: string;
+    observacion_vehiculo: string;
 }

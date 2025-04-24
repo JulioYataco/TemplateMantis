@@ -30,5 +30,6 @@ export interface IReporteKilometrajePerfilId {
     nombre_tipo_vehiculo: string;
     kilometro_min: number;
     kilometro_max: number;
+    observacion_vehiculo: string;
     observacion: string;
 }

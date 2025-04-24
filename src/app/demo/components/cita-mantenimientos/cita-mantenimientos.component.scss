@@ -24,7 +24,6 @@ $border-light: #e0e0e0;
 .dashboard-container {
   display: flex;
   gap: 1.5rem;
-  padding: 1rem;
   height: calc(100vh - 120px);
   background-color: $background-light;
 
@@ -37,7 +36,7 @@ $border-light: #e0e0e0;
 /* Sección del calendario */
 .calendar-section {
   flex: 1;
-  min-width: 0; /* Permite que se reduzca */
+  //min-width: 0; /* Permite que se reduzca */
   display: flex;
   flex-direction: column;
   background: white;
@@ -60,32 +59,62 @@ $border-light: #e0e0e0;
   .calendar-wrapper {
     padding: 1rem;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
     
     .custom-calendar {
       border: none;
       width: 100%;
-      
-      .p-datepicker {
+      .p-calendar {
         border: none;
         width: 100%;
-        
-        table td > span {
-          border-radius: 50%;
-          transition: all 0.2s;
+
+        @media (max-width: 768px) {
+          table {
+            width: 100% !important;
+            
+            td > span {
+              width: 1.8rem;
+              height: 1.8rem;
+              line-height: 1.8rem;
+              font-size: 0.8rem;
+            }
+          }
+          
+          .p-calendar-header {
+            padding: 0.5rem;
+          }
+          
+          .p-calendar-calendar-container {
+            padding: 0.5rem;
+          }
         }
         
-        table td.p-datepicker-today > span {
-          background: $primary-light;
-          color: $primary-blue;
-          font-weight: 600;
-        }
+        // table td > span {
+        //   border-radius: 50%;
+        //   transition: all 0.2s;
+        // }
         
-        table td > span.p-highlight {
-          background: $primary-blue;
-          color: white;
-        }
+        // table td.p-datepicker-today > span {
+        //   background: $primary-light;
+        //   color: $primary-blue;
+        //   font-weight: 600;
+        // }
+        
+        // table td > span.p-highlight {
+        //   background: $primary-blue;
+        //   color: white;
+        // }
       }
     }
+  }
+}
+
+/* Debug temporal */
+.calendar-section {
+  @media (max-width: 768px) {
+    border: 1px solid red; /* Para ver los límites */
   }
 }
 
@@ -134,11 +163,16 @@ $border-light: #e0e0e0;
   .table-wrapper {
     padding: 1rem;
     height: 100%;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Cambiado de visible a hidden */
     
     /* Estilos para la tabla (usando los que ya tenías) */
     .blue-km-table {
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
       
       .p-datatable-thead > tr > th {
         background: $primary-light;
@@ -194,8 +228,45 @@ $border-light: #e0e0e0;
 /* Responsive para móviles */
 @media (max-width: 768px) {
   .dashboard-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh; /* Asegura que ocupe toda la pantalla */
     padding: 0.5rem;
     gap: 0.75rem;
+  }
+
+  .calendar-section {
+    order: -1; /* Mueve el calendario arriba */
+    min-height: 400px; /* Altura mínima garantizada */
+    height: 55vh; /* Altura más grande (55% del viewport) */
+    width: 100%;
+    
+    .calendar-wrapper {
+      height: calc(100% - 56px); /* Resta la altura del header */
+      padding: 0.5rem;
+      
+      .custom-calendar {
+        height: 100%;
+        .p-calendar {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+
+          .p-datepicker-calendar-container {
+            flex: 1;
+            overflow: auto;
+          }
+          
+          // table {
+          //   width: 100%;
+            
+          //   td, th {
+          //     padding: 0.3rem;
+          //   }
+          // }
+        }
+      }
+    }
   }
   
   .table-section .table-header {
@@ -239,6 +310,93 @@ $border-light: #e0e0e0;
         
         .p-tag {
           margin-left: auto;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .custom-calendar {
+  .p-datepicker {
+    height: 100%;
+    
+    table {
+      td > span {
+        width: 2rem;
+        height: 2rem;
+        line-height: 2rem;
+      }
+    }
+    
+    .p-datepicker-header {
+      padding: 0.75rem;
+    }
+    
+    .p-datepicker-calendar-container {
+      flex: 1;
+      overflow-y: auto;
+    }
+  }
+}
+
+/* Redondea las fechas con estilo */
+::ng-deep .p-calendar table td .dia-reservado {
+  background-color: #ffe5e5 !important; // fondo rojo claro
+  border-radius: 50%;
+  color: #900;
+  position: relative;
+  font-weight: bold;
+}
+
+/* Ícono de alerta para días con 2 reservas */
+::ng-deep .p-calendar table td .icono-alerta {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 0.6rem;
+  color: #cc0000;
+}
+
+/* Pantallas muy pequeñas (320px-375px) */
+@media (max-width: 375px) {
+  .dashboard-container {
+    padding: 0.2rem;
+    gap: 0.3rem;
+    min-height: 100vh;
+  }
+
+  /* CALENDARIO - Ajuste ultracompacto */
+  .calendar-section {
+    height: 55vh;
+    min-height: 280px; /* Altura mínima reducida */
+    
+    .calendar-header {
+      padding: 0.4rem;
+      h3 { font-size: 0.9rem; }
+    }
+    
+    .calendar-wrapper {
+      padding: 0.2rem;
+      height: calc(100% - 36px); /* Header más pequeño */
+      
+      ::ng-deep .custom-calendar {
+        .p-calendar {
+          table {
+            td > span {
+              width: 1.6rem !important; /* Celdas más pequeñas */
+              height: 1.6rem !important;
+              line-height: 1.6rem !important;
+              font-size: 0.7rem !important;
+            }
+            th { font-size: 0.65rem !important; }
+          }
+          .p-calendar-header {
+            padding: 0.2rem;
+            font-size: 0.8rem;
+            .p-calendar-title select {
+              font-size: 0.7rem !important; /* Selectores más pequeños */
+            }
+          }
         }
       }
     }

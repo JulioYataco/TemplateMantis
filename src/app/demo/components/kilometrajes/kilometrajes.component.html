@@ -96,6 +96,7 @@
             <th pSortableColumn="placa">Placa de vehiculo <p-sortIcon field="placa" /></th>
             <th pSortableColumn="kilometraje">Kilometraje <p-sortIcon field="kilometraje" /></th>
             <th pSortableColumn="kilometraje_faltante">Kilometraje faltante<p-sortIcon field="kilometraje_faltante" /></th>
+            <th pSortableColumn="observacion">Observación<p-sortIcon field="observacion" /></th>
            
           </tr>
         </ng-template>
@@ -104,6 +105,7 @@
             <td><p-skeleton width="4rem" height="1.5rem"></p-skeleton></td>
             <td><p-skeleton width="7rem" height="1.5rem"></p-skeleton></td>
             <td><p-skeleton width="9rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
             <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
             <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
           </tr>
@@ -125,6 +127,9 @@
                     >
                     {{entidad.kilometraje_faltante}} km
                   </span>
+                </td>
+                <td class="observation-cell">
+                  <span>{{ entidad.observacion }}</span>
                 </td>
                 
             </tr>
@@ -162,6 +167,10 @@
             <div>
               <label for="kilometraje_faltante" class="block font-bold mb-3">Kilometraje faltante</label>
               <input id="kilometraje_faltante" type="number" pInputText [(ngModel)]="entidad.kilometraje_faltante" (input)="onKilometrajeChange(vehiculoAsignado?.kilometro_min)" disabled fluid />
+            </div>
+            <div>
+              <label for="observacion" class="block font-bold mb-3">Observación</label>
+              <textarea id="observacion" pTextarea [(ngModel)]="entidad.observacion" rows="3" cols="30" placeholder="Este campo es opcional" fluid ></textarea>
             </div>
         </div>
     </ng-template>

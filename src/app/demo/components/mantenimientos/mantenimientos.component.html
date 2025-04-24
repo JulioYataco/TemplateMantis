@@ -22,7 +22,7 @@
             <th pSortableColumn="id">ID <p-sortIcon field="id" /></th>
             <th pSortableColumn="asignacion_vehiculo">vehiculo <p-sortIcon field="asignacion_vehiculo" /></th>
             <th pSortableColumn="fecha">Fecha <p-sortIcon field="perfil" /></th>
-            <th pSortableColumn="completado">Estado <p-sortIcon field="completado" /></th>
+            <th pSortableColumn="completado">Completado <p-sortIcon field="completado" /></th>
             <th pSortableColumn="observacion">observacion <p-sortIcon field="observacion" /></th>
             <th >Operaciones</th>
           </tr>
@@ -43,20 +43,13 @@
                 <td>{{entidad.fecha | date: 'dd MMMM yyyy' : 'es' }}</td>
                 <td style="text-align: center;">
                   <p-tag 
-                    [value]="entidad.situacion_actual" 
-                    [severity]="getColorEstado(entidad.situacion_actual)"> 
+                    [severity]="entidad.completado ? 'success' : 'warn'" 
+                    [value]="entidad.completado ? '' : ''"
+                    [icon]="entidad.completado ? 'pi pi-check' : 'pi pi-clock'">
                   </p-tag>
                 </td>
                 <td>{{entidad.observacion}}</td>
                 <td>
-                  <p-button 
-                    *ngIf="entidad.situacion_actual === 'pendiente'" 
-                    icon="pi pi-check-circle" 
-                    class="p-button-sm mr-2" 
-                    severity="success" 
-                    label="Asistió"
-                    (click)="marcarComoAsistio(entidad)">
-                  </p-button>
                   <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
                   <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(entidad.id)"></p-button>
                 </td>
@@ -114,4 +107,4 @@
       <p-button label="Guardar" severity="info" icon="pi pi-check" (click)="guardar()" />
     </ng-template>
 </p-dialog>
-                            
+                            s

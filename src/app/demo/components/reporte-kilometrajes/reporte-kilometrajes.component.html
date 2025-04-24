@@ -103,7 +103,8 @@
               <th pSortableColumn="fabricacion">Fabricación <p-sortIcon field="fabricacion" /></th>
               <th pSortableColumn="numero_serie">N° serie <p-sortIcon field="numero_serie" /></th>
               <th pSortableColumn="numero_motor">N° Motor <p-sortIcon field="numero_motor" /></th>
-              <th pSortableColumn="observacion">Adquisición <p-sortIcon field="observacion" /></th>
+              <th pSortableColumn="observacion_vehiculo">Adquisición <p-sortIcon field="observacion_vehiculo" /></th>
+              <th pSortableColumn="observacion">Observación <p-sortIcon field="observacion" /></th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-entidad>
@@ -114,6 +115,7 @@
               <td><p-skeleton width="9rem" height="1.5rem"></p-skeleton></td>
               <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
               <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
+              <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
               <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
               <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
               <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
@@ -154,7 +156,10 @@
                   <td>{{entidad.fabricacion}}</td>
                   <td>{{entidad.numero_serie}}</td>
                   <td>{{entidad.numero_motor}}</td>
-                  <td>{{entidad.observacion}}</td>
+                  <td>{{entidad.observacion_vehiculo}}</td>
+                  <td class="observation-cell">
+                    <span>{{entidad.observacion}}</span>
+                  </td>
               </tr>
             </ng-template>
           </ng-template>

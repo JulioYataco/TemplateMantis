@@ -179,3 +179,22 @@ p-table th, p-table td {
     position: relative;
     z-index: 10;
 }
+
+//Esto sirve para los campos "descripcion", "observacion"
+//que conlleva de muchos caracteres y es mejor solo mostrar un pequeña parte
+//Y si el usuario quiere ver mas detalle solo tiene que pasar el cursor
+:host ::ng-deep .observation-cell {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    &:hover {
+      white-space: normal;
+      overflow: visible;
+      position: relative;
+      z-index: 1000;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+}
