@@ -48,19 +48,18 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.obtenerDetallesasignado();
+    //this.obtenerDetallesasignado();
   }
 
   override getData(){
     this.cargando = true;
 
-
       this.modeloService.listarDetalleAll().subscribe(
         (data) => {
           this.lista = data;
           this.cargando = false;
-          console.log("lista detallada", data)
-          this.entidad.asignacion_vehiculo = 2; // Asignamos el valor de asignacion_vehiculo
+          console.log("lista detallada", data);
+          this.entidad.asignacion_vehiculo = data[1]; // Asignamos el valor de asignacion_vehiculo
 
         },
         (error) => {
@@ -92,23 +91,32 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
   //   }
   // }
 
-  obtenerDetallesasignado(): void {
-      //Llamamos al servidor con el perfilId
-      this.perfilDetalleService.detallesasignacionall().subscribe(
-        (data) => {
-          console.log("data", data);
-          this.vehiculoAsignado = data;
-          this.asginado = [data];
-          console.log('Detalles de la asignación:', this.asginado);
+  // obtenerDetallesasignado(): void {
+  //     //Llamamos al servidor con el perfilId
+  //     this.perfilDetalleService.detallesasignacionall().subscribe(
+  //       (data) => {
+  //         console.log("data", data);
+  //         this.vehiculoAsignado = data;
+  //         this.asginado = [data];
+  //         console.log('Detalles de la asignación:', this.asginado);
 
-          // Asignamos el ID de la asignación al modelo entidad
-          this.entidad.asignacion_vehiculo = 2; // Asignamos el valor de asignacion_vehiculo
-          //console.log(this.entidad.asignacion_vehiculo);
-        },
-        (error) => {
-          console.error('Error al obtener los detalles de asignación', error);
-        }
-      );
+  //         // Asignamos el ID de la asignación al modelo entidad
+  //         this.entidad.asignacion_vehiculo = 2; // Asignamos el valor de asignacion_vehiculo
+  //         //console.log(this.entidad.asignacion_vehiculo);
+  //       },
+  //       (error) => {
+  //         console.error('Error al obtener los detalles de asignación', error);
+  //       }
+  //     );
+  // }
+
+  obtenerDetallePorIdCita(id: number){
+    this.modeloService.listarDetallePorIdCita(id).subscribe(
+      (data) => {
+        console.log('Detalle por IdCita:', data[0].asignacion_vehiculo);
+        // Asignamos el ID de la asignación al modelo entidad
+        this.entidad.asignacion_vehiculo = data[0].asignacion_vehiculo;
+      });
   }
 
   cambiarSituacion(entidad: ICitaMantenimientos, nuevoEstado: string, mensajeConfirmacion: string, mensajeExito: string): void {
@@ -142,8 +150,8 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
     });
   }
 
-  marcarComoAsistio(entidad: ICitaMantenimientos) {
-    this.entidad.asignacion_vehiculo = 2;
+  marcarComoAsistio(entidad: ICitaMantenimientos, id:number) {
+    this.obtenerDetallePorIdCita(id);
     this.cambiarSituacion(
       entidad,
       'asistio',
@@ -152,18 +160,18 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
     );
   }
 
-  marcarComoCancelado(entidad: ICitaMantenimientos) {
-    this.entidad.asignacion_vehiculo = 2;
+  marcarComoCancelado(entidad: ICitaMantenimientos, id:number) {
+    this.obtenerDetallePorIdCita(id);
     this.cambiarSituacion(
       entidad,
-      'cancelado',
+      'cancelada',
       '¿Estás seguro de confirmar la cancelación?',
       'Estado actualizada a "Cancelada"'
     );
   }
 
-  marcarComoNoAsistio(entidad: ICitaMantenimientos) {
-    this.entidad.asignacion_vehiculo = 2;
+  marcarComoNoAsistio(entidad: ICitaMantenimientos, id:number) {
+    this.obtenerDetallePorIdCita(id);
     this.cambiarSituacion(
       entidad,
       'no_asistio',
@@ -173,11 +181,10 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
   }
 
   estadoLegible: { [key: string]: string } = {
-    asistio: 'Revisado',
+    asistio: 'Examinado',
     cancelada: 'Cancelado',
     pendiente: 'Pendiente',
     no_asistio: 'No asistió',
-
   };
 
   getColorEstado(situacion: string): 'success' | 'danger' |'secondary' | 'warn' | 'info' | 'contrast' {
@@ -200,7 +207,7 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
       case 'asistio':
         return 'pi pi-check-circle';
       case 'cancelada':
-        return 'pi pi-times';
+        return 'pi pi-times-circle';
       case 'pendiente':
         return 'pi pi-clock';
       case 'no_asistio':
@@ -213,7 +220,7 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
   getTooltipEstado(estado: string): string {
     switch (estado.toLowerCase()) {
       case 'asistio':
-        return 'El usuario asistió a la cita';
+        return 'El vehiculo fue revisado';
       case 'cancelada':
         return 'La cita fue cancelada';
       case 'pendiente':
@@ -232,17 +239,15 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
   
       // Crear la hoja de trabajo (worksheet)
       const data = this.dt.value.map(entidad => [
-        entidad.id, datePipe.transform(entidad.fecha, 'dd MMM yy, HH:mm'), 
+        entidad.id, datePipe.transform(entidad.fecha, 'dd MMM yy'), 
         entidad.situacion_actual, entidad.kilometraje, entidad.nombre_tipo_vehiculo, 
-        entidad.first_name, entidad.nombre_area,
-        entidad.placa, entidad.observacion
+        entidad.placa, entidad.first_name, entidad.nombre_area, entidad.observacion
       ]);
   
       // Definir los encabezados
       const headers = [
-        'Id', 'Fecha', 'Estado', 'Kilometraje', 'Movilidad', 'Conductor',
-        'Área', 'Placa',
-        'N° Motor', 'Observación'
+        'Id', 'Fecha', 'Estado', 'Kilometraje', 'Movilidad', 'Placa',
+        'Conductor', 'Área', 'Observación'
       ];
   
       // Crear una hoja de trabajo con los datos y encabezados
@@ -255,4 +260,5 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
       // Exportar el archivo Excel
       XLSX.writeFile(wb, 'ReporteKilometrajes.xlsx');
   }
+
 }

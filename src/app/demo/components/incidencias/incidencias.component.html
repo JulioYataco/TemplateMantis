@@ -52,7 +52,7 @@
             <tr>
               <td>{{entidad.id}}</td>
               <td>{{entidad.fecha_hora | date: 'dd MMMM yyyy': 'es'}}</td>
-              <td>{{entidad.asignacion_vehiculo}}</td>
+              <td>{{entidad.placa}}</td>
               <td>{{entidad.incidencia}}</td>
               <td>{{entidad.solucion}}</td>
               <td>{{entidad.observacion}}</td>
@@ -65,7 +65,7 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
           <tr>
-            <td colspan="5" class="text-center text-gray-600">
+            <td colspan="7" class="text-center text-gray-600">
               No hay registros aún. ¡Vamos, regístralo por primera vez!
             </td>
           </tr>
@@ -78,7 +78,7 @@
 <p-dialog [(visible)]="displayModal" [style]="{ width: '90%', maxWidth: '450px' }" [modal]="true" header="Formulario">
     <ng-template #content>
         <div class="formulario">
-            <!--<div>
+            <div>
               <label for="data" class="block font-bold mb-3">Vehiculo</label>
                 <p-dropdown fluid [appendTo]="'body'"
                   [options]="asginado"
@@ -87,7 +87,7 @@
                   [(ngModel)]="entidad.asignacion_vehiculo"
                   placeholder="Seleccione un vehiculo">
               </p-dropdown>
-            </div>-->
+            </div>
             <div>
               <label for="fecha_hora" class="block font-bold mb-3">Fecha Incidencia</label>
               <p-datepicker id="fecha_hora" dateFormat="dd-MM-yy" placeholder="Elija la fecha de incidente" [showIcon]="true" [(ngModel)]="entidad.fecha_hora" [appendTo]="'body'" fluid />

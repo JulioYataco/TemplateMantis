@@ -10,10 +10,12 @@ import { IAsignacionPorPerfil } from 'src/app/core/models/iasignacion-por-perfil
 // import { formatDate } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+
 
 @Component({
   selector: 'app-cita-mantenimientos',
-  imports: [SHARED_FORMULARIOS_IMPORTS, CalendarModule, TagModule],
+  imports: [SHARED_FORMULARIOS_IMPORTS, CalendarModule, TagModule, TooltipModule],
   templateUrl: './cita-mantenimientos.component.html',
   styleUrl: './cita-mantenimientos.component.scss'
 })
@@ -22,6 +24,7 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
   fechaSeleccionada: Date | null = null;
   dialogoVisible: boolean = false;
   cuposDisponibles: number= 0;
+  cantidadCitas: number;
   fechasOcupadas: Date[] = []; 
 
   //Aqui asignaremos al id de vehiculo
@@ -104,7 +107,6 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
   obtenernombrevehiculo(asignacion_id: number): string {
     const data = this.asignacionPerfilDetalles.find(r => r.id === asignacion_id)
     return data ? data.placa : 'Desconocido'
-    
   }
 
   cargarFechasLlenas() {
@@ -116,26 +118,13 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
     });
   }
 
-  getstyleCalendarDayOcupation(date: any): any {
-    const fecha_cal = new Date(date.year, date.month, date.day);
-    if (this.isDateLimitReached(fecha_cal)){
-      return {
-        backgroundColor: '#ffcccc',
-        color: '#b30000',
-        borderRadius: '50%',
-        cursor: 'not-allowed',
-      };
-    }
-    return {};
-  }
-
-  getToolTipPorDia(date: any): string {
-    const dia_fecha = new Date(date.year, date.month, date.day);
-    if (this.isDateLimitReached(dia_fecha)){
-      return 'Citas programadas abarrotadas';
-    }
-    return '';
-  }
+  // getToolTipPorDia(date: any): string {
+  //   const dia_fecha = new Date(date.year, date.month, date.day);
+  //   if (this.isDateLimitReached(dia_fecha)){
+  //     return 'Citas programadas abarrotadas';
+  //   }
+  //   return '';
+  // }
 
   getDateClass(date: Date): string {
     return this.isDateLimitReached(date) ? 'día reservado' : ''; 
@@ -148,20 +137,10 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
       d.getDate() === date.getDate()
     );
   }
+
   minDate: Date = new Date(); // Bloquea días anteriores desde el inicio
 
   abrirDialog(fecha: Date) {
-
-    // const hoy = new Date();
-    // hoy.setHours(0, 0, 0, 0); //Con esto ingnoramos la hora y solo vamos a comprar fechas
-
-    // const fechaseleccionada = new Date();
-    // fechaseleccionada.setHours(0,0,0,0);
-
-    // if (fechaseleccionada < hoy) {
-    //   alert('⚠️ No puedes seleccionar una fecha anterior al día de hoy.');
-    //   return;
-    // }
     //A fechaSeleccionada le pasamos la mimsa por el parametro que pide la función
     this.fechaSeleccionada = fecha;
 
@@ -171,11 +150,21 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
     console.log(this.entidad.fecha);
     
     this.dialogoVisible = true;
+    this.modeloService.obtenerCantidadCitas(this.entidad.fecha).subscribe(res => {
+      this.cantidadCitas = res.cantidad;
+      console.log('Cantidad de citas',this.cantidadCitas);
+    });
     // this.citasService.getCuposDisponibles(fecha).subscribe(cupos => {
     //   this.cuposDisponibles = cupos;
     //   if (cupos < 6) this.dialogVisible = true;
     //   else this.messageService.add({ severity: 'warn', summary: 'Día lleno', detail: 'Ya se alcanzó el límite de 6 citas para esta fecha.' });
     // });
+  }
+
+  cerrarDialog(){
+    this.fechaSeleccionada = null;
+    this.entidad.fecha = null;
+    this.dialogoVisible = false;
   }
 
   override guardar(): void {
@@ -203,7 +192,7 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
               summary: esEdicion ? 'Editado' : 'Registrado',
               detail: esEdicion ? 'Registro actualizado correctamente' : 'Registro agregado correctamente'
             });
-            this.displayModal = false;
+            this.dialogoVisible = false;
           },
           error: (error) => this.ProcesarErroresPersonalizados(error)
         });
@@ -238,6 +227,8 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
     if (!this.entidad.fecha) return;
     this.modeloService.obtenerCantidadCitas(this.entidad.fecha).subscribe(res => {
       if (res.cantidad >= 6) {
+        this.cantidadCitas = res.cantidad;
+
         this.messageService.add({
           severity: 'warn',
           summary: 'Límite alcanzado',
@@ -249,16 +240,59 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
     })
   }
 
-  getColorEstado(situacion: string): 'success' | 'danger' | 'warn' | 'info' {
+  //Asignamos un nombre mas legible que el original que nos trae situacion actual
+  estadoLegible: { [key: string]: string } = {
+    asistio:    'Examinado',
+    cancelada:  'Cancelado',
+    pendiente:  'Pendiente',
+    no_asistio: 'No asistió',
+  };
+
+  //Asignamos color dependiendo a la situacion actual
+  getColorEstado(situacion: string): 'success' | 'danger' |'secondary' | 'warn' | 'info' | 'contrast' {
     switch (situacion) {
       case 'asistio':
         return 'success';
-      case 'cancelado':
+      case 'cancelada':
         return 'danger';
       case 'pendiente':
         return 'warn';
+      case 'no_asistio':
+        return 'contrast';
       default:
         return 'info';
     }
   }
+
+  //Asignamos icono dependiendo a la situacion actual
+  getIconEstado(estado: string): string {
+    switch (estado.toLowerCase()) {
+      case 'asistio':
+        return 'pi pi-check-circle';
+      case 'cancelada':
+        return 'pi pi-times-circle';
+      case 'pendiente':
+        return 'pi pi-clock';
+      case 'no_asistio':
+        return 'pi pi-calendar-times';
+      default:
+        return 'pi pi-info-circle';
+    }
+  }
+
+  getTooltipEstado(estado: string): string {
+    switch (estado.toLowerCase()) {
+      case 'asistio':
+        return 'El vehiculo fue revisado';
+      case 'cancelada':
+        return 'La cita fue cancelada';
+      case 'pendiente':
+        return 'Cita pendiente de atención';
+      case 'no_asistio':
+        return 'No asistió a la cita';
+      default:
+        return 'Estado desconocido';
+    }
+  }
+
 }

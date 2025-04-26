@@ -1,6 +1,7 @@
 <p-confirmdialog></p-confirmdialog>
 <p-toast></p-toast>
-<div class="card">    
+<div class="card"> 
+  <div style="display: flex; gap: 0.5rem;">   
     <p-button  
       icon="pi pi-file-excel" 
       severity="success" 
@@ -13,10 +14,11 @@
       icon="pi pi-file-pdf" 
       severity="danger" 
       variant="text" 
-      label="PDF"
+      label="Pdf"
       pTooltip="Exportar en PDF"
       (click)="exportExcel()">
     </p-button>
+  </div>
     <!-- Tabla   -->                     
     <p-table 
         #dt 
@@ -40,7 +42,6 @@
             <th pSortableColumn="completado">Estado <p-sortIcon field="completado" /></th>
             <th pSortableColumn="first_name">Conductor <p-sortIcon field="first_name" /></th>
             <th pSortableColumn="placa">Placa <p-sortIcon field="placa" /></th>
-            <th pSortableColumn="kilometraje">Kilometraje <p-sortIcon field="asignacion_vehiculo" /></th>
             <th pSortableColumn="nombre_tipo_vehiculo">Tipo <p-sortIcon field="nombre_tipo_vehiculo" /></th>
             <th pSortableColumn="nombre_area">Area <p-sortIcon field="nombre_area" /></th>
             <th pSortableColumn="observacion">observacion <p-sortIcon field="observacion" /></th>
@@ -58,9 +59,7 @@
             <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
             <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
             <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
-            <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
-            <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
-          </tr>
+         </tr>
           <ng-template #mostrarDatos>
             <tr>
                 <td>{{entidad.id}}</td>
@@ -77,20 +76,19 @@
                   </p-tag>
                 </td>
                 <td>{{entidad.first_name}}</td>
-                <td>{{entidad.placa}}</td>
-                <td>{{entidad.kilometraje}}</td>
+                <td>{{entidad.placa ? entidad.placa : '-'}}</td>
                 <td>{{entidad.nombre_tipo_vehiculo}}</td>
-                <td>{{entidad.nombre_area}}</td>
-                <td>{{entidad.observacion}}</td>
+                <td>{{entidad.nombre_area ? entidad.nombre_area : '-'}}</td>
+                <td>{{entidad.observacion ? entidad.observacion : '-'}}</td>
                 <td class="td-operaciones">
                   <p-button 
                     *ngIf="entidad.situacion_actual === 'pendiente'" 
                     icon="pi pi-check" 
                     severity="success" 
                     variant="text" 
-                    pTooltip="Marcar asistencia"
+                    pTooltip="Marcar revición"
                     tooltipPosition="bottom"
-                    (click)="marcarComoAsistio(entidad)">
+                    (click)="marcarComoAsistio(entidad, entidad.id)">
                   </p-button>
                   <p-button 
                     *ngIf="entidad.situacion_actual === 'pendiente'" 
@@ -99,7 +97,7 @@
                     variant="text"
                     pTooltip="Cancelar cita"
                     tooltipPosition="bottom"
-                    (click)="marcarComoCancelado(entidad)">
+                    (click)="marcarComoCancelado(entidad, entidad.id)">
                   </p-button>
                   <p-button 
                     *ngIf="entidad.situacion_actual === 'pendiente'" 
@@ -108,7 +106,7 @@
                     variant="text"
                     pTooltip="Marcar Inasistencia"
                     tooltipPosition="bottom"
-                    (click)="marcarComoNoAsistio(entidad)">
+                    (click)="marcarComoNoAsistio(entidad, entidad.id)">
                   </p-button>
                   <!--<p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>-->
                   <p-button 
@@ -117,7 +115,7 @@
                     variant="text" 
                     pTooltip="Eliminar registro" 
                     tooltipPosition="bottom"
-                    (click)="eliminar(entidad.id)" 
+                    (click)="obtenerDetallePorIdCita(entidad.id)" 
                   >
                   </p-button>
                 </td>

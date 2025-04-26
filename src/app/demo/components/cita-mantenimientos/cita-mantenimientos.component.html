@@ -17,7 +17,8 @@
         [showOtherMonths]="true"
         [monthNavigator]="true"
         [yearNavigator]="true"
-        yearRange="2023:2030">
+        yearRange="2023:2030"
+      >
       </p-calendar>
     </div>
     <!--<ng-template #customDateTemplate let-date>
@@ -98,11 +99,15 @@
                   </td>
                   <td style="text-align: center;">
                     <p-tag 
-                      [value]="entidad.situacion_actual" 
-                      [severity]="getColorEstado(entidad.situacion_actual)"> 
+                      [value]="estadoLegible[entidad.situacion_actual]" 
+                      [severity]="getColorEstado(entidad.situacion_actual)"
+                      [icon]="getIconEstado(entidad.situacion_actual)"
+                      pTooltip="{{ getTooltipEstado(entidad.situacion_actual) }}"
+                      tooltipPosition="bottom"
+                    >
                     </p-tag>
                   </td>
-                  <td>{{entidad.observacion}}</td>
+                  <td>{{entidad.observacion ? entidad.observacion : '-'}}</td>
                   <!--<td>
                     <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
                     <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(entidad.id)"></p-button>
@@ -118,7 +123,7 @@
 <p-dialog header="Reservar Mantenimiento" [(visible)]="dialogoVisible" [style]="{  width: '90%', maxWidth: '450px'}" [modal]="true">
   <div class="p-fluid">
     <p>Estás reservando un mantenimiento para el día: <b>{{ fechaSeleccionada | date:'fullDate':'':'es' }} </b></p>
-    <p>Cupos disponibles: <strong>6</strong>/6</p>
+    <p>Citas reservadas: <strong>{{ cantidadCitas }}</strong>/6</p>
   </div>
   <ng-template #content>
     <div class="formulario">
@@ -139,7 +144,7 @@
     </div>
   </ng-template>
   <ng-template #footer>
-    <p-button label="Cancel" severity="info" icon="pi pi-times" text (click)="cerrarDialogo()" />
+    <p-button label="Cancel" severity="info" icon="pi pi-times" text (click)="cerrarDialog()" />
     <p-button label="Reservar Cita" severity="info" icon="pi pi-check" (click)="guardar()" />
   </ng-template>
 </p-dialog>
