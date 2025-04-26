@@ -10,6 +10,7 @@ export class PerfilesDetalleService {
   private apiUrl = environment.apiUrl;
   private perfil_detalleUrl = `${this.apiUrl}/perfil_detalle/`;
   private asignacion_perfil_detalleUrl = `${this.apiUrl}/obtener_asignacion_vehiculo_por_perfil/`;
+  private asignacion_perfil_all = `${this.apiUrl}/obtener_asignacion_vehiculo_all/`;
 
 
   constructor(private httpClient: HttpClient) { }
@@ -21,6 +22,9 @@ export class PerfilesDetalleService {
   detallesasignacionperfil(perfilId: number): Observable<any> {
     const params = new HttpParams().set('perfil_id', perfilId.toString());
     return this.httpClient.get<any>(this.asignacion_perfil_detalleUrl, { params });
+  }
+  detallesasignacionall(): Observable<any> {
+    return this.httpClient.get<any>(this.asignacion_perfil_all);
   }
 
 }

@@ -14,10 +14,11 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { IAsignacionVehiculos } from 'src/app/core/models/iasignacion-vehiculos';
+import { RouterModule } from '@angular/router'; // Esto es necesario para routerLink
 
 @Component({
   selector: 'app-kilometrajes',
-  imports: [SHARED_FORMULARIOS_IMPORTS, ProgressBarModule,CardModule,TagModule ],
+  imports: [SHARED_FORMULARIOS_IMPORTS, ProgressBarModule,CardModule,TagModule,RouterModule ],
   templateUrl: './kilometrajes.component.html',
   styleUrl: './kilometrajes.component.scss'
 })
@@ -114,7 +115,6 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
   obtenernombrevehiculo(asignacion_id: number): string {
     const data = this.asignacionPerfilDetalles.find(r => r.id === asignacion_id)
     return data ? data.placa : 'Desconocido'
-    
   }
 
   //Calcular cuanto falta para el proximo mantenimiento
@@ -130,21 +130,6 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
     //return this.entidad.kilometraje_faltante;
   }
 
-  // setkilometrajeRestante(): void {
-  //   //console.log("sd", this.vehiculoAsignado);
-  //   //Si existen datos en la lista, asignamos el ultimo registro
-  //   if (this.lista?.length > 0) {
-  //     //console.log(this.lista?.length);
-  //     this.kilometrajeRestante = this.lista[0].kilometraje_faltante;
-  //     console.log("fwa",  this.lista[0].kilometraje_faltante);
-  //   } else if (this.vehiculoAsignado?.kilometraje_inicial != null) {
-  //     this.kilometrajeRestante = this.calcularKmFaltantes(this.vehiculoAsignado.kilometraje_inicial, this.vehiculoAsignado.kilometro_min);
-  //     //console.log("km restante", this.kilometrajeRestante);
-  //   }else {
-  //     this.kilometrajeRestante = 'No disponible';
-  //   }
-  // }
-
   getColorKilometraje(faltante: number): 'danger' | 'warn' | 'info' | 'success' {
     if (faltante <= 100) return 'danger';
     if (faltante <= 500) return 'warn';
@@ -156,18 +141,14 @@ export class KilometrajesComponent extends BaseMetodosCrud<IKilometrajes> {
     if (!kilometraje) return 0; // Devuelve 0 si kilometraje es undefined o nulo
     const progreso = (kilometraje % limite) / limite * 100;
     return Math.min(Math.round(progreso), 100); // redondea y limita a 100%
-    
   }
 
   getProgresoColor(kilometraje: number, limite: number): string {
     const progreso = this.getProgreso(kilometraje, limite);
     //("progreso",progreso);
-    if (progreso < 33) {
-      return 'green-to-yellow'; // Verde a Amarillo (inicio)
-    } else if (progreso >= 33 && progreso < 66) {
-      return 'yellow-to-red'; // Amarillo a Rojo (intermedio)
-    }
-    return 'green-to-yellow-to-red'; // Verde a Amarillo a Rojo (cerca de 100%)
+    if (progreso >= 90) return '#dc3545';      // rojo
+    if (progreso >= 60) return '#ffc107';      // amarillo
+    return '#28a745';                          // verde
   }
   
 }

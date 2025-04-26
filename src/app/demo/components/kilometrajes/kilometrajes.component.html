@@ -43,9 +43,9 @@
     </div>
   </p-card>
 
-  <p-card header="Progreso hacia mantenimiento" class="card-item mantenimiento-card">
+  <!--<p-card header="Progreso hacia mantenimiento" class="card-item mantenimiento-card">
     <ng-template pTemplate="content">
-      <div class="text-center">
+      <div class="text-center" [ngClass]="getProgresoColor(lista?.[0]?.kilometraje, vehiculoAsignado?.kilometro_min)">
         <p-progressBar 
           [value]="getProgreso(lista?.[0]?.kilometraje, vehiculoAsignado?.kilometro_min)" 
           [showValue]="true" 
@@ -58,7 +58,33 @@
         </small>
       </div>
     </ng-template>
+  </p-card>-->
+  <p-card header="Progreso hacia mantenimiento" class="card-item mantenimiento-card">
+    <ng-template pTemplate="content">
+      <div class="progress-wrapper">
+        <div class="progress-bar"
+            [style.width.%]="getProgreso(lista?.[0]?.kilometraje, vehiculoAsignado?.kilometro_min)"
+            [ngStyle]="{
+              'background-color': getProgresoColor(lista?.[0]?.kilometraje, vehiculoAsignado?.kilometro_min)
+            }">
+            <!-- Muestra el porcentaje dentro de la barra -->
+            <span class="progress-text">
+              {{ getProgreso(lista?.[0]?.kilometraje, vehiculoAsignado?.kilometro_min) }}%
+            </span>
+        </div>
+        <!-- Botón que se muestra cuando el progreso es igual o mayor al 95% -->
+        <button *ngIf="getProgreso(lista?.[0]?.kilometraje, vehiculoAsignado?.kilometro_min) >= 95"
+                class="progress-button"> <!-- Redirige a otra vista -->
+          ¡Casi Listo!
+        </button>
+      </div>
+      <small class="block mt-2 text-color-secondary">
+        <i class="pi pi-exclamation-triangle mr-2 text-warning text-base align-middle"></i>
+        Cada {{vehiculoAsignado?.kilometro_min}} km se requiere mantenimiento obligatorio
+      </small>
+    </ng-template>
   </p-card>
+
 </div>
 
 

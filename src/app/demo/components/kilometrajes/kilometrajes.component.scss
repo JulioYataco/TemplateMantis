@@ -353,24 +353,49 @@ p-table th, p-table td {
     //transition: opacity 0.4s ease-in-out; /* Si deseas un pequeño efecto visual, puedes agregar algo como 'ease' en el texto */
 }
 
-.green-to-yellow {
-    background: linear-gradient(to right, green, yellow);
-}
-  
-.yellow-to-red {
-    background: linear-gradient(to right, yellow, red);
-}
-  
-.green-to-yellow-to-red {
-    background: linear-gradient(to right, green, yellow, red);
+
+// .progress-wrapper {
+//     width: 100%;
+//     background-color: #e0e0e0;  /* Color del fondo de la barra */
+//     height: 24px;
+//     border-radius: 12px;
+//     position: relative;
+// }
+
+.progress-wrapper {
+    width: 100%;
+    background-color: #e0e0e0;  /* Color del fondo de la barra */
+    height: 24px;
+    border-radius: 12px;
+    position: relative;
 }
 
+  
+// .progress-bar {
+//   height: 100%;
+//   border-radius: 12px;
+//   position: relative;
+//   transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+// }
 
-  /* animar el progreso con un 'transition' para suavizar el cambio */
-.p-progressBar {
-    transition: width 0.6s ease-in-out;
+.progress-bar {
+    height: 100%;
+    border-radius: 12px;
+    position: relative;
+    transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
 }
   
+
 
 //Esto sirve para los campos "descripcion", "observacion"
 //que conlleva de muchos caracteres y es mejor solo mostrar un pequeña parte
@@ -389,6 +414,6 @@ p-table th, p-table td {
       background: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-  }
+}
 
   

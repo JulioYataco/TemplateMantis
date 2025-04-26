@@ -1,6 +1,22 @@
 <p-confirmdialog></p-confirmdialog>
 <p-toast></p-toast>
 <div class="card">    
+    <p-button  
+      icon="pi pi-file-excel" 
+      severity="success" 
+      variant="text" 
+      label="Excel"
+      pTooltip="Exportar en Excel"
+      (click)="exportExcel()">
+    </p-button>
+    <p-button  
+      icon="pi pi-file-pdf" 
+      severity="danger" 
+      variant="text" 
+      label="PDF"
+      pTooltip="Exportar en PDF"
+      (click)="exportExcel()">
+    </p-button>
     <!-- Tabla   -->                     
     <p-table 
         #dt 
@@ -20,9 +36,13 @@
         <ng-template pTemplate="header">
           <tr>
             <th pSortableColumn="id">ID <p-sortIcon field="id" /></th>
-            <th pSortableColumn="asignacion_vehiculo">vehiculo <p-sortIcon field="asignacion_vehiculo" /></th>
             <th pSortableColumn="fecha">Fecha <p-sortIcon field="perfil" /></th>
             <th pSortableColumn="completado">Estado <p-sortIcon field="completado" /></th>
+            <th pSortableColumn="first_name">Conductor <p-sortIcon field="first_name" /></th>
+            <th pSortableColumn="placa">Placa <p-sortIcon field="placa" /></th>
+            <th pSortableColumn="kilometraje">Kilometraje <p-sortIcon field="asignacion_vehiculo" /></th>
+            <th pSortableColumn="nombre_tipo_vehiculo">Tipo <p-sortIcon field="nombre_tipo_vehiculo" /></th>
+            <th pSortableColumn="nombre_area">Area <p-sortIcon field="nombre_area" /></th>
             <th pSortableColumn="observacion">observacion <p-sortIcon field="observacion" /></th>
             <th >Operaciones</th>
           </tr>
@@ -31,34 +51,75 @@
           <tr *ngIf="cargando; else mostrarDatos">
             <td><p-skeleton width="4rem" height="1.5rem"></p-skeleton></td>
             <td><p-skeleton width="7rem" height="1.5rem"></p-skeleton></td>
-            <td><p-skeleton width="9rem" height="1.5rem"></p-skeleton></td>
             <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
             <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="8rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
+            <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
             <td><p-skeleton width="5rem" height="1.5rem"></p-skeleton></td>
           </tr>
           <ng-template #mostrarDatos>
             <tr>
                 <td>{{entidad.id}}</td>
-                <td>{{entidad.asignacion_vehiculo}}</td>
                 <td>{{entidad.fecha | date: 'dd MMMM yyyy' : 'es' }}</td>
                 <td style="text-align: center;">
                   <p-tag 
-                    [value]="entidad.situacion_actual" 
-                    [severity]="getColorEstado(entidad.situacion_actual)"> 
+                    class="hoverable-tooltip"
+                    [value]="estadoLegible[entidad.situacion_actual]" 
+                    [severity]="getColorEstado(entidad.situacion_actual)"
+                    [icon]="getIconEstado(entidad.situacion_actual)"
+                    pTooltip="{{ getTooltipEstado(entidad.situacion_actual) }}"
+                    tooltipPosition="bottom"
+                  >
                   </p-tag>
                 </td>
+                <td>{{entidad.first_name}}</td>
+                <td>{{entidad.placa}}</td>
+                <td>{{entidad.kilometraje}}</td>
+                <td>{{entidad.nombre_tipo_vehiculo}}</td>
+                <td>{{entidad.nombre_area}}</td>
                 <td>{{entidad.observacion}}</td>
-                <td>
+                <td class="td-operaciones">
                   <p-button 
                     *ngIf="entidad.situacion_actual === 'pendiente'" 
-                    icon="pi pi-check-circle" 
-                    class="p-button-sm mr-2" 
+                    icon="pi pi-check" 
                     severity="success" 
-                    label="Asistió"
+                    variant="text" 
+                    pTooltip="Marcar asistencia"
+                    tooltipPosition="bottom"
                     (click)="marcarComoAsistio(entidad)">
                   </p-button>
-                  <p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>
-                  <p-button icon="pi pi-trash" variant="text" severity="danger" [raised]="true" (click)="eliminar(entidad.id)"></p-button>
+                  <p-button 
+                    *ngIf="entidad.situacion_actual === 'pendiente'" 
+                    icon="pi pi-times"                     
+                    severity="danger" 
+                    variant="text"
+                    pTooltip="Cancelar cita"
+                    tooltipPosition="bottom"
+                    (click)="marcarComoCancelado(entidad)">
+                  </p-button>
+                  <p-button 
+                    *ngIf="entidad.situacion_actual === 'pendiente'" 
+                    icon="pi pi-calendar-times"  
+                    severity="contrast" 
+                    variant="text"
+                    pTooltip="Marcar Inasistencia"
+                    tooltipPosition="bottom"
+                    (click)="marcarComoNoAsistio(entidad)">
+                  </p-button>
+                  <!--<p-button icon="pi pi-pencil" variant="text" severity="warn" class="mr-2" [raised]="true" (click)="CargarDatosModal(entidad)"></p-button>-->
+                  <p-button 
+                    icon="pi pi-trash" 
+                    severity="help" 
+                    variant="text" 
+                    pTooltip="Eliminar registro" 
+                    tooltipPosition="bottom"
+                    (click)="eliminar(entidad.id)" 
+                  >
+                  </p-button>
                 </td>
             </tr>
           </ng-template>

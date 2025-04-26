@@ -7,17 +7,35 @@ import { TagModule } from 'primeng/tag';
 import { IAsignacionPorPerfil } from 'src/app/core/models/iasignacion-por-perfil';
 import { PerfilesDetalleService } from 'src/app/core/services/perfiles/perfiles-detalle.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TooltipModule } from 'primeng/tooltip';
 
+
+// Librerías para exportación
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { autoTable } from 'jspdf-autotable';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-cita-mantenimientos-admin',
-  imports: [SHARED_FORMULARIOS_IMPORTS, TagModule],
+  imports: [SHARED_FORMULARIOS_IMPORTS, TagModule, TooltipModule],
   templateUrl: './cita-mantenimientos-admin.component.html',
-  styleUrl: '../BaseCrudComponent.component.scss'
+  styleUrl: '../BaseCrudComponent.component.scss',
 })
 export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMantenimientos>{
   
   asginado: IAsignacionPorPerfil[] = [];
   vehiculoAsignado: IAsignacionPorPerfil | null = null;
+
+  override entidad: ICitaMantenimientos = {
+    id: 0,
+    asignacion_vehiculo: 0,
+    fecha: null,
+    hora: null,
+    situacion_actual: 'pendiente',
+    observacion: null
+  };
 
   constructor(
     protected override modeloService: CitaMantenimientosService,
@@ -35,93 +53,206 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
 
   override getData(){
     this.cargando = true;
-    const usuario = localStorage.getItem('usuario');
-    //console.log("usuario", usuario);
-    if (usuario) {
-      const usuarioData = JSON.parse(usuario);
-      //console.log("usuarioData", usuarioData);
-      const perfilId = usuarioData.id;
-      this.modeloService.listarPorPerfilId(perfilId).subscribe(
+
+
+      this.modeloService.listarDetalleAll().subscribe(
         (data) => {
           this.lista = data;
           this.cargando = false;
-          //console.log("lista detallada", data)
+          console.log("lista detallada", data)
+          this.entidad.asignacion_vehiculo = 2; // Asignamos el valor de asignacion_vehiculo
+
         },
         (error) => {
           console.error('Error al cargar los datos', error);
           this.cargando = false;
         }
       )
-    }
   }
 
-  obtenerDetallesasignado(): void {
-    const usuario = localStorage.getItem('usuario');
-    if (usuario) {
-      const usuarioData = JSON.parse(usuario);
-      const perfilId = usuarioData.id;
+  // override getData(){
+  //   this.cargando = true;
+  //   const usuario = localStorage.getItem('usuario');
+  //   //console.log("usuario", usuario);
+  //   if (usuario) {
+  //     const usuarioData = JSON.parse(usuario);
+  //     //console.log("usuarioData", usuarioData);
+  //     const perfilId = usuarioData.id;
+  //     this.modeloService.listarPorPerfilId(perfilId).subscribe(
+  //       (data) => {
+  //         this.lista = data;
+  //         this.cargando = false;
+  //         console.log("lista detallada", data)
+  //       },
+  //       (error) => {
+  //         console.error('Error al cargar los datos', error);
+  //         this.cargando = false;
+  //       }
+  //     )
+  //   }
+  // }
 
+  obtenerDetallesasignado(): void {
       //Llamamos al servidor con el perfilId
-      this.perfilDetalleService.detallesasignacionperfil(perfilId).subscribe(
+      this.perfilDetalleService.detallesasignacionall().subscribe(
         (data) => {
-          //console.log("data", data);
+          console.log("data", data);
           this.vehiculoAsignado = data;
           this.asginado = [data];
-          //console.log('Detalles de la asignación:', this.asginado);
+          console.log('Detalles de la asignación:', this.asginado);
 
           // Asignamos el ID de la asignación al modelo entidad
-          this.entidad.asignacion_vehiculo = data.id; // Asignamos el valor de asignacion_vehiculo
+          this.entidad.asignacion_vehiculo = 2; // Asignamos el valor de asignacion_vehiculo
           //console.log(this.entidad.asignacion_vehiculo);
         },
         (error) => {
           console.error('Error al obtener los detalles de asignación', error);
         }
       );
-    }
   }
 
+  cambiarSituacion(entidad: ICitaMantenimientos, nuevoEstado: string, mensajeConfirmacion: string, mensajeExito: string): void {
+    if (!entidad.id) {
+      console.error('El ID de la entidad no esta definido');
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'El ID de la entidad no está definido.'});
+      return;
+    }
 
-  marcarComoAsistio(entidad: ICitaMantenimientos) {
     const entidadActualizada: Partial<ICitaMantenimientos> = {
       ...entidad,
-      situacion_actual: 'asistio'
+      situacion_actual: nuevoEstado
     };
 
     this.confirmationService.confirm({
-      message: '¿Estas seguro de confirmar asistencia?',
+      message: mensajeConfirmacion,
       header: 'Confirmación de estado',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.modeloService.update((this.entidad as any).id, this.entidad).subscribe({
+        this.modeloService.update(entidad.id, entidadActualizada).subscribe({
           next: () => {
-            this.modeloService.update(entidad.id, entidadActualizada).subscribe({
-              next: () => {
-                this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Situación actual actualizada a "asistió"' });
-                this.getData(); // refresca la tabla
-              },
-              error: err => {
-                console.error('Error al actualizar:', err);
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo actualizar la situación actual.' });
-              }
-            });
+            this.messageService.add({ severity: 'success', summary: 'Éxito', detail: mensajeExito});
+            this.getData();
           },
-          error: err => console.error('Error al actualizar:', err)
+          error: err => {
+            console.error('Error al actualizar:', err);
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se puedo actualizar la situaciòn actual.'});
+          }
         });
       }
     });
-    
   }
 
-  getColorEstado(situacion: string): 'success' | 'danger' | 'warn' | 'info' {
+  marcarComoAsistio(entidad: ICitaMantenimientos) {
+    this.entidad.asignacion_vehiculo = 2;
+    this.cambiarSituacion(
+      entidad,
+      'asistio',
+      '¿Estás seguro de confirmar asistencia?',
+      'Estado actualizada a "Asistió"'
+    );
+  }
+
+  marcarComoCancelado(entidad: ICitaMantenimientos) {
+    this.entidad.asignacion_vehiculo = 2;
+    this.cambiarSituacion(
+      entidad,
+      'cancelado',
+      '¿Estás seguro de confirmar la cancelación?',
+      'Estado actualizada a "Cancelada"'
+    );
+  }
+
+  marcarComoNoAsistio(entidad: ICitaMantenimientos) {
+    this.entidad.asignacion_vehiculo = 2;
+    this.cambiarSituacion(
+      entidad,
+      'no_asistio',
+      '¿Estás seguro de confirmar que el conductor no asistió?',
+      'Estado actualizada a "No Asistio"'
+    );
+  }
+
+  estadoLegible: { [key: string]: string } = {
+    asistio: 'Revisado',
+    cancelada: 'Cancelado',
+    pendiente: 'Pendiente',
+    no_asistio: 'No asistió',
+
+  };
+
+  getColorEstado(situacion: string): 'success' | 'danger' |'secondary' | 'warn' | 'info' | 'contrast' {
     switch (situacion) {
       case 'asistio':
         return 'success';
-      case 'cancelado':
+      case 'cancelada':
         return 'danger';
       case 'pendiente':
         return 'warn';
+      case 'no_asistio':
+        return 'contrast';
       default:
         return 'info';
     }
+  }
+
+  getIconEstado(estado: string): string {
+    switch (estado.toLowerCase()) {
+      case 'asistio':
+        return 'pi pi-check-circle';
+      case 'cancelada':
+        return 'pi pi-times';
+      case 'pendiente':
+        return 'pi pi-clock';
+      case 'no_asistio':
+        return 'pi pi-calendar-times';
+      default:
+        return 'pi pi-info-circle';
+    }
+  }
+
+  getTooltipEstado(estado: string): string {
+    switch (estado.toLowerCase()) {
+      case 'asistio':
+        return 'El usuario asistió a la cita';
+      case 'cancelada':
+        return 'La cita fue cancelada';
+      case 'pendiente':
+        return 'Cita pendiente de atención';
+      case 'no_asistio':
+        return 'No asistió a la cita';
+      default:
+        return 'Estado desconocido';
+    }
+  }
+
+  exportExcel() {
+  
+      // Crear una instancia de DatePipe para formatear las fechas
+      const datePipe = new DatePipe('es'); 
+  
+      // Crear la hoja de trabajo (worksheet)
+      const data = this.dt.value.map(entidad => [
+        entidad.id, datePipe.transform(entidad.fecha, 'dd MMM yy, HH:mm'), 
+        entidad.situacion_actual, entidad.kilometraje, entidad.nombre_tipo_vehiculo, 
+        entidad.first_name, entidad.nombre_area,
+        entidad.placa, entidad.observacion
+      ]);
+  
+      // Definir los encabezados
+      const headers = [
+        'Id', 'Fecha', 'Estado', 'Kilometraje', 'Movilidad', 'Conductor',
+        'Área', 'Placa',
+        'N° Motor', 'Observación'
+      ];
+  
+      // Crear una hoja de trabajo con los datos y encabezados
+      const worksheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+  
+      // Crear un libro de trabajo (workbook)
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, worksheet, 'Reporte Kilometrajes');
+  
+      // Exportar el archivo Excel
+      XLSX.writeFile(wb, 'ReporteKilometrajes.xlsx');
   }
 }

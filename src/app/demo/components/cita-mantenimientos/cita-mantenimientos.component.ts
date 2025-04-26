@@ -66,7 +66,7 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
         (data) => {
           this.lista = data;
           this.cargando = false;
-          //console.log("lista detallada", data)
+          console.log("lista detallada", data)
         },
         (error) => {
           console.error('Error al cargar los datos', error);
@@ -148,11 +148,25 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
       d.getDate() === date.getDate()
     );
   }
+  minDate: Date = new Date(); // Bloquea días anteriores desde el inicio
 
   abrirDialog(fecha: Date) {
+
+    // const hoy = new Date();
+    // hoy.setHours(0, 0, 0, 0); //Con esto ingnoramos la hora y solo vamos a comprar fechas
+
+    // const fechaseleccionada = new Date();
+    // fechaseleccionada.setHours(0,0,0,0);
+
+    // if (fechaseleccionada < hoy) {
+    //   alert('⚠️ No puedes seleccionar una fecha anterior al día de hoy.');
+    //   return;
+    // }
+    //A fechaSeleccionada le pasamos la mimsa por el parametro que pide la función
     this.fechaSeleccionada = fecha;
 
     const fechaFormateada = fecha.toISOString().split('T')[0];
+    //Asignamos la fecha para poder guardar en la base de datos
     this.entidad.fecha = fechaFormateada;
     console.log(this.entidad.fecha);
     
@@ -234,7 +248,6 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
       }
     })
   }
-  
 
   getColorEstado(situacion: string): 'success' | 'danger' | 'warn' | 'info' {
     switch (situacion) {

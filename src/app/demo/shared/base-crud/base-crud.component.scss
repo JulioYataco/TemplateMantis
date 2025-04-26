@@ -133,3 +133,28 @@ p-table th, p-table td {
 ::ng-deep .btn-azul-fuerte:hover {
     background-color: #004494 !important; // Un azul más oscuro al hacer hover
 }
+
+/*
+ Para animación al tap y tooltip de la tabla cita-mantenimiento-admin
+*/
+::ng-deep p-tag.hoverable-tooltip {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+::ng-deep p-tag.hoverable-tooltip:hover {
+    transform: scale(1.05);
+}
+
+td-operaciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem; // Espacio consistente entre botones
+}
+
+p-button:hover {
+    transform: scale(1.08);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
