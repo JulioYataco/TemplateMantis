@@ -126,5 +126,5 @@ import { BaseGenericoService } from "src/app/core/services/entidades/base-generi
                 }
             })
         }
-
+        
     }

@@ -22,7 +22,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
   let authReq = req;
   if (token) {
-    console.log("token interceptor:", token);
+    //console.log("token interceptor:", token);
     authReq = req.clone({
       setHeaders: { Authorization: `Bearer ${token}`},
     });
@@ -30,7 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
   return next(authReq).pipe(
     catchError((error) => {
-      console.log("error en interceptor", error);
+      //console.log("error en interceptor", error);
       if (error.status === 401) {
         //Si ya estamos en proceso de refersh, esperamos al resultado
         if (!refreshInProgress) {
@@ -45,7 +45,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                 throw new Error("No se recibió un nuevo token");
               }
 
-              console.log("nuevo token:", newToken);
+              //console.log("nuevo token:", newToken);
               // Guardamos el nuevo token
               authService.saveToken(newToken.access);
               refreshTokenSubject.next(newToken.access); //Avisamos a los demás

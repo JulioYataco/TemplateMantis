@@ -57,7 +57,7 @@ export class IncidenciasComponent extends BaseMetodosCrud<IIncidencias>{
         (data) => {
           this.lista = data;
           this.cargando = false;
-          console.log("lista detallada", data)
+          //console.log("lista detallada", data)
         },
         (error) => {
           console.error('Error al cargar los datos', error);

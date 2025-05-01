@@ -84,30 +84,7 @@ export class ReporteKilometrajesComponent extends BaseMetodosCrud<IReportekilome
         console.error(error);
       }
     );
-    // ("Observaciones", this.observacionSeleccionada);
-    // console.log("Fecha Inicio", this.fecha_inicio);
-    // console.log("Fecha Fin", this.fecha_fin);
   }
-
-  // aplicarFiltros(): void {
-  //   console.log('Observación seleccionada:', this.observacionSeleccionada);
-  //   this.listaFiltrada = this.lista.filter(item => {
-  //     const fechaItem = new Date(item.fecha_crea);
-  //     // Si fechaInicio está definida, filtramos por fechaInicio
-  //     const matchFechaInicio = this.fechaInicio ? fechaItem >= this.fechaInicio : true;
-  //     // Si fechaFin está definida, filtramos por fechaFin
-  //     const matchFechaFin = this.fechaFin ? fechaItem <= this.fechaFin : true;
-  //     // Filtrar por observación seleccionada
-  //     const matchObservacion = this.observacionSeleccionada
-  //       ? item.observacion === this.observacionSeleccionada
-  //       : true;
-
-  //       console.log('Filtro aplicado:', matchFechaInicio, matchFechaFin, matchObservacion);
-  //     // Devuelve verdadero si el elemento cumple con todos los filtros
-  //     return matchFechaInicio && matchFechaFin && matchObservacion;
-      
-  //   });
-  // }
 
   override exportCSV() {
     this.dt.exportCSV(); // Método integrado de PrimeNG para exportar
@@ -173,4 +150,5 @@ export class ReporteKilometrajesComponent extends BaseMetodosCrud<IReportekilome
 
     doc.save('ReporteKilometrajes.pdf');
   }
+  
 }

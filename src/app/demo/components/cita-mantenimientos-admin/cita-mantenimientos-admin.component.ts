@@ -58,7 +58,7 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
         (data) => {
           this.lista = data;
           this.cargando = false;
-          console.log("lista detallada", data);
+          //console.log("lista detallada", data);
           this.entidad.asignacion_vehiculo = data[1]; // Asignamos el valor de asignacion_vehiculo
 
         },
@@ -113,7 +113,7 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
   obtenerDetallePorIdCita(id: number){
     this.modeloService.listarDetallePorIdCita(id).subscribe(
       (data) => {
-        console.log('Detalle por IdCita:', data[0].asignacion_vehiculo);
+        //console.log('Detalle por IdCita:', data[0].asignacion_vehiculo);
         // Asignamos el ID de la asignación al modelo entidad
         this.entidad.asignacion_vehiculo = data[0].asignacion_vehiculo;
       });

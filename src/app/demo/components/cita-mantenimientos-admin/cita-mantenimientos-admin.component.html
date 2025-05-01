@@ -83,16 +83,16 @@
                 <td class="td-operaciones">
                   <p-button 
                     *ngIf="entidad.situacion_actual === 'pendiente'" 
-                    icon="pi pi-check" 
+                    icon="pi pi-check-circle" 
                     severity="success" 
                     variant="text" 
-                    pTooltip="Marcar revición"
+                    pTooltip="Marcar revisión"
                     tooltipPosition="bottom"
                     (click)="marcarComoAsistio(entidad, entidad.id)">
                   </p-button>
                   <p-button 
                     *ngIf="entidad.situacion_actual === 'pendiente'" 
-                    icon="pi pi-times"                     
+                    icon="pi pi-times-circle"                     
                     severity="danger" 
                     variant="text"
                     pTooltip="Cancelar cita"
