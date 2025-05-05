@@ -78,7 +78,10 @@
                   [loading]="loadingUbigeo"
                   loadingIcon="pi pi-spinner pi-spin"
                   [(ngModel)]="entidad.ubigeo" 
-                  placeholder="Seleccione un distrito">
+                  placeholder="Seleccione un distrito"
+                  [filter]="true"
+                  [showClear]="true"
+                >
                 </p-dropdown>
                 <p *ngIf="loadingUbigeo">Cargando ubigeos...</p>
                 <!-- Spinner flotante visible siempre mientras carga -->
