@@ -33,10 +33,18 @@ $border-light: #e0e0e0;
   }
 }
 
+// Esta clase pinta los días con cita
+::ng-deep .p-datepicker td.fecha-cita span {
+  background-color: #ffcc80 !important;
+  border-radius: 50%;
+  font-weight: bold;
+  color: #000;
+}
+
 /* Sección del calendario */
 .calendar-section {
   flex: 1;
-  //min-width: 0; /* Permite que se reduzca */
+  min-width: 0; /* Permite que se reduzca */
   display: flex;
   flex-direction: column;
   background: white;
@@ -62,61 +70,63 @@ $border-light: #e0e0e0;
     display: flex;
     flex-direction: column;
     overflow: hidden; 
+    justify-content: space-between;
+    align-items: center;
     
-    .custom-calendar {
-      border: none;
-      width: 100%;
-      .p-calendar {
-        border: none;
-        width: 100%;
+    // .custom-calendar {
+    //   border: none;
+    //   width: 100%;
+    //   .p-calendar {
+    //     border: none;
+    //     width: 100%;
 
-        @media (max-width: 768px) {
-          table {
-            width: 100% !important;
+    //     @media (max-width: 768px) {
+    //       table {
+    //         width: 100% !important;
             
-            td > span {
-              width: 1.8rem;
-              height: 1.8rem;
-              line-height: 1.8rem;
-              font-size: 0.8rem;
-            }
-          }
+    //         td > span {
+    //           width: 1.8rem;
+    //           height: 1.8rem;
+    //           line-height: 1.8rem;
+    //           font-size: 0.8rem;
+    //         }
+    //       }
           
-          .p-calendar-header {
-            padding: 0.5rem;
-          }
+    //       .p-calendar-header {
+    //         padding: 0.5rem;
+    //       }
           
-          .p-calendar-calendar-container {
-            padding: 0.5rem;
-          }
-        }
+    //       .p-calendar-calendar-container {
+    //         padding: 0.5rem;
+    //       }
+    //     }
         
-        // table td > span {
-        //   border-radius: 50%;
-        //   transition: all 0.2s;
-        // }
+    //     // table td > span {
+    //     //   border-radius: 50%;
+    //     //   transition: all 0.2s;
+    //     // }
         
-        // table td.p-datepicker-today > span {
-        //   background: $primary-light;
-        //   color: $primary-blue;
-        //   font-weight: 600;
-        // }
+    //     // table td.p-datepicker-today > span {
+    //     //   background: $primary-light;
+    //     //   color: $primary-blue;
+    //     //   font-weight: 600;
+    //     // }
         
-        // table td > span.p-highlight {
-        //   background: $primary-blue;
-        //   color: white;
-        // }
-      }
-    }
+    //     // table td > span.p-highlight {
+    //     //   background: $primary-blue;
+    //     //   color: white;
+    //     // }
+    //   }
+    // }
   }
 }
 
 /* Debug temporal */
-.calendar-section {
-  @media (max-width: 768px) {
-    border: 1px solid red; /* Para ver los límites */
-  }
-}
+// .calendar-section {
+//   @media (max-width: 768px) {
+//     border: 1px solid red; /* Para ver los límites */
+//   }
+// }
 
 /* Sección de la tabla */
 .table-section {
@@ -225,6 +235,14 @@ $border-light: #e0e0e0;
   }
 }
 
+
+::ng-deep .p-datepicker .p-datepicker-calendar thead th {
+  width: 2.5rem;
+  text-align: center;
+  //font-weight: 600;
+  //font-family: monospace; // Opcional, mejora la uniformidad
+}
+
 /* Responsive para móviles */
 @media (max-width: 768px) {
   .dashboard-container {
@@ -245,27 +263,27 @@ $border-light: #e0e0e0;
       height: calc(100% - 56px); /* Resta la altura del header */
       padding: 0.5rem;
       
-      .custom-calendar {
-        height: 100%;
-        .p-calendar {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
+      // .custom-calendar {
+      //   height: 100%;
+      //   .p-calendar {
+      //     height: 100%;
+      //     display: flex;
+      //     flex-direction: column;
 
-          .p-datepicker-calendar-container {
-            flex: 1;
-            overflow: auto;
-          }
+      //     .p-datepicker-calendar-container {
+      //       flex: 1;
+      //       overflow: auto;
+      //     }
           
-          // table {
-          //   width: 100%;
+      //     // table {
+      //     //   width: 100%;
             
-          //   td, th {
-          //     padding: 0.3rem;
-          //   }
-          // }
-        }
-      }
+      //     //   td, th {
+      //     //     padding: 0.3rem;
+      //     //   }
+      //     // }
+      //   }
+      // }
     }
   }
   
@@ -340,7 +358,7 @@ $border-light: #e0e0e0;
 }
 
 /* Redondea las fechas con estilo */
-::ng-deep .p-calendar table td .dia-reservado {
+::ng-deep .p-datepicker .p-datepicker-calendar table td .dia-reservado {
   background-color: #ffe5e5 !important; // fondo rojo claro
   border-radius: 50%;
   color: #900;
@@ -348,14 +366,43 @@ $border-light: #e0e0e0;
   font-weight: bold;
 }
 
-/* Ícono de alerta para días con 2 reservas */
-::ng-deep .p-calendar table td .icono-alerta {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  font-size: 0.6rem;
-  color: #cc0000;
+::ng-deep .p-datepicker .p-datepicker-calendar thead th {
+  width: 2.5rem;
+  text-align: center;
+  //font-weight: 600;
+  //font-family: monospace; // Opcional, mejora la uniformidad
 }
+
+/* Ícono de alerta para días con 2 reservas */
+// ::ng-deep .p-datepicker .p-datepicker-calendar table td .icono-alerta {
+//   position: absolute;
+//   top: 2px;
+//   right: 2px;
+//   font-size: 0.6rem;
+//   color: #cc0000;
+// }
+
+//Pruebas
+// ::ng-deep .p-datepicker .p-datepicker-calendar table td > div {
+//   position: relative; // ¡clave!
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 100%;
+// }
+
+// ::ng-deep .p-datepicker .p-datepicker-calendar table td .icono-alerta {
+//   position: absolute;
+//   top: 2px;
+//   right: 2px;
+//   font-size: 0.6rem;
+//   color: #cc0000;
+// }
+
+// ::ng-deep .icono-alerta {
+//   z-index: 1;
+// }
+//===========0
 
 /* Pantallas muy pequeñas (320px-375px) */
 @media (max-width: 375px) {
@@ -365,22 +412,29 @@ $border-light: #e0e0e0;
     min-height: 100vh;
   }
 
+  ::ng-deep .p-datepicker .p-datepicker-calendar table td {
+    //width: 2.5rem;
+    //text-align: center;
+    font-weight: 300;
+    //font-family: monospace; // Opcional, mejora la uniformidad
+  }
+
   /* CALENDARIO - Ajuste ultracompacto */
   .calendar-section {
-    height: 55vh;
-    min-height: 280px; /* Altura mínima reducida */
+    //height: 55vh;
+    //min-height: 280px; /* Altura mínima reducida */
     
-    .calendar-header {
-      padding: 0.4rem;
-      h3 { font-size: 0.9rem; }
-    }
+    // .calendar-header {
+    //   padding: 0.4rem;
+    //   h3 { font-size: 0.9rem; }
+    // }
     
     .calendar-wrapper {
       padding: 0.2rem;
       height: calc(100% - 36px); /* Header más pequeño */
       
       ::ng-deep .custom-calendar {
-        .p-calendar {
+        .p-datepicker {
           table {
             td > span {
               width: 1.6rem !important; /* Celdas más pequeñas */
@@ -390,10 +444,10 @@ $border-light: #e0e0e0;
             }
             th { font-size: 0.65rem !important; }
           }
-          .p-calendar-header {
+          .p-datepicker-header {
             padding: 0.2rem;
             font-size: 0.8rem;
-            .p-calendar-title select {
+            .p-datepicker-title select {
               font-size: 0.7rem !important; /* Selectores más pequeños */
             }
           }

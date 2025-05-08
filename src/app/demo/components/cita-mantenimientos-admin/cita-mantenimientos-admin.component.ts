@@ -34,7 +34,8 @@ export class CitaMantenimientosAdminComponent extends BaseMetodosCrud<ICitaMante
     fecha: null,
     hora: null,
     situacion_actual: 'pendiente',
-    observacion: null
+    observacion: null,
+    respuesta: null
   };
 
   constructor(

@@ -11,11 +11,12 @@ import { IAsignacionPorPerfil } from 'src/app/core/models/iasignacion-por-perfil
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
+import { DatePickerModule } from 'primeng/datepicker';
 
 
 @Component({
   selector: 'app-cita-mantenimientos',
-  imports: [SHARED_FORMULARIOS_IMPORTS, CalendarModule, TagModule, TooltipModule],
+  imports: [SHARED_FORMULARIOS_IMPORTS, CalendarModule, DatePickerModule, TagModule, TooltipModule],
   templateUrl: './cita-mantenimientos.component.html',
   styleUrl: './cita-mantenimientos.component.scss'
 })
@@ -32,6 +33,7 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
   vehiculoAsignado: IAsignacionPorPerfil | null = null;
   asignacionPerfilDetalles: IAsignacionPorPerfil[] = [];
   
+  fechasConCitas: Set<string> = new Set();
 
   override entidad: ICitaMantenimientos = {
     id: 0,
@@ -39,7 +41,8 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
     fecha: null,
     hora: null,
     situacion_actual: 'pendiente',
-    observacion: null
+    observacion: null,
+    respuesta: null
   };
 
   constructor(
@@ -55,8 +58,62 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
     super.ngOnInit();
     this.obtenerDetallesasignado();
     this.cargarFechasLlenas();
+    // this.modeloService.getFechasConCitas().subscribe(res => {
+    //   this.fechasConCitas = new Set(res.fechas);
+    //   console.log("fechas con citas",  this.fechasConCitas);
+    // });
   }
 
+  // ngAfterViewInit() {
+  //   this.modeloService.getFechasConCitas().subscribe(res => {
+  //     this.fechasConCitas = new Set(res.fechas);
+  //     setTimeout(() => this.colorearFechasConCitas(), 100); // espera al DOM
+  //   });
+  // }
+
+  //Prueba fallida, ya no es tan sencillo personalizar datepicker
+  // getfechaConCitas(date: Date): string {
+  //   const key = this.formatDate(date);
+  //   console.log('Renderizando fecha:', key, '¿Tiene cita?', this.fechasConCitas.has(key));
+  //   return this.fechasConCitas.has(key) ? 'fecha-cita' : '';
+  // }
+  
+  // formatDate(date: Date): string {
+  //   const yyyy = date.getFullYear();
+  //   const mm = String(date.getMonth() + 1).padStart(2, '0');
+  //   const dd = String(date.getDate()).padStart(2, '0');
+  //   return `${yyyy}-${mm}-${dd}`;
+  // }
+
+  // colorearFechasConCitas() {
+  //   const celdas = document.querySelectorAll('.p-datepicker td span');
+  
+  //   celdas.forEach(span => {
+  //     const texto = span.textContent?.trim();
+  //     const td = span.closest('td');
+  //     if (!texto || !td) return;
+  
+  //     const calendario = document.querySelector('.p-datepicker');
+  //     const mesActual = calendario?.querySelector('.p-datepicker-title .p-datepicker-month')?.textContent;
+  //     const anioActual = calendario?.querySelector('.p-datepicker-title .p-datepicker-year')?.textContent;
+  
+  //     const fechaStr = this.armarFecha(texto, mesActual, anioActual); // genera YYYY-MM-DD
+  
+  //     if (this.fechasConCitas.has(fechaStr)) {
+  //       td.classList.add('fecha-cita');
+  //     }
+  //   });
+  // }
+  
+  // armarFecha(dia: string, mes: string, anio: string): string {
+  //   const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  //     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  
+  //   const mm = (meses.indexOf(mes?.toLowerCase() || '') + 1).toString().padStart(2, '0');
+  //   const dd = dia.padStart(2, '0');
+  //   return `${anio}-${mm}-${dd}`;
+  // }
+  
   override getData(){
     this.cargando = true;
     const usuario = localStorage.getItem('usuario');
@@ -69,7 +126,7 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
         (data) => {
           this.lista = data;
           this.cargando = false;
-          console.log("lista detallada", data)
+          //console.log("lista detallada", data)
         },
         (error) => {
           console.error('Error al cargar los datos', error);
@@ -111,6 +168,7 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
 
   cargarFechasLlenas() {
     this.modeloService.getFechasBloqueadas().subscribe(res => {
+      //console.log("fechasbloqueadas", res);
       this.fechasOcupadas = res.fechas.map(f => {
         const [year, month, day] = f.split('-').map(Number);
         return new Date(year, month -1, day)
@@ -118,13 +176,13 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
     });
   }
 
-  // getToolTipPorDia(date: any): string {
-  //   const dia_fecha = new Date(date.year, date.month, date.day);
-  //   if (this.isDateLimitReached(dia_fecha)){
-  //     return 'Citas programadas abarrotadas';
-  //   }
-  //   return '';
-  // }
+  getToolTipPorDia(date: any): string {
+    const dia_fecha = new Date(date.year, date.month, date.day);
+    if (this.isDateLimitReached(dia_fecha)){
+      return 'Citas programadas abarrotadas';
+    }
+    return '';
+  }
 
   getDateClass(date: Date): string {
     return this.isDateLimitReached(date) ? 'día reservado' : ''; 
@@ -228,6 +286,7 @@ export class CitaMantenimientosComponent extends BaseMetodosCrud<ICitaMantenimie
     this.modeloService.obtenerCantidadCitas(this.entidad.fecha).subscribe(res => {
       if (res.cantidad >= 6) {
         this.cantidadCitas = res.cantidad;
+        //console.log("fechas con citas", this.cantidadCitas);
 
         this.messageService.add({
           severity: 'warn',

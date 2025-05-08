@@ -16,6 +16,7 @@ export class CitaMantenimientosService extends BaseGenericoService<ICitaMantenim
   private urlCitaPorPerfil = `${this.apiURl}/cita_mantenimiento_detallado_perfil`;
   private urlCitaAll = `${this.apiURl}/cita_mantenimiento_detallado_all`;
   private urlCitaPorIdCita = `${this.apiURl}/cita_mantenimiento_detallado_all_por_id_cita`;
+  private apiFechaConCita = `${this.apiURl}/fechas_con_citas`;
 
   constructor(private http: HttpClient) {
     super();
@@ -29,6 +30,10 @@ export class CitaMantenimientosService extends BaseGenericoService<ICitaMantenim
 
   getFechasBloqueadas() {
     return this.http.get<{fechas: string[]}>(`${this.apiFechaBloqueada}`);
+  }
+
+  getFechasConCitas() {
+    return this.http.get<{fechas: string[]}>(`${this.apiFechaConCita}`);
   }
 
   listarPorPerfilId(perfilId: number): Observable<any[]> {

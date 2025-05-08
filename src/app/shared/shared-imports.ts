@@ -20,7 +20,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DatePickerModule } from 'primeng/datepicker';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TextareaModule } from 'primeng/textarea';
-
+import { AutoFocusModule } from 'primeng/autofocus';
 // import { MessageService } from 'primeng/api';
 // import { CardComponent } from '../theme/shared/components/card/card.component';
 
@@ -44,6 +44,7 @@ export const SHARED_FORMULARIOS_IMPORTS = [
     DatePickerModule,
     SkeletonModule, //Para cargar una tabla vacia mientras cargan los datos
     TextareaModule,
+    AutoFocusModule
 ];
 //Esto hace 2 cosas importantes
 //Aseguremonos de que esto lo agregemos al main.ts. Porque sino angular no podrá resolver ConfirmDialogModul ni ConfirmationService. De no hacer eso no te cargará ninguna tabla

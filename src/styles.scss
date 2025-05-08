@@ -7,6 +7,14 @@ File: style.css
 =========================================================================
 =================================================================================== */
 
+:root {
+    --primary-color: #1f4fd3;           // Verde agrícola
+    --primary-color-text: #ffffff;
+    --surface-ground: #f8f9fa;          // Fondo claro
+    --text-color: #212529;
+}
+
+
 // main framework
 @import 'node_modules/bootstrap/scss/functions';
 @import 'node_modules/bootstrap/scss/variables';

@@ -5,4 +5,5 @@ export interface ICitaMantenimientos {
     hora: string | null;
     situacion_actual: string;  //| 'pendiente' | 'asistio' | 'no_asistio' | 'cancelada';
     observacion: string | null;
+    respuesta: string | null;
 }
